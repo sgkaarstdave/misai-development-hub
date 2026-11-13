@@ -80,6 +80,10 @@ details.helpbox summary{font-size:14px}
 .moduleNav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.moduleNav .moduleBtn{cursor:pointer;border:1px solid #28313a;background:#101419;color:#aeb8c2;padding:9px 12px;border-radius:11px}.moduleNav .moduleBtn.active{background:#e9edf0;color:#0d1114;border-color:#e9edf0;font-weight:800}.moduleSelect{display:none;margin-bottom:14px}
 .samplePickerWrap{display:grid;grid-template-columns:minmax(260px,520px) auto;gap:10px;align-items:end;margin:10px 0 16px}.sampleDetailSolo{max-width:980px}
 @media(max-width:720px){.moduleNav{display:none}.moduleSelect{display:block}.samplePickerWrap{grid-template-columns:1fr}}
+
+.fieldHelp{display:inline-grid;place-items:center;width:18px;height:18px;border:1px solid #3a444e;border-radius:50%;font-size:10px;color:#aab4be;cursor:pointer;margin-left:5px;text-transform:none;letter-spacing:0;background:#13181d}
+.fieldHelp:hover{background:#1b2229;color:#fff}.guideBox{background:#0f1418;border:1px solid #27303a;border-radius:16px;padding:14px;margin:0 0 14px}.guideBox b{font-size:14px}.guideBox p{font-size:12px;color:var(--m);margin:5px 0 0}.costStep{margin-top:18px;padding-top:16px;border-top:1px solid #20272e}.costStepTitle{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#818c97;font-weight:800;margin-bottom:8px}.calcHint{font-size:11px;color:#7f8a95;margin-top:5px;line-height:1.4}.costInsights{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.insight{background:#101419;border:1px solid #252d35;border-radius:15px;padding:13px}.insight .label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#83909c}.insight .value{font-size:23px;font-weight:900;margin-top:5px}.insight .sub{font-size:11px;color:var(--m);margin-top:4px}.costExplanation{margin-top:12px;padding:13px 14px;border-radius:14px;background:#101419;border:1px solid #252d35;font-size:13px;line-height:1.5}.taxAssist{display:flex;gap:8px;align-items:end}.taxAssist .btn{white-space:nowrap}
+@media(max-width:900px){.costInsights{grid-template-columns:1fr 1fr}}@media(max-width:600px){.costInsights{grid-template-columns:1fr}.taxAssist{align-items:stretch;flex-direction:column}}
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
 <div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
@@ -125,42 +129,69 @@ details.helpbox summary{font-size:14px}
 </div></section>
 
 <section id="costs" class="panel" data-area="business"><div class="card">
-<div class="sectionhead"><div><h3>Landed Cost & MOQ Rechner <button class="infoBtn" onclick="showInfo('costs')">i</button></h3><div class="muted">Was kostet ein Drop wirklich – inklusive Versand, Abgaben, Verpackung und Zahlungsgebühren?</div></div><button class="btn primary" onclick="clearCostForm()">+ Neues Szenario</button></div>
+<div class="sectionhead"><div><h3>Kosten & Verkaufspreis <button class="infoBtn" onclick="showInfo('costs')">i</button></h3><div class="muted">Vom Einkauf bis zum Mindestverkaufspreis – mit Erklärungen zu jedem Schritt.</div></div><button class="btn primary" onclick="clearCostForm()">+ Neues Szenario</button></div>
+
+<div class="guideBox"><b>So funktioniert die Rechnung</b><p>1. Hersteller + Menge wählen → 2. Importkosten eintragen → 3. Steuerstatus wählen → 4. Verkaufspreis testen. Der Rechner zeigt euch, ab welchem Preis ihr eure Kosten deckt.</p></div>
+
+<div class="costStep"><div class="costStepTitle">1 · Einkauf</div>
 <div class="calcgrid">
-<div><label>Name</label><input id="cName" placeholder="z.B. Wolvate Shirt Black 100"></div>
-<div><label>Hersteller</label><select id="cSupplier" onchange="onCostSupplierChange()"></select></div>
-<div><label>Produkt</label><input id="cProduct" placeholder="Shirt / Shorts / Set"></div>
+<div><label>Name <button class="fieldHelp" onclick="showCostHelp('name')">i</button></label><input id="cName" placeholder="z.B. SAMPRO Shirt 50"></div>
+<div><label>Hersteller <button class="fieldHelp" onclick="showCostHelp('supplier')">i</button></label><select id="cSupplier" onchange="onCostSupplierChange()"></select></div>
+<div><label>Produkt <button class="fieldHelp" onclick="showCostHelp('product')">i</button></label><input id="cProduct" placeholder="Performance T-Shirt"></div>
+<div><label>Colorway</label><input id="cColor"></div>
 <div class="full"><div id="costSupplierMeta"></div><div id="costTierGrid" class="tierGrid"></div>
 <div id="fxBox" class="fxBox hidden">
   <div class="fxRow">
-    <div><label>Herstellerpreis</label><input id="sourceUnitCost" type="number" step=".01" oninput="recalculateFromFx()"></div>
+    <div><label>Herstellerpreis <button class="fieldHelp" onclick="showCostHelp('sourcePrice')">i</button></label><input id="sourceUnitCost" type="number" step=".01" oninput="recalculateFromFx()"></div>
     <div><label>Währung</label><input id="sourceCurrency" readonly></div>
-    <div><label>Kurs → EUR</label><input id="fxRate" type="number" step=".000001" oninput="recalculateFromFx()"></div>
+    <div><label>Kurs → EUR <button class="fieldHelp" onclick="showCostHelp('fx')">i</button></label><input id="fxRate" type="number" step=".000001" oninput="recalculateFromFx()"></div>
     <button class="btn" type="button" onclick="refreshFxRate()">↻ Kurs laden</button>
   </div>
-  <div id="fxStatus" class="fxStatus">Referenzkurs. Für finale Buchhaltung bitte Zahlungs-/Bankkurs verwenden.</div>
+  <div id="fxStatus" class="fxStatus">Referenzkurs. Für die finale Kalkulation zählt euer tatsächlicher Zahlungs-/Bankkurs.</div>
 </div></div>
-<div><label>Colorway</label><input id="cColor"></div>
-<div><label>Menge</label><input id="cQty" type="number" min="1" value="100" oninput="calculateCost()"></div>
-<div><label>Stückpreis in EUR</label><input id="cUnit" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
-<div><label>Versand gesamt</label><input id="cShipping" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
-<div><label>Zoll / Duties gesamt</label><input id="cDuties" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
-<div><label>Steuern gesamt</label><input id="cTax" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
-<div><label>Verpackung gesamt</label><input id="cPackaging" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
-<div><label>Zahlungsgebühren</label><input id="cFees" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
-<div><label>Sonstiges</label><input id="cOther" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
-<div><label>Geplanter Verkaufspreis / Stk.</label><input id="cSell" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
-</div>
-<div class="scoregrid" style="margin-top:14px">
-<div class="resultbox"><span class="muted tiny">Produktkosten</span><div class="v" id="costProduct">0.00</div></div>
-<div class="resultbox"><span class="muted tiny">Gesamtkosten</span><div class="v" id="costTotal">0.00</div></div>
-<div class="resultbox"><span class="muted tiny">Landed Cost / Stück</span><div class="v" id="costPerUnit">0.00</div></div>
-<div class="resultbox"><span class="muted tiny">Bruttomarge / Stück</span><div class="v" id="costMargin">–</div></div>
-</div>
-<div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end"><button class="btn primary" onclick="saveCostScenario()">Szenario speichern</button></div>
-<h3 style="margin-top:24px">Gespeicherte Szenarien</h3><div class="tablewrap"><table><thead><tr><th>Name</th><th>Hersteller</th><th>Produkt</th><th>Menge</th><th>Landed / Stk.</th><th>VK</th><th>Marge</th><th></th></tr></thead><tbody id="costRows"></tbody></table></div>
-</div></section>
+<div><label>Menge <button class="fieldHelp" onclick="showCostHelp('qty')">i</button></label><input id="cQty" type="number" min="1" value="100" oninput="calculateCost()"></div>
+<div><label>Stückpreis in EUR <button class="fieldHelp" onclick="showCostHelp('unit')">i</button></label><input id="cUnit" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
+</div></div>
 
+<div class="costStep"><div class="costStepTitle">2 · Import & Anlieferung</div>
+<div class="calcgrid">
+<div><label>Internationaler Versand gesamt <button class="fieldHelp" onclick="showCostHelp('shipping')">i</button></label><input id="cShipping" type="number" min="0" step=".01" value="0" oninput="calculateCost()"><div class="calcHint">z. B. SAMPRO → Deutschland</div></div>
+<div><label>Zoll gesamt <button class="fieldHelp" onclick="showCostHelp('duties')">i</button></label><input id="cDuties" type="number" min="0" step=".01" value="0" oninput="calculateCost()"><div class="calcHint">Nicht pauschal – abhängig von Ware, Wert und Ursprung.</div></div>
+<div><label>Einfuhrumsatzsteuer <button class="fieldHelp" onclick="showCostHelp('importVat')">i</button></label><div class="taxAssist"><input id="cTax" type="number" min="0" step=".01" value="0" oninput="calculateCost()"><button class="btn" type="button" onclick="estimateImportVat()">19% schätzen</button></div><div class="calcHint">In Deutschland für Bekleidung typischerweise 19 %. Ob sie echte Kosten ist, hängt von eurem Steuerstatus ab.</div></div>
+<div><label>DHL / Abfertigung / Sonstiges <button class="fieldHelp" onclick="showCostHelp('other')">i</button></label><input id="cOther" type="number" min="0" step=".01" value="0" oninput="calculateCost()"><div class="calcHint">z. B. Auslagepauschale oder Abfertigungsgebühren.</div></div>
+</div></div>
+
+<div class="costStep"><div class="costStepTitle">3 · Euer Steuerstatus</div>
+<div class="calcgrid">
+<div><label>Steuermodell <button class="fieldHelp" onclick="showCostHelp('taxMode')">i</button></label><select id="cTaxMode" onchange="calculateCost()"><option value="small">Kleinunternehmer</option><option value="regular">Regelbesteuert / Vorsteuerabzug</option></select></div>
+<div><label>Umsatzsteuer beim Verkauf <button class="fieldHelp" onclick="showCostHelp('salesVat')">i</button></label><input id="cSalesVat" value="19" type="number" min="0" step=".1" oninput="calculateCost()"><div class="calcHint">Nur relevant bei Regelbesteuerung; Standard in DE meist 19 %.</div></div>
+</div></div>
+
+<div class="costStep"><div class="costStepTitle">4 · Verkaufskosten</div>
+<div class="calcgrid">
+<div><label>Verpackung gesamt <button class="fieldHelp" onclick="showCostHelp('packaging')">i</button></label><input id="cPackaging" type="number" min="0" step=".01" value="0" oninput="calculateCost()"><div class="calcHint">Versandtaschen, Labels, Kartons usw. für alle Stück zusammen.</div></div>
+<div><label>Zahlungsgebühren gesamt <button class="fieldHelp" onclick="showCostHelp('fees')">i</button></label><input id="cFees" type="number" min="0" step=".01" value="0" oninput="calculateCost()"><div class="calcHint">z. B. Shopify Payments / PayPal – hier als Gesamtreserve für den Drop.</div></div>
+<div><label>Geplanter Verkaufspreis / Stk. <button class="fieldHelp" onclick="showCostHelp('sell')">i</button></label><input id="cSell" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
+</div></div>
+
+<div class="scoregrid" style="margin-top:16px">
+<div class="resultbox"><span class="muted tiny">Produktkosten</span><div class="v" id="costProduct">0.00</div></div>
+<div class="resultbox"><span class="muted tiny">Cash-Bedarf gesamt</span><div class="v" id="costCashTotal">0.00</div></div>
+<div class="resultbox"><span class="muted tiny">Wirtschaftliche Kosten / Stk.</span><div class="v" id="costPerUnit">0.00</div></div>
+<div class="resultbox"><span class="muted tiny">Deckungsbeitrag / Stk.</span><div class="v" id="costMargin">–</div></div>
+</div>
+
+<div class="costInsights">
+<div class="insight"><div class="label">Break-even Preis</div><div class="value" id="costBreakEven">–</div><div class="sub">Darunter verliert ihr bei dieser Kalkulation Geld.</div></div>
+<div class="insight"><div class="label">Minimal +5%</div><div class="value" id="costMin5">–</div><div class="sub">Nur kleiner Puffer – eher Launch-/Testpreis.</div></div>
+<div class="insight"><div class="label">30% Marge</div><div class="value" id="cost30">–</div><div class="sub">Mehr Luft für Retouren, Shop & Wachstum.</div></div>
+<div class="insight"><div class="label">40% Marge</div><div class="value" id="cost40">–</div><div class="sub">Gesünderer Puffer für eine Marke.</div></div>
+</div>
+<div id="costExplanation" class="costExplanation"></div>
+
+<div style="margin-top:14px;display:flex;gap:8px;justify-content:flex-end"><button class="btn primary" onclick="saveCostScenario()">Szenario speichern</button></div>
+<h3 style="margin-top:24px">Gespeicherte Szenarien</h3><div class="tablewrap"><table><thead><tr><th>Name</th><th>Hersteller</th><th>Produkt</th><th>Menge</th><th>Kosten / Stk.</th><th>VK</th><th>DB</th><th></th></tr></thead><tbody id="costRows"></tbody></table></div>
+</div></section>
 <section id="drops" class="panel" data-area="business"><div class="card">
   <div class="sectionhead"><div><h3>Drops & Größenplanung <button class="infoBtn" onclick="showInfo('drops')">i</button></h3><div class="muted">Stückzahlen, Größenmix, Budget und potenzieller Umsatz.</div></div><button class="btn primary" onclick="openDrop()">+ Drop</button></div>
   <div id="dropGrid" class="dropgrid"></div>
@@ -510,16 +541,83 @@ function populateCostSuppliers(){
  $('cSupplier').innerHTML='<option value="">–</option>'+suppliers.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');
  $('cSupplier').value=cur;
 }
+
+const COST_HELP={
+ name:['Szenario-Name','Nur zur Orientierung, z. B. „SAMPRO Shirt 50“. Hat keinen Einfluss auf die Rechnung.'],
+ supplier:['Hersteller','Wähle den Lieferanten. Hinterlegte Preisstaffeln erscheinen automatisch.'],
+ product:['Produkt','Welches Produkt wird kalkuliert? Hilft später beim Vergleich von Shirts, Shorts usw.'],
+ sourcePrice:['Herstellerpreis','Der originale Stückpreis des Herstellers in dessen Währung, z. B. 13 USD bei SAMPRO für 50 Stück.'],
+ fx:['Wechselkurs','Damit wird USD oder eine andere Währung in EUR umgerechnet. Für die finale Rechnung ist der tatsächlich gezahlte Bank-/Zahlungskurs genauer als ein Referenzkurs.'],
+ qty:['Menge','Bestellte Stückzahl. Viele Hersteller werden pro Stück günstiger, wenn ihr mehr bestellt.'],
+ unit:['Stückpreis in EUR','Der umgerechnete Einkaufspreis eines einzelnen Produkts – noch ohne Versand, Zoll, Steuer und andere Nebenkosten.'],
+ shipping:['Internationaler Versand','Was der Hersteller/Spediteur für die Lieferung bis Deutschland verlangt. Dieser Betrag verteilt sich auf alle bestellten Stücke.'],
+ duties:['Zoll','Zoll ist nicht immer gleich. Er hängt u. a. von Warentarif, Warenwert und Ursprungsland ab. Bei Pakistan kann ein gültiger Präferenzursprung den Zoll reduzieren oder auf 0 setzen.'],
+ importVat:['Einfuhrumsatzsteuer','Bei der Einfuhr nach Deutschland fällt für Bekleidung typischerweise 19 % Einfuhrumsatzsteuer an. Kleinunternehmer können sie grundsätzlich nicht als Vorsteuer abziehen; bei Regelbesteuerung kann sie grundsätzlich als Vorsteuer abzugsfähig sein.'],
+ other:['Abfertigung / Sonstiges','Hier gehören z. B. DHL-Auslagepauschalen, Zollabfertigungsgebühren oder andere Import-Nebenkosten hinein.'],
+ taxMode:['Steuermodell','Kleinunternehmer: keine Umsatzsteuer auf eure Verkäufe, aber kein Vorsteuerabzug. Regelbesteuert: Verkaufspreis enthält Umsatzsteuer; abzugsfähige Einfuhrumsatzsteuer ist wirtschaftlich nicht dieselbe Belastung wie bei Kleinunternehmern.'],
+ salesVat:['Umsatzsteuer beim Verkauf','Bei Regelbesteuerung enthält euer Endkundenpreis in Deutschland normalerweise 19 % Umsatzsteuer. Diese gehört wirtschaftlich nicht vollständig euch. Kleinunternehmer weisen grundsätzlich keine Umsatzsteuer aus.'],
+ packaging:['Verpackung','Versandtaschen, Kartons, Etiketten, Seidenpapier usw. Sinnvoll ist eine realistische Gesamtsumme für die geplante Stückzahl.'],
+ fees:['Zahlungsgebühren','Shop-/Payment-Anbieter behalten meist einen kleinen Anteil und/oder eine fixe Gebühr. Hier könnt ihr zunächst mit einer Reserve arbeiten und später echte Werte eintragen.'],
+ sell:['Verkaufspreis','Preis, den der Kunde bezahlt. Der Rechner zeigt euch daraus Deckungsbeitrag, Break-even und Mindestpreise.']
+};
+function showCostHelp(key){
+ const h=COST_HELP[key];if(!h)return;
+ $('infoTitle').textContent=h[0];
+ $('infoBody').innerHTML='<p>'+h[1]+'</p>';
+ $('infoModal').classList.add('open');
+}
+function estimateImportVat(){
+ const qty=Math.max(1,+$('cQty').value||1),unit=+$('cUnit').value||0,shipping=+$('cShipping').value||0,duties=+$('cDuties').value||0;
+ const base=qty*unit+shipping+duties;
+ $('cTax').value=(base*0.19).toFixed(2);
+ calculateCost();
+ toast('19% Einfuhrumsatzsteuer geschätzt');
+}
 function costNums(){
  const num=id=>+($(id)?.value||0);
- const qty=Math.max(1,num('cQty')),unit=num('cUnit'),product=qty*unit,extras=num('cShipping')+num('cDuties')+num('cTax')+num('cPackaging')+num('cFees')+num('cOther'),total=product+extras,per=total/qty,sell=num('cSell'),margin=sell? sell-per:null,marginPct=sell?margin/sell*100:null;
- return {qty,unit,product,total,per,sell,margin,marginPct};
+ const qty=Math.max(1,num('cQty')),unit=num('cUnit'),product=qty*unit;
+ const shipping=num('cShipping'),duties=num('cDuties'),importVat=num('cTax'),packaging=num('cPackaging'),fees=num('cFees'),other=num('cOther');
+ const taxMode=$('cTaxMode')?.value||'small',salesVatRate=num('cSalesVat')/100;
+ const cashTotal=product+shipping+duties+importVat+packaging+fees+other;
+ const economicTotal=product+shipping+duties+packaging+fees+other+(taxMode==='small'?importVat:0);
+ const per=economicTotal/qty;
+ const sell=num('cSell');
+ const netRevenue=sell?(taxMode==='regular'?sell/(1+salesVatRate):sell):0;
+ const contribution=sell?netRevenue-per:null;
+ const marginPct=sell&&netRevenue?contribution/netRevenue*100:null;
+ const grossFromNet=net=>taxMode==='regular'?net*(1+salesVatRate):net;
+ const breakEven=grossFromNet(per);
+ const min5=grossFromNet(per/0.95);
+ const p30=grossFromNet(per/0.70);
+ const p40=grossFromNet(per/0.60);
+ return {qty,unit,product,cashTotal,economicTotal,per,sell,netRevenue,contribution,marginPct,breakEven,min5,p30,p40,taxMode,importVat};
 }
 function calculateCost(){
- const c=costNums();$('costProduct').textContent=c.product.toFixed(2);$('costTotal').textContent=c.total.toFixed(2);$('costPerUnit').textContent=c.per.toFixed(2);$('costMargin').textContent=c.margin==null?'–':`${c.margin.toFixed(2)} (${c.marginPct.toFixed(1)}%)`;
+ const c=costNums();
+ $('costProduct').textContent=c.product.toFixed(2)+' €';
+ $('costCashTotal').textContent=c.cashTotal.toFixed(2)+' €';
+ $('costPerUnit').textContent=c.per.toFixed(2)+' €';
+ $('costMargin').textContent=c.contribution==null?'–':c.contribution.toFixed(2)+' €'+(c.marginPct!=null?' ('+c.marginPct.toFixed(1)+'%)':'');
+ $('costBreakEven').textContent=c.breakEven.toFixed(2)+' €';
+ $('costMin5').textContent=c.min5.toFixed(2)+' €';
+ $('cost30').textContent=c.p30.toFixed(2)+' €';
+ $('cost40').textContent=c.p40.toFixed(2)+' €';
+ let text='';
+ if(c.taxMode==='small'){
+   text='<b>Kleinunternehmer:</b> Die eingetragene Einfuhrumsatzsteuer wird hier als echte Kosten behandelt, weil Kleinunternehmer grundsätzlich keinen Vorsteuerabzug haben. Euer Verkaufspreis wird ohne Umsatzsteuer gerechnet.';
+ }else{
+   text='<b>Regelbesteuert:</b> Die Einfuhrumsatzsteuer zählt zum Cash-Bedarf, wird in dieser wirtschaftlichen Kalkulation aber nicht als endgültige Produktkosten behandelt, sofern sie tatsächlich als Vorsteuer abzugsfähig ist. Vom Verkaufspreis wird die eingestellte Umsatzsteuer herausgerechnet.';
+ }
+ if(c.sell){
+   if(c.sell<c.breakEven) text+=' <b>⚠ Dieser Verkaufspreis liegt unter Break-even.</b>';
+   else if(c.sell<c.min5) text+=' <b>Der Preis deckt die Kosten, lässt aber praktisch keinen Puffer.</b>';
+   else if(c.marginPct<20) text+=' <b>Sehr knapper Puffer – eher als bewusster Launch-/Testpreis.</b>';
+   else text+=' Bei diesem Preis bleibt ein positiver Deckungsbeitrag für weitere Kosten und Gewinn.';
+ }
+ $('costExplanation').innerHTML=text;
 }
 function clearCostForm(){
- editingCost=null;['cName','cProduct','cColor'].forEach(id=>$(id).value='');['cShipping','cDuties','cTax','cPackaging','cFees','cOther','cSell'].forEach(id=>$(id).value=0);$('cQty').value=100;$('cUnit').value=0;$('cSupplier').value='';activeTierId=null;activeTierCurrency='EUR';if($('sourceUnitCost'))$('sourceUnitCost').value='';if($('sourceCurrency'))$('sourceCurrency').value='EUR';if($('fxRate'))$('fxRate').value=1;$('fxBox')?.classList.add('hidden');onCostSupplierChange();calculateCost();
+ editingCost=null;['cName','cProduct','cColor'].forEach(id=>$(id).value='');['cShipping','cDuties','cTax','cPackaging','cFees','cOther','cSell'].forEach(id=>$(id).value=0);$('cQty').value=100;$('cUnit').value=0;$('cSupplier').value='';if($('cTaxMode'))$('cTaxMode').value='small';if($('cSalesVat'))$('cSalesVat').value=19;activeTierId=null;activeTierCurrency='EUR';if($('sourceUnitCost'))$('sourceUnitCost').value='';if($('sourceCurrency'))$('sourceCurrency').value='EUR';if($('fxRate'))$('fxRate').value=1;$('fxBox')?.classList.add('hidden');onCostSupplierChange();calculateCost();
 }
 async function saveCostScenario(){
  const payload={name:$('cName').value.trim()||'Unbenanntes Szenario',supplier_id:$('cSupplier').value?+$('cSupplier').value:null,product:$('cProduct').value.trim(),colorway:$('cColor').value.trim(),quantity:+$('cQty').value||1,unit_cost:+$('cUnit').value||0,shipping:+$('cShipping').value||0,duties:+$('cDuties').value||0,tax:+$('cTax').value||0,packaging:+$('cPackaging').value||0,payment_fees:+$('cFees').value||0,other_costs:+$('cOther').value||0,sell_price:+$('cSell').value||null,source_unit_cost:+$('sourceUnitCost')?.value||null,source_currency:$('sourceCurrency')?.value||'EUR',fx_rate_to_eur:+$('fxRate')?.value||1,fx_rate_date:fxRateDate,updated_at:new Date().toISOString()};
@@ -530,11 +628,11 @@ function renderCosts(){
  populateCostSuppliers();onCostSupplierChange();calculateCost();
  $('costRows').innerHTML=costScenarios.map(c=>{
   const total=c.quantity*c.unit_cost+(+c.shipping||0)+(+c.duties||0)+(+c.tax||0)+(+c.packaging||0)+(+c.payment_fees||0)+(+c.other_costs||0),per=total/c.quantity,margin=c.sell_price?c.sell_price-per:null,pct=c.sell_price?margin/c.sell_price*100:null,s=suppliers.find(x=>x.id===c.supplier_id);
-  return `<tr><td><b>${esc(c.name)}</b></td><td>${esc(s?.name||'–')}</td><td>${esc(c.product||'')} ${esc(c.colorway||'')}</td><td>${c.quantity}</td><td>${per.toFixed(2)}</td><td>${c.sell_price??'–'}</td><td>${margin==null?'–':`${margin.toFixed(2)} (${pct.toFixed(1)}%)`}</td><td><button class="icon" onclick="loadCostScenario(${c.id})">Bearbeiten</button> <button class="icon danger" onclick="deleteCostScenario(${c.id})">Löschen</button></td></tr>`;
+  return `<tr><td><b>${esc(c.name)}</b></td><td>${esc(s?.name||'–')}</td><td>${esc(c.product||'')} ${esc(c.colorway||'')}</td><td>${c.quantity}</td><td>${per.toFixed(2)} €</td><td>${c.sell_price??'–'}</td><td>${margin==null?'–':margin.toFixed(2)+' €'}</td><td><button class="icon" onclick="loadCostScenario(${c.id})">Bearbeiten</button> <button class="icon danger" onclick="deleteCostScenario(${c.id})">Löschen</button></td></tr>`;
  }).join('')||'<tr><td colspan="8" class="empty">Noch keine Szenarien.</td></tr>';
 }
 function loadCostScenario(id){
- const c=costScenarios.find(x=>x.id===id);if(!c)return;editingCost=id;$('cName').value=c.name||'';$('cSupplier').value=c.supplier_id||'';$('cProduct').value=c.product||'';$('cColor').value=c.colorway||'';$('cQty').value=c.quantity||1;$('cUnit').value=c.unit_cost||0;$('cShipping').value=c.shipping||0;$('cDuties').value=c.duties||0;$('cTax').value=c.tax||0;$('cPackaging').value=c.packaging||0;$('cFees').value=c.payment_fees||0;$('cOther').value=c.other_costs||0;$('cSell').value=c.sell_price||0;if($('sourceUnitCost'))$('sourceUnitCost').value=c.source_unit_cost||c.unit_cost||0;if($('sourceCurrency'))$('sourceCurrency').value=c.source_currency||'EUR';if($('fxRate'))$('fxRate').value=c.fx_rate_to_eur||1;fxRateDate=c.fx_rate_date||null;activeTierCurrency=c.source_currency||'EUR';if(c.source_currency&&c.source_currency!=='EUR')$('fxBox')?.classList.remove('hidden');onCostSupplierChange();calculateCost();window.scrollTo({top:0,behavior:'smooth'});
+ const c=costScenarios.find(x=>x.id===id);if(!c)return;editingCost=id;$('cName').value=c.name||'';$('cSupplier').value=c.supplier_id||'';$('cProduct').value=c.product||'';$('cColor').value=c.colorway||'';$('cQty').value=c.quantity||1;$('cUnit').value=c.unit_cost||0;$('cShipping').value=c.shipping||0;$('cDuties').value=c.duties||0;$('cTax').value=c.tax||0;$('cPackaging').value=c.packaging||0;$('cFees').value=c.payment_fees||0;$('cOther').value=c.other_costs||0;$('cSell').value=c.sell_price||0;if($('sourceUnitCost'))$('sourceUnitCost').value=c.source_unit_cost||c.unit_cost||0;if($('sourceCurrency'))$('sourceCurrency').value=c.source_currency||'EUR';if($('fxRate'))$('fxRate').value=c.fx_rate_to_eur||1;fxRateDate=c.fx_rate_date||null;activeTierCurrency=c.source_currency||'EUR';if(c.source_currency&&c.source_currency!=='EUR')$('fxBox')?.classList.remove('hidden');if($('cTaxMode'))$('cTaxMode').value='small';if($('cSalesVat'))$('cSalesVat').value=19;onCostSupplierChange();calculateCost();window.scrollTo({top:0,behavior:'smooth'});
 }
 async function deleteCostScenario(id){if(!confirm('Szenario löschen?'))return;const {error}=await db.from('cost_scenarios').delete().eq('id',id);if(error)alert(error.message);else refreshAll()}
 
