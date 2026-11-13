@@ -84,6 +84,101 @@ details.helpbox summary{font-size:14px}
 .fieldHelp{display:inline-grid;place-items:center;width:18px;height:18px;border:1px solid #3a444e;border-radius:50%;font-size:10px;color:#aab4be;cursor:pointer;margin-left:5px;text-transform:none;letter-spacing:0;background:#13181d}
 .fieldHelp:hover{background:#1b2229;color:#fff}.guideBox{background:#0f1418;border:1px solid #27303a;border-radius:16px;padding:14px;margin:0 0 14px}.guideBox b{font-size:14px}.guideBox p{font-size:12px;color:var(--m);margin:5px 0 0}.costStep{margin-top:18px;padding-top:16px;border-top:1px solid #20272e}.costStepTitle{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#818c97;font-weight:800;margin-bottom:8px}.calcHint{font-size:11px;color:#7f8a95;margin-top:5px;line-height:1.4}.costInsights{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.insight{background:#101419;border:1px solid #252d35;border-radius:15px;padding:13px}.insight .label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#83909c}.insight .value{font-size:23px;font-weight:900;margin-top:5px}.insight .sub{font-size:11px;color:var(--m);margin-top:4px}.costExplanation{margin-top:12px;padding:13px 14px;border-radius:14px;background:#101419;border:1px solid #252d35;font-size:13px;line-height:1.5}.taxAssist{display:flex;gap:8px;align-items:end}.taxAssist .btn{white-space:nowrap}
 @media(max-width:900px){.costInsights{grid-template-columns:1fr 1fr}}@media(max-width:600px){.costInsights{grid-template-columns:1fr}.taxAssist{align-items:stretch;flex-direction:column}}
+
+/* MiSai contrast pass: richer charcoal + restrained brand accent */
+:root{
+  --bg:#080b10;
+  --p:#111720;
+  --p2:#18212b;
+  --p3:#202b36;
+  --l:#2a3542;
+  --l2:#3a4857;
+  --t:#f6f8fb;
+  --m:#9aa8b7;
+  --soft:#d4dbe3;
+  --accent:#d85b63;
+  --accent-soft:#6f343a;
+  --accent-bg:#241417;
+  --g:#79d5a7;
+  --w:#e2b766;
+  --r:#ef7a7f;
+}
+body{
+  background:
+    radial-gradient(circle at 12% -8%,rgba(216,91,99,.10),transparent 28%),
+    radial-gradient(circle at 88% 4%,rgba(70,107,141,.08),transparent 25%),
+    linear-gradient(180deg,#080b10 0%,#0b0f15 100%);
+}
+.top{border-bottom:1px solid rgba(255,255,255,.04);padding-bottom:12px}
+.brand .logo{border-color:#3c4652;background:linear-gradient(145deg,#202833,#10151c);box-shadow:inset 0 0 0 1px rgba(216,91,99,.08)}
+.hero{
+  background:
+    radial-gradient(circle at 92% 20%,rgba(216,91,99,.12),transparent 27%),
+    linear-gradient(135deg,#18202a 0%,#111720 58%,#171217 100%);
+  border-color:#2a3541;
+}
+.card{background:linear-gradient(180deg,#131a23 0%,#0f151d 100%);border-color:#27323e}
+.kpi{position:relative;overflow:hidden;background:linear-gradient(145deg,#17202a,#10161e)}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent),transparent)}
+.kpi .num{color:#fff}
+.areaNav .tab{background:#101720;border-color:#26323e;color:#aab7c4}
+.areaNav .tab:hover{background:#17202a;border-color:#3a4856}
+.areaNav .tab.active{
+  background:linear-gradient(180deg,#2a181c,#211317);
+  border-color:#754047;
+  color:#fff;
+  box-shadow:inset 0 -2px 0 var(--accent),0 8px 20px rgba(0,0,0,.18)
+}
+.moduleNav .moduleBtn{background:#111821;border-color:#283542;color:#aab7c4}
+.moduleNav .moduleBtn:hover{background:#18222c;border-color:#40505f;color:#fff}
+.moduleNav .moduleBtn.active{
+  background:#1f171b;
+  color:#fff;
+  border-color:#6d3c43;
+  box-shadow:inset 0 -2px 0 var(--accent)
+}
+.btn,.icon{background:#18212b;border-color:#303d4a}
+.btn:hover,.icon:hover{background:#202b36;border-color:#485866}
+.btn.primary{background:linear-gradient(180deg,#f5f7f9,#dce2e8);color:#0b0f14;border-color:#f5f7f9}
+input,select,textarea{background:#0c1219;border-color:#303c49}
+input:hover,select:hover,textarea:hover{border-color:#435260}
+input:focus,select:focus,textarea:focus{border-color:#9a555c;box-shadow:0 0 0 3px rgba(216,91,99,.10)}
+.tablewrap{background:#0d131a;border-color:#28343f}
+th{background:#141b24;color:#95a5b5}
+td{background:#101720}
+tr:hover td{background:#16202a}
+.design,.reviewCard,.detailPane,.masterItem,.scorecard,.alert,.timeline-item{
+  border-color:#293642;
+}
+.design{background:linear-gradient(180deg,#151d27,#101720)}
+.masterItem{background:#0f161e}
+.masterItem:hover,.reviewCard:hover{background:#17212b}
+.masterItem.active{
+  background:linear-gradient(90deg,#21171b,#17202a);
+  border-color:#704047;
+  box-shadow:inset 3px 0 0 var(--accent)
+}
+.detailPane,.reviewCard,.scorecard,.alert,.timeline-item{background:#101720}
+.resultbox,.insight,.costExplanation,.guideBox,.helpbox,.supplierMeta,.fxBox,.soft{
+  background:#0f161e!important;
+  border-color:#293642!important;
+}
+.badge{background:#141c25;border-color:#344250}
+.badge.good{background:#102219;border-color:#2f6248;color:#8be0b5}
+.badge.warn{background:#251d10;border-color:#70562b;color:#f0c575}
+.notice{background:#241d10;border-left-color:#d7a94d;color:#e2cca3}
+.alert.warn{background:#211a10;border-color:#5b4729}
+.alert.bad{background:#231316;border-color:#65363c}
+.bar,.statbar{background:#202b36}
+.bar span,.statbar span{background:linear-gradient(90deg,#b44d55,#e07a81)}
+.activityDot{background:var(--accent)}
+.infoBtn,.fieldHelp{border-color:#40505e;background:#151d26;color:#b7c1cb}
+.infoBtn:hover,.fieldHelp:hover{border-color:#825058;background:#24171a;color:#fff}
+.tierBtn{background:#101720;border-color:#2d3945}
+.tierBtn:hover{background:#17212b;border-color:#465664}
+.tierBtn.active{background:#21171a;border-color:#844b53;box-shadow:inset 0 -2px 0 var(--accent)}
+.toast{background:#18212b;border-color:#495866}
+
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
 <div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
