@@ -264,6 +264,17 @@ tr:hover td{background:#16202a}
 
 
 .sampleTestBlock{margin-top:18px;padding-top:16px;border-top:1px solid #27333f}.sampleTestHead{display:flex;align-items:center;justify-content:space-between;gap:12px}.sampleTestHead>b,.sampleTestHead strong{font-size:18px}.sampleTestHead strong{font-size:20px}
+
+.sampleWorkspaceSection{margin-top:14px;padding-top:14px;border-top:1px solid #2a3541;animation:workspaceIn .16s ease-out}
+.sampleWorkspaceHead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin:0 2px 9px}
+.sampleWorkspaceHead h4{font-size:19px;margin:2px 0 0}
+.workspaceEyebrow{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#8b99a7;font-weight:800}
+.sampleWorkspacePane{max-width:none;min-height:0;background:linear-gradient(180deg,#111a23,#0d141b);border-color:#344250}
+.workspaceTopActions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.sampleOverviewRow{position:relative}
+.sampleOverviewRow.selected:after{content:"Geöffnet";position:absolute;right:12px;bottom:5px;font-size:8px;text-transform:uppercase;letter-spacing:.08em;color:#d98289}
+@keyframes workspaceIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:720px){.sampleWorkspaceSection{margin-top:10px}.workspaceTopActions{justify-content:flex-start}.sampleOverviewRow.selected:after{display:none}}
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
 <div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
@@ -312,10 +323,12 @@ tr:hover td{background:#16202a}
     <div id="sampleOverviewRows"></div>
   </div>
 
-  <div class="assignmentDetailSection">
-    <div class="sectionhead compactHead"><div><h4>Sample-Details</h4><div class="muted tiny">Aus der Liste auswählen oder hier direkt wechseln.</div></div><button class="btn" onclick="openSample(selectedSampleId)">Bearbeiten</button></div>
-    <div class="assignmentDetailPicker"><select id="samplePicker" onchange="selectSample(this.value)"></select></div>
-    <div id="sampleDetail" class="detailPane sampleDetailSolo"></div>
+  <div id="sampleWorkspaceSection" class="sampleWorkspaceSection hidden">
+    <div class="sampleWorkspaceHead">
+      <div><span class="workspaceEyebrow">Sample-Arbeitsbereich</span><h4 id="sampleWorkspaceTitle">Sample</h4></div>
+      <button class="icon" type="button" onclick="closeSampleWorkspace()" aria-label="Arbeitsbereich schließen">✕</button>
+    </div>
+    <div id="sampleDetail" class="detailPane sampleWorkspacePane"></div>
   </div>
 </div></section><section id="reviews" class="panel" data-area="testing"><div class="card">
     <div class="sectionhead"><div><h3>Reviews <button class="infoBtn" onclick="showInfo('reviews')">i</button></h3><div class="muted">Kompakte Testzusammenfassungen – Details erst beim Öffnen.</div></div><button class="btn primary" onclick="openReview()">+ Review</button></div>
@@ -580,21 +593,12 @@ function showSetupNotice(modules){
  el.classList.remove('hidden');
 }
 function avg(a){a=a.filter(v=>v!=null).map(Number);return a.length?a.reduce((x,y)=>x+y,0)/a.length:null}function testerName(id){return testers.find(x=>x.id===id)?.name||''}function sampleName(id){return samples.find(x=>x.id===id)?.sample_code||''}function renderAll(){renderDashboard();renderAlerts();populateFilters();renderSamples();renderReviews();renderActivities();renderScorecards();renderCosts();renderDrops();renderTechPacks();renderDecisions();renderTesters();renderDesigns();renderSuppliers()}function renderDashboard(){$('kSamples').textContent=samples.length;$('kReviews').textContent=reviews.length;$('kWashes').textContent=samples.reduce((a,s)=>a+(+s.wash_count||0),0);$('kDesigns').textContent=designs.length;let g={};samples.forEach(s=>{let k=`${s.fabric_name||'Unbenannt'} · ${s.gsm||'?'} GSM`;g[k]??=[];g[k].push(s.id)});$('fabricRanking').innerHTML=Object.entries(g).map(([k,ids])=>{let rs=reviews.filter(r=>ids.includes(r.sample_id)),o=avg(rs.map(r=>r.overall));return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between"><b>${esc(k)}</b><span>${o?o.toFixed(1)+'/10':'offen'}</span></div><div class="muted tiny">${rs.length} Review(s)</div><div class="statbar"><span style="width:${o?o*10:0}%"></span></div></div>`}).join('')||'<div class="empty">Noch keine Stoffdaten.</div>';let doneTasks=testTasks.filter(t=>(+t.completed_count||0)>=(+t.target_count||1)).length,totalTasks=testTasks.length;let pct=totalTasks?Math.round(doneTasks/totalTasks*100):0;$('statusSummary').innerHTML=`<p><b>${samples.filter(s=>s.status==='Favorit').length}</b> Sample-Favoriten</p><p><b>${samples.filter(s=>s.status==='Final').length}</b> finale Samples</p><p><b>${designs.filter(d=>['Shortlist','Tech Pack','Sample'].includes(d.status)).length}</b> Designs in Arbeit</p><p><b>${suppliers.length}</b> Hersteller</p><div style="margin-top:12px"><div class="progresshead"><span>Gesamter Testfortschritt</span><b>${pct}%</b></div><div class="bar"><span style="width:${pct}%"></span></div></div>`}function uniq(a){return[...new Set(a.filter(Boolean))].sort()}function populateFilters(){
- const picker=$('samplePicker');if(picker){
-   const cur=selectedSampleId;
-   picker.innerHTML=samples.map(s=>`<option value="${s.id}">${esc(s.sample_code)} · ${esc(s.fabric_name||'')} · ${esc(s.size||'')} · ${esc(s.supplier||'')}</option>`).join('');
-   if(cur&&samples.some(s=>s.id===cur))picker.value=String(cur);
- }
+
 }
 function renderSamples(){
- if(!selectedSampleId||!samples.some(x=>x.id===selectedSampleId))selectedSampleId=samples[0]?.id||null;
+ if(selectedSampleId&&!samples.some(x=>x.id===selectedSampleId))selectedSampleId=null;
  renderSampleOverviewFilters();
  renderSampleOverview();
- const picker=$('samplePicker');
- if(picker){
-   picker.innerHTML=samples.map(s=>`<option value="${s.id}">${esc(s.sample_code)} · ${esc(s.fabric_name||'')} · ${esc(s.size||'')} · ${esc(testerName(s.assigned_tester_id)||'Ohne Tester')}</option>`).join('');
-   if(selectedSampleId)picker.value=String(selectedSampleId);
- }
  renderSampleDetail();
 }
 function renderSampleOverviewFilters(){
@@ -638,20 +642,34 @@ function renderSampleOverview(){
      <span class="badge ${['Favorit','Final'].includes(s.status)?'good':''}">${esc(s.status||'Im Test')}</span>
      <div class="assignmentProgress"><div class="bar"><span style="width:${pct}%"></span></div><b>${pct}%</b></div>
      <div class="assignmentReview">${latest?.overall!=null?latest.overall+'/10':'Offen'}</div>
-     <div class="assignmentArrow">›</div>
+     <div class="assignmentArrow" title="Sample öffnen">⌄</div>
    </div>`;
  }).join('')||'<div class="assignmentEmpty">Keine Samples für diesen Filter.</div>';
 }
-function selectSample(id){selectedSampleId=+id;renderSamples()}
+function selectSample(id){
+ selectedSampleId=+id;
+ renderSampleOverview();
+ renderSampleDetail();
+ const ws=$('sampleWorkspaceSection');
+ if(ws){ws.classList.remove('hidden');setTimeout(()=>ws.scrollIntoView({behavior:'smooth',block:'nearest'}),30)}
+}
+function closeSampleWorkspace(){
+ selectedSampleId=null;
+ $('sampleWorkspaceSection')?.classList.add('hidden');
+ renderSampleOverview();
+}
 function renderSampleDetail(){
  const s=samples.find(x=>x.id===selectedSampleId);
- if(!s){$('sampleDetail').innerHTML='<div class="empty">Noch keine Samples vorhanden.<div class="emptyAction"><button class="btn primary" onclick="openSample()">Sample anlegen</button></div></div>';return}
+ const ws=$('sampleWorkspaceSection');
+ if(!s){if(ws)ws.classList.add('hidden');if($('sampleDetail'))$('sampleDetail').innerHTML='';return}
+ if(ws)ws.classList.remove('hidden');
+ if($('sampleWorkspaceTitle'))$('sampleWorkspaceTitle').textContent=s.sample_code||'Sample'
  const latest=reviews.find(r=>r.sample_id===s.id),pct=taskProgress(s.id),ts=testTasks.filter(t=>t.sample_id===s.id);
  const tasksHtml=ts.length?ts.map(t=>{
    const done=(+t.completed_count||0)>=(+t.target_count||1);
    return `<div class="task ${done?'done':''}"><div><b>${esc(t.title)}</b><div class="mini">${t.completed_count||0} / ${t.target_count||1}</div></div><button class="icon" onclick="updateTask(${t.id},-1)">−</button><button class="icon" onclick="updateTask(${t.id},1)">+</button></div>`;
  }).join(''):'<div class="empty">Kein Testplan für dieses Sample vorhanden.</div>';
- $('sampleDetail').innerHTML=`<div class="detailTitle"><div><h3>${esc(s.sample_code)}</h3><div class="muted">${esc(s.supplier)} · ${esc(s.fabric_name||'')} · ${esc(s.color||'')}</div></div><span class="badge ${['Favorit','Final'].includes(s.status)?'good':''}">${esc(s.status||'Im Test')}</span></div>
+ $('sampleDetail').innerHTML=`<div class="detailTitle"><div><h3>${esc(s.sample_code)}</h3><div class="muted">${esc(s.supplier)} · ${esc(s.fabric_name||'')} · ${esc(s.color||'')}</div></div><div class="workspaceTopActions"><span class="badge ${['Favorit','Final'].includes(s.status)?'good':''}">${esc(s.status||'Im Test')}</span><button class="btn" onclick="openSample(${s.id})">Bearbeiten</button></div></div>
  <div class="detailGrid"><div class="detailStat"><span>Material</span><b>${esc(s.material||'–')}</b></div><div class="detailStat"><span>GSM</span><b>${s.gsm||'–'}</b></div><div class="detailStat"><span>Größe</span><b>${esc(s.size||'–')}</b></div><div class="detailStat"><span>Tester</span><b>${esc(testerName(s.assigned_tester_id)||'Offen')}</b></div><div class="detailStat"><span>Tragen / Waschen</span><b>${s.wear_count||0} / ${s.wash_count||0}</b></div><div class="detailStat"><span>Letztes Review</span><b>${latest?.overall!=null?latest.overall+'/10':'Offen'}</b></div></div>
  <div class="sampleTestBlock">
    <div class="sampleTestHead"><div><b>Testplan</b><div class="tiny muted">Direkt am Sample pflegen.</div></div><strong>${pct}%</strong></div>
@@ -659,7 +677,7 @@ function renderSampleDetail(){
    <div class="tasklist">${tasksHtml}</div>
  </div>
  ${s.notes?`<p class="muted" style="margin-top:14px">${esc(s.notes)}</p>`:''}
- <div class="compactActions"><button class="btn" onclick="bump(${s.id},'wear_count')">+ Tragen</button><button class="btn" onclick="bump(${s.id},'wash_count')">+ Waschen</button><button class="btn" onclick="openReview(null,${s.id})">Review</button><button class="btn primary" onclick="openSample(${s.id})">Bearbeiten</button></div>`;
+ <div class="compactActions"><button class="btn" onclick="bump(${s.id},'wear_count')">+ Tragen</button><button class="btn" onclick="bump(${s.id},'wash_count')">+ Waschen</button><button class="btn primary" onclick="openReview(null,${s.id})">Review schreiben</button></div>`;
 }
 async function bump(id,key){let s=samples.find(x=>x.id===id),{error}=await db.from('samples').update({[key]:(+s[key]||0)+1,updated_at:new Date().toISOString()}).eq('id',id);if(error)alert(error.message);else{await logActivity('updated','Sample',s.sample_code,key==='wear_count'?'Tragen erhöht':'Waschen erhöht');refreshAll()}}function fillTesterSelect(e,val=''){e.innerHTML='<option value="">–</option>'+testers.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');e.value=val||''}function openSample(id=null){editingSample=id;let s=id?samples.find(x=>x.id===id):{};$('sCode').value=s.sample_code||'';$('sSupplier').value=s.supplier||'';$('sFabric').value=s.fabric_name||'';$('sMaterial').value=s.material||'';$('sGsm').value=s.gsm||'';$('sSize').value=s.size||'';$('sColor').value=s.color||'Black';$('sStatus').value=s.status||'Im Test';fillTesterSelect($('sTester'),s.assigned_tester_id);$('sReceived').value=s.received_at||'';$('sWears').value=s.wear_count||0;$('sWashes').value=s.wash_count||0;$('sNotes').value=s.notes||'';$('deleteSampleBtn').style.visibility=id?'visible':'hidden';$('sampleModal').classList.add('open')}async function saveSample(){let p={sample_code:$('sCode').value.trim(),supplier:$('sSupplier').value.trim(),fabric_name:$('sFabric').value.trim(),material:$('sMaterial').value.trim(),gsm:+$('sGsm').value||null,size:$('sSize').value.trim(),color:$('sColor').value.trim(),status:$('sStatus').value,assigned_tester_id:$('sTester').value?+$('sTester').value:null,received_at:$('sReceived').value||null,wear_count:+$('sWears').value||0,wash_count:+$('sWashes').value||0,notes:$('sNotes').value.trim(),updated_at:new Date().toISOString()},q=editingSample?db.from('samples').update(p).eq('id',editingSample):db.from('samples').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('sampleModal');await logActivity(editingSample?'updated':'created','Sample',p.sample_code,editingSample?'Sample bearbeitet':'Neues Sample erstellt');toast('Sample gespeichert');refreshAll()}}async function deleteSample(){if(!editingSample||!confirm('Sample löschen?'))return;const s=samples.find(x=>x.id===editingSample);let{error}=await db.from('samples').delete().eq('id',editingSample);if(error)alert(error.message);else{closeModal('sampleModal');await logActivity('deleted','Sample',s?.sample_code||'Sample','Sample gelöscht');toast('Sample gelöscht');refreshAll()}}function renderReviews(){
  $('reviewRows').innerHTML=reviews.length?reviews.map(r=>`<div class="reviewCard" onclick="openReview(${r.id})"><div style="display:flex;justify-content:space-between;gap:10px"><div><b>${esc(sampleName(r.sample_id))}</b><div class="masterItemMeta">${esc(testerName(r.tester_id)||'–')} · ${esc(r.tested_on||'')}</div></div><div class="reviewScore">${r.overall??'–'}</div></div><div class="tiny muted" style="margin-top:10px">${esc((r.notes||'Keine Notiz').slice(0,110))}</div><div class="pillrow" style="margin-top:10px"><span class="badge">Komfort ${r.comfort??'–'}</span><span class="badge">Fit ${r.fit??'–'}</span><span class="badge">Atmung ${r.breathability??'–'}</span></div></div>`).join(''):'<div class="empty">Noch keine Reviews.<div class="emptyAction"><button class="btn primary" onclick="openReview()">Erstes Review anlegen</button></div></div>';
