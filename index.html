@@ -522,9 +522,17 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
 @media(max-width:900px){.fitGrid{grid-template-columns:1fr}.fitToolbar{grid-template-columns:1fr 1fr}.fitToolbar .assignmentSearch{grid-column:1/-1}}
 @media(max-width:680px){.fitIntro,.fitToolbar{grid-template-columns:1fr}.fitToolbar .assignmentSearch{grid-column:auto}.fitBodyStats{grid-template-columns:1fr}.fitMeasures{grid-template-columns:1fr 1fr}}
 
+
+.roadmapHero{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(270px,.8fr);gap:12px;margin-bottom:14px}.roadmapProgressBlock,.roadmapStats,.roadmapNow{background:linear-gradient(180deg,#151d27,#101720);border:1px solid #2b3947;border-radius:16px}.roadmapProgressBlock{padding:16px}.roadmapProgressTop{display:flex;justify-content:space-between;align-items:end;gap:12px}.roadmapProgressTop strong{display:block;font-size:30px;line-height:1;margin-top:5px}.roadmapMainBar{height:10px;margin:13px 0 9px}.roadmapStageText{font-size:11px;color:#a6b2be}.roadmapStageText span{color:#778694}.roadmapStats{display:grid;grid-template-columns:repeat(3,1fr);overflow:hidden}.roadmapStats>div{padding:15px 10px;text-align:center;border-left:1px solid #293744}.roadmapStats>div:first-child{border-left:0}.roadmapStats span{display:block;color:#8998a6;font-size:9px;text-transform:uppercase;letter-spacing:.08em}.roadmapStats b{font-size:24px}
+.roadmapNow{padding:14px;margin-bottom:14px;border-color:#3a4652}.roadmapNowHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.roadmapNowHead h4{margin:2px 0 0}.roadmapReadyList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.roadmapReadyItem{appearance:none;text-align:left;background:#111923;border:1px solid #2a3845;border-radius:12px;padding:10px;display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;color:inherit;cursor:pointer}.roadmapReadyItem:hover{border-color:#b24a4f}.roadmapReadyItem b{display:block;font-size:11px}.roadmapReadyItem small{display:block;color:#8392a0;font-size:9px;margin-top:3px;line-height:1.35}.roadmapDot{width:8px;height:8px;border-radius:50%;background:#607080}.roadmapDot.ready{background:#d4a84c;box-shadow:0 0 0 4px rgba(212,168,76,.10)}
+.roadmapToolbar{display:grid;grid-template-columns:150px 190px 1fr;gap:8px;margin:14px 0}.roadmapPhases{display:grid;gap:9px}.roadmapPhase{border:1px solid #2b3744;border-radius:15px;background:#10171f;overflow:hidden}.roadmapPhaseHead{width:100%;border:0;background:#151d27;color:inherit;padding:12px 14px;display:grid;grid-template-columns:34px minmax(0,1fr) auto 18px;gap:10px;align-items:center;text-align:left;cursor:pointer}.roadmapPhaseNo{font-size:10px;color:#7e8d9a;font-weight:800}.roadmapPhaseInfo h4{margin:0 0 2px;font-size:13px}.roadmapPhaseInfo span{font-size:9px;color:#7e8d9a}.roadmapPhaseProgress{text-align:right}.roadmapPhaseProgress b{display:block;font-size:12px}.roadmapPhaseProgress span{font-size:9px;color:#7e8d9a}.roadmapChevron{transition:.15s}.roadmapPhase.open .roadmapChevron{transform:rotate(180deg)}.roadmapPhaseBody{display:none;padding:8px}.roadmapPhase.open .roadmapPhaseBody{display:grid;gap:7px}
+.roadmapTask{border:1px solid #293642;border-radius:12px;background:#111923;overflow:hidden}.roadmapTaskMain{display:grid;grid-template-columns:auto 1fr auto;gap:9px;padding:10px;align-items:start;cursor:pointer}.roadmapTask.ready{border-left:3px solid #d4a84c}.roadmapTask.doing{border-left:3px solid #4d8cc8}.roadmapTask.blocked{border-left:3px solid #b65358}.roadmapTask.done{opacity:.66;border-left:3px solid #5a9b75}.roadmapTask.later{border-left:3px solid #687684}.roadmapCheck{width:24px;height:24px;border-radius:7px;border:1px solid #43515f;background:#0b1117;color:#89c7a2;font-weight:900;cursor:pointer}.roadmapTask.done .roadmapCheck{background:#173324;border-color:#3f7858}.roadmapTaskTitle{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.roadmapTaskTitle b{font-size:11px}.roadmapStatus,.roadmapPriority{font-size:8px;padding:3px 6px;border-radius:999px;border:1px solid #364350;color:#9aa8b5}.roadmapStatus.ready{color:#e2b85d}.roadmapStatus.doing{color:#77afe4}.roadmapStatus.blocked{color:#e18489}.roadmapStatus.done{color:#81bd99}.roadmapTaskText p{margin:5px 0 0;color:#93a1ae;font-size:10px;line-height:1.42}.roadmapTaskMeta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}.roadmapTaskMeta span{font-size:8px;color:#758491}.roadmapTaskMeta .dependency{color:#b99b76}.roadmapChildren{border-top:1px solid #25313c;background:#0e151c;padding:5px 9px 8px 42px;display:grid;gap:4px}.roadmapChild{display:grid;grid-template-columns:auto 1fr;gap:7px;align-items:center;padding:5px;border-radius:8px;cursor:pointer}.roadmapChild:hover{background:#141d26}.roadmapChild b{display:block;font-size:9px}.roadmapChild small{display:block;font-size:8px;color:#788794;margin-top:2px}.miniCheck{width:19px;height:19px;font-size:9px}
+@media(max-width:900px){.roadmapHero{grid-template-columns:1fr}.roadmapReadyList{grid-template-columns:1fr}.roadmapToolbar{grid-template-columns:1fr 1fr}.roadmapToolbar .assignmentSearch{grid-column:1/-1}}
+@media(max-width:680px){.roadmapStats{grid-template-columns:repeat(3,1fr)}.roadmapStats>div{padding:12px 5px}.roadmapStats b{font-size:20px}.roadmapToolbar{grid-template-columns:1fr}.roadmapToolbar .assignmentSearch{grid-column:auto}.roadmapPhaseHead{grid-template-columns:28px minmax(0,1fr) auto 14px}.roadmapPhaseInfo span{display:none}.roadmapChildren{padding-left:28px}.roadmapTaskTitle{align-items:flex-start}}
+
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
-<div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small><small id="buildStamp" class="muted" style="display:block;font-size:9px;margin-top:2px;opacity:.65">Build 2026-11-16 · Fit+Sizes</small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
+<div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small><small id="buildStamp" class="muted" style="display:block;font-size:9px;margin-top:2px;opacity:.65">Build 2026-11-16 · Roadmap</small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
 <div class="navGroups areaNav">
   <button class="tab active" data-area="overview" onclick="switchArea('overview')">Übersicht</button>
   <button class="tab" data-area="testing" onclick="switchArea('testing')">Testen</button>
@@ -692,7 +700,39 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
   <div class="sectionhead"><div><h3>Entscheidungslog <button class="infoBtn" onclick="showInfo('decisions')">i</button></h3><div class="muted">Festhalten, was ihr entschieden habt und warum.</div></div><button class="btn primary" onclick="openDecision()">+ Entscheidung</button></div>
   <div id="decisionTimeline" class="timeline"></div>
 </div></section>
-<div class="moduleNav" data-module-area="business"><button class="moduleBtn active" data-module="suppliers" onclick="switchModule('suppliers')">Hersteller</button><button class="moduleBtn" data-module="costs" onclick="switchModule('costs')">Kosten</button><button class="moduleBtn" data-module="scorecards" onclick="switchModule('scorecards')">Scorecards</button><button class="moduleBtn" data-module="drops" onclick="switchModule('drops')">Drops</button></div><div class="mobileModuleTabs" data-module-area="business"><button type="button" class="mobileModuleTab active" data-module="suppliers" onclick="switchModule('suppliers')">Hersteller</button><button type="button" class="mobileModuleTab" data-module="costs" onclick="switchModule('costs')">Kosten</button><button type="button" class="mobileModuleTab" data-module="scorecards" onclick="switchModule('scorecards')">Scorecards</button><button type="button" class="mobileModuleTab" data-module="drops" onclick="switchModule('drops')">Drops</button></div><section id="suppliers" class="panel" data-area="business"><div class="card">
+<div class="moduleNav" data-module-area="business"><button class="moduleBtn active" data-module="suppliers" onclick="switchModule('suppliers')">Hersteller</button><button class="moduleBtn" data-module="roadmap" onclick="switchModule('roadmap')">Roadmap</button><button class="moduleBtn" data-module="costs" onclick="switchModule('costs')">Kosten</button><button class="moduleBtn" data-module="scorecards" onclick="switchModule('scorecards')">Scorecards</button><button class="moduleBtn" data-module="drops" onclick="switchModule('drops')">Drops</button></div><div class="mobileModuleTabs" data-module-area="business"><button type="button" class="mobileModuleTab active" data-module="suppliers" onclick="switchModule('suppliers')">Hersteller</button><button type="button" class="mobileModuleTab" data-module="roadmap" onclick="switchModule('roadmap')">Roadmap</button><button type="button" class="mobileModuleTab" data-module="costs" onclick="switchModule('costs')">Kosten</button><button type="button" class="mobileModuleTab" data-module="scorecards" onclick="switchModule('scorecards')">Scorecards</button><button type="button" class="mobileModuleTab" data-module="drops" onclick="switchModule('drops')">Drops</button></div><section id="roadmap" class="panel" data-area="business"><div class="card">
+  <div class="sectionhead">
+    <div><h3>MiSai Launch-Roadmap</h3><div class="muted">Vom heutigen Stand bis zum ersten verkauften Shirt – mit Abhängigkeiten und klaren nächsten Schritten.</div></div>
+    <button class="btn primary" onclick="openRoadmapTask()">+ Aufgabe</button>
+  </div>
+
+  <div class="roadmapHero">
+    <div class="roadmapProgressBlock">
+      <div class="roadmapProgressTop"><div><span class="workspaceEyebrow">Gesamtfortschritt</span><strong id="roadmapPct">0%</strong></div><span id="roadmapDoneCount" class="muted">0 / 0 erledigt</span></div>
+      <div class="bar roadmapMainBar"><span id="roadmapBar" style="width:0%"></span></div>
+      <div id="roadmapStageText" class="roadmapStageText"></div>
+    </div>
+    <div class="roadmapStats">
+      <div><span>Jetzt machbar</span><b id="roadmapReadyCount">0</b></div>
+      <div><span>Läuft</span><b id="roadmapDoingCount">0</b></div>
+      <div><span>Blockiert</span><b id="roadmapBlockedCount">0</b></div>
+    </div>
+  </div>
+
+  <div class="roadmapNow">
+    <div class="roadmapNowHead"><div><span class="workspaceEyebrow">Fokus</span><h4>Was können wir jetzt sinnvoll machen?</h4></div><button class="btn" onclick="toggleRoadmapAll()">Alle Phasen</button></div>
+    <div id="roadmapReadyList" class="roadmapReadyList"></div>
+  </div>
+
+  <div class="roadmapToolbar">
+    <select id="roadmapStatusFilter" onchange="renderRoadmap()"><option value="">Alle Status</option><option>Bereit</option><option>Läuft</option><option>Blockiert</option><option>Später</option><option>Erledigt</option></select>
+    <select id="roadmapOwnerFilter" onchange="renderRoadmap()"><option value="">Alle Verantwortlichen</option></select>
+    <div class="assignmentSearch"><span>⌕</span><input id="roadmapSearch" placeholder="Aufgaben durchsuchen …" oninput="renderRoadmap()"></div>
+  </div>
+
+  <div id="roadmapPhases" class="roadmapPhases"></div>
+</div></section>
+<section id="suppliers" class="panel" data-area="business"><div class="card">
   <div class="sectionhead">
     <div><h3>Hersteller <button class="infoBtn" onclick="showInfo('suppliers')">i</button></h3><div class="muted">Hersteller, MOQ, Preisstaffeln und Follow-ups auf einen Blick.</div></div>
     <button class="btn primary" onclick="openSupplier()">+ Hersteller</button>
@@ -845,6 +885,22 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
     <div class="full" style="display:flex;justify-content:space-between"><button id="deleteVideoIdeaBtn" class="btn danger" onclick="deleteVideoIdea()">Löschen</button><div><button class="btn" onclick="closeModal('videoIdeaModal')">Abbrechen</button> <button class="btn primary" onclick="saveVideoIdea()">Speichern</button></div></div>
   </div>
 </div></div>
+<div id="roadmapModal" class="modal"><div class="modalbox" style="width:min(760px,100%)">
+  <div class="modalhead"><h3>Roadmap-Aufgabe</h3><button class="icon" onclick="closeModal('roadmapModal')">✕</button></div>
+  <div class="formgrid">
+    <div class="full"><label>Aufgabe</label><input id="rmTitle" placeholder="z. B. Versandmodell festlegen"></div>
+    <div><label>Phase</label><select id="rmPhase"><option>Produktentwicklung</option><option>Unternehmen & Finanzen</option><option>Marke & Compliance</option><option>Shop & Verkauf</option><option>Logistik & Verpackung</option><option>Marketing & Launch</option><option>Produktion & Qualität</option><option>Nach dem Launch</option></select></div>
+    <div><label>Status</label><select id="rmStatus"><option>Bereit</option><option>Läuft</option><option>Blockiert</option><option>Später</option><option>Erledigt</option></select></div>
+    <div><label>Priorität</label><select id="rmPriority"><option>Jetzt</option><option>Bald</option><option>Später</option></select></div>
+    <div><label>Verantwortlich</label><input id="rmOwner" placeholder="David / Partner / Gemeinsam"></div>
+    <div><label>Deadline optional</label><input id="rmDue" type="date"></div>
+    <div><label>Übergeordnete Aufgabe optional</label><select id="rmParent"></select></div>
+    <div class="full"><label>Abhängigkeit / Warum blockiert?</label><input id="rmDependency" placeholder="z. B. Erst nach Herstellerantwort"></div>
+    <div class="full"><label>Beschreibung / nächster Schritt</label><textarea id="rmDescription"></textarea></div>
+    <div class="full"><label>Notizen</label><textarea id="rmNotes"></textarea></div>
+    <div class="full" style="display:flex;justify-content:space-between"><button id="deleteRoadmapBtn" class="btn danger" onclick="deleteRoadmapTask()">Löschen</button><div><button class="btn" onclick="closeModal('roadmapModal')">Abbrechen</button> <button class="btn primary" onclick="saveRoadmapTask()">Speichern</button></div></div>
+  </div>
+</div></div>
 <div id="fitModal" class="modal"><div class="modalbox" style="width:min(880px,100%)">
   <div class="modalhead"><h3>Fit-Messung</h3><button class="icon" onclick="closeModal('fitModal')">✕</button></div>
   <div class="fitFormSection"><h4>1 · Person & Körpermaße</h4>
@@ -884,7 +940,7 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
 </div></div>
 <div id="accountModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Account</h3><button class="icon" onclick="closeModal('accountModal')">✕</button></div><label>Neues Passwort</label><input id="newPassword" type="password"><button class="btn primary" style="margin-top:12px" onclick="changePassword()">Passwort ändern</button></div></div>
 <script>
-const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5orQO6yR1_KkQ_tkVHv8Do',db=window.supabase.createClient(U,K),$=id=>document.getElementById(id);let samples=[],suppliers=[],designs=[],testers=[],reviews=[],supplierScores=[],costScenarios=[],testTasks=[],drops=[],dropItems=[],techPacks=[],decisions=[],supplierTiers=[],activities=[],marketingIdeas=[],fitMeasurements=[],selectedSampleId=null,sampleOverviewFilter='all',currentActor='User',editingSample=null,editingSupplier=null,editingDesign=null,editingTester=null,editingReview=null,editingScoreSupplier=null,editingCost=null,editingDrop=null,editingTech=null,editingDecision=null,editingTier=null,selectedSupplierId=null,editingVideoIdea=null,editingFit=null;function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}async function login(){let{data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error)return $('loginError').textContent=error.message;showApp(data.user)}async function logout(){await db.auth.signOut();location.reload()}async function resetPassword(){let e=$('loginEmail').value.trim();if(!e)return $('loginError').textContent='Bitte E-Mail eintragen.';let{error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin});$('loginError').textContent=error?error.message:'Reset-Mail verschickt.'}async function changePassword(){let p=$('newPassword').value;if(p.length<8)return alert('Mindestens 8 Zeichen.');let{error}=await db.auth.updateUser({password:p});if(error)alert(error.message);else{alert('Passwort geändert.');closeModal('accountModal')}}function openAccount(){$('newPassword').value='';$('accountModal').classList.add('open')}async function showApp(u){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=u?.email||'';currentActor=(u?.user_metadata?.display_name||u?.user_metadata?.full_name||u?.email?.split('@')[0]||'User');currentActor=currentActor.charAt(0).toUpperCase()+currentActor.slice(1);await refreshAll()}async function refreshAll(){
+const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5orQO6yR1_KkQ_tkVHv8Do',db=window.supabase.createClient(U,K),$=id=>document.getElementById(id);let samples=[],suppliers=[],designs=[],testers=[],reviews=[],supplierScores=[],costScenarios=[],testTasks=[],drops=[],dropItems=[],techPacks=[],decisions=[],supplierTiers=[],activities=[],marketingIdeas=[],fitMeasurements=[],roadmapTasks=[],selectedSampleId=null,sampleOverviewFilter='all',currentActor='User',editingSample=null,editingSupplier=null,editingDesign=null,editingTester=null,editingReview=null,editingScoreSupplier=null,editingCost=null,editingDrop=null,editingTech=null,editingDecision=null,editingTier=null,selectedSupplierId=null,editingVideoIdea=null,editingFit=null,editingRoadmap=null,roadmapExpanded=new Set(['Produktentwicklung']);function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}async function login(){let{data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error)return $('loginError').textContent=error.message;showApp(data.user)}async function logout(){await db.auth.signOut();location.reload()}async function resetPassword(){let e=$('loginEmail').value.trim();if(!e)return $('loginError').textContent='Bitte E-Mail eintragen.';let{error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin});$('loginError').textContent=error?error.message:'Reset-Mail verschickt.'}async function changePassword(){let p=$('newPassword').value;if(p.length<8)return alert('Mindestens 8 Zeichen.');let{error}=await db.auth.updateUser({password:p});if(error)alert(error.message);else{alert('Passwort geändert.');closeModal('accountModal')}}function openAccount(){$('newPassword').value='';$('accountModal').classList.add('open')}async function showApp(u){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=u?.email||'';currentActor=(u?.user_metadata?.display_name||u?.user_metadata?.full_name||u?.email?.split('@')[0]||'User');currentActor=currentActor.charAt(0).toUpperCase()+currentActor.slice(1);await refreshAll()}async function refreshAll(){
   const core=await Promise.all([
     db.from('samples').select('*').order('id'),
     db.from('suppliers').select('*').order('id'),
@@ -914,7 +970,7 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
     ['dropItems',db.from('drop_items').select('*').order('id')],
     ['techPacks',db.from('tech_packs').select('*').order('updated_at',{ascending:false})],
     ['decisions',db.from('decision_log').select('*').order('decided_at',{ascending:false})],
-    ['supplierTiers',db.from('supplier_price_tiers').select('*').order('quantity')],['activities',db.from('activity_log').select('*').order('created_at',{ascending:false}).limit(100)],['marketingIdeas',db.from('marketing_video_ideas').select('*').order('created_at',{ascending:false})],['fitMeasurements',db.from('fit_measurements').select('*').order('created_at',{ascending:false})]
+    ['supplierTiers',db.from('supplier_price_tiers').select('*').order('quantity')],['activities',db.from('activity_log').select('*').order('created_at',{ascending:false}).limit(100)],['marketingIdeas',db.from('marketing_video_ideas').select('*').order('created_at',{ascending:false})],['fitMeasurements',db.from('fit_measurements').select('*').order('created_at',{ascending:false})],['roadmapTasks',db.from('roadmap_tasks').select('*').order('sort_order').order('id')]
   ];
   const results=await Promise.all(optionalQueries.map(x=>x[1]));
   const missingModules=[]; const optionalErrors={};
@@ -929,7 +985,7 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
     if(key==='dropItems') dropItems=data;
     if(key==='techPacks') techPacks=data;
     if(key==='decisions') decisions=data;
-    if(key==='supplierTiers') supplierTiers=data;if(key==='activities') activities=data;if(key==='marketingIdeas') marketingIdeas=data;if(key==='fitMeasurements') fitMeasurements=data;
+    if(key==='supplierTiers') supplierTiers=data;if(key==='activities') activities=data;if(key==='marketingIdeas') marketingIdeas=data;if(key==='fitMeasurements') fitMeasurements=data;if(key==='roadmapTasks') roadmapTasks=data;
   });
   renderAll();
   showSetupNotice(missingModules,optionalErrors);
@@ -937,11 +993,11 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
 function showSetupNotice(modules,errors={}){
  const el=$('setupNotice');if(!el)return;
  if(!modules.length){el.classList.add('hidden');el.innerHTML='';return}
- const labels={supplierScores:'Scorecards',costScenarios:'Kosten',testTasks:'Testplan',drops:'Drops',dropItems:'Drop-Produkte',techPacks:'Tech Packs',decisions:'Entscheidungen',supplierTiers:'Preisstaffeln',activities:'Aktivitätslog',marketingIdeas:'Marketing / Videoideen',fitMeasurements:'Fit & Größen'};
+ const labels={supplierScores:'Scorecards',costScenarios:'Kosten',testTasks:'Testplan',drops:'Drops',dropItems:'Drop-Produkte',techPacks:'Tech Packs',decisions:'Entscheidungen',supplierTiers:'Preisstaffeln',activities:'Aktivitätslog',marketingIdeas:'Marketing / Videoideen',fitMeasurements:'Fit & Größen',roadmapTasks:'Business / Roadmap'};
  el.innerHTML='<b>Ein Teil der Erweiterungen konnte nicht geladen werden.</b><div class="tiny" style="margin-top:5px">'+modules.map(x=>'<div><b>'+esc(labels[x]||x)+':</b> '+esc(errors[x]||'Unbekannter Fehler')+'</div>').join('')+'</div>';
  el.classList.remove('hidden');
 }
-function avg(a){a=a.filter(v=>v!=null).map(Number);return a.length?a.reduce((x,y)=>x+y,0)/a.length:null}function testerName(id){return testers.find(x=>x.id===id)?.name||''}function sampleName(id){return samples.find(x=>x.id===id)?.sample_code||''}function renderAll(){renderDashboard();renderAlerts();populateFilters();renderSamples();renderReviews();renderActivities();renderScorecards();renderCosts();renderDrops();renderTechPacks();renderDecisions();renderTesters();renderDesigns();renderSuppliers();renderVideoIdeas();renderFitEntries()}function renderDashboard(){$('kSamples').textContent=samples.length;$('kReviews').textContent=reviews.length;$('kWashes').textContent=samples.reduce((a,s)=>a+(+s.wash_count||0),0);$('kDesigns').textContent=designs.length;let g={};samples.forEach(s=>{let k=`${s.fabric_name||'Unbenannt'} · ${s.gsm||'?'} GSM`;g[k]??=[];g[k].push(s.id)});$('fabricRanking').innerHTML=Object.entries(g).map(([k,ids])=>{let rs=reviews.filter(r=>ids.includes(r.sample_id)),o=avg(rs.map(r=>r.overall));return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between"><b>${esc(k)}</b><span>${o?o.toFixed(1)+'/10':'offen'}</span></div><div class="muted tiny">${rs.length} Review(s)</div><div class="statbar"><span style="width:${o?o*10:0}%"></span></div></div>`}).join('')||'<div class="empty">Noch keine Stoffdaten.</div>';let doneTasks=testTasks.filter(t=>(+t.completed_count||0)>=(+t.target_count||1)).length,totalTasks=testTasks.length;let pct=totalTasks?Math.round(doneTasks/totalTasks*100):0;$('statusSummary').innerHTML=`<p><b>${samples.filter(s=>s.status==='Favorit').length}</b> Sample-Favoriten</p><p><b>${samples.filter(s=>s.status==='Final').length}</b> finale Samples</p><p><b>${designs.filter(d=>['Shortlist','Tech Pack','Sample'].includes(d.status)).length}</b> Designs in Arbeit</p><p><b>${suppliers.length}</b> Hersteller</p><div style="margin-top:12px"><div class="progresshead"><span>Gesamter Testfortschritt</span><b>${pct}%</b></div><div class="bar"><span style="width:${pct}%"></span></div></div>`}function uniq(a){return[...new Set(a.filter(Boolean))].sort()}function populateFilters(){
+function avg(a){a=a.filter(v=>v!=null).map(Number);return a.length?a.reduce((x,y)=>x+y,0)/a.length:null}function testerName(id){return testers.find(x=>x.id===id)?.name||''}function sampleName(id){return samples.find(x=>x.id===id)?.sample_code||''}function renderAll(){renderDashboard();renderAlerts();populateFilters();renderSamples();renderReviews();renderActivities();renderScorecards();renderCosts();renderDrops();renderTechPacks();renderDecisions();renderTesters();renderDesigns();renderSuppliers();renderVideoIdeas();renderFitEntries();renderRoadmap()}function renderDashboard(){$('kSamples').textContent=samples.length;$('kReviews').textContent=reviews.length;$('kWashes').textContent=samples.reduce((a,s)=>a+(+s.wash_count||0),0);$('kDesigns').textContent=designs.length;let g={};samples.forEach(s=>{let k=`${s.fabric_name||'Unbenannt'} · ${s.gsm||'?'} GSM`;g[k]??=[];g[k].push(s.id)});$('fabricRanking').innerHTML=Object.entries(g).map(([k,ids])=>{let rs=reviews.filter(r=>ids.includes(r.sample_id)),o=avg(rs.map(r=>r.overall));return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between"><b>${esc(k)}</b><span>${o?o.toFixed(1)+'/10':'offen'}</span></div><div class="muted tiny">${rs.length} Review(s)</div><div class="statbar"><span style="width:${o?o*10:0}%"></span></div></div>`}).join('')||'<div class="empty">Noch keine Stoffdaten.</div>';let doneTasks=testTasks.filter(t=>(+t.completed_count||0)>=(+t.target_count||1)).length,totalTasks=testTasks.length;let pct=totalTasks?Math.round(doneTasks/totalTasks*100):0;$('statusSummary').innerHTML=`<p><b>${samples.filter(s=>s.status==='Favorit').length}</b> Sample-Favoriten</p><p><b>${samples.filter(s=>s.status==='Final').length}</b> finale Samples</p><p><b>${designs.filter(d=>['Shortlist','Tech Pack','Sample'].includes(d.status)).length}</b> Designs in Arbeit</p><p><b>${suppliers.length}</b> Hersteller</p><div style="margin-top:12px"><div class="progresshead"><span>Gesamter Testfortschritt</span><b>${pct}%</b></div><div class="bar"><span style="width:${pct}%"></span></div></div>`}function uniq(a){return[...new Set(a.filter(Boolean))].sort()}function populateFilters(){
 
 }
 function renderSamples(){
@@ -1039,6 +1095,86 @@ function openReview(id=null,preset=null){editingReview=id;let r=id?reviews.find(
 }
 function openTester(id=null){editingTester=id;let t=id?testers.find(x=>x.id===id):{};$('tName').value=t.name||'';$('tEmail').value=t.email||'';$('tNotes').value=t.notes||'';$('deleteTesterBtn').style.visibility=id?'visible':'hidden';$('testerModal').classList.add('open')}async function saveTester(){let p={name:$('tName').value.trim(),email:$('tEmail').value.trim()||null,notes:$('tNotes').value.trim()},q=editingTester?db.from('testers').update(p).eq('id',editingTester):db.from('testers').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('testerModal');await logActivity(editingTester?'updated':'created','Tester',p.name,editingTester?'Tester bearbeitet':'Neuen Tester angelegt');toast('Tester gespeichert');refreshAll()}}async function deleteTester(){if(!editingTester||!confirm('Tester löschen?'))return;const t=testers.find(x=>x.id===editingTester);let{error}=await db.from('testers').delete().eq('id',editingTester);if(error)alert(error.message);else{closeModal('testerModal');await logActivity('deleted','Tester',t?.name||'Tester','Tester gelöscht');toast('Tester gelöscht');refreshAll()}}async function signedUrl(p){if(!p)return null;let{data,error}=await db.storage.from('designs').createSignedUrl(p,3600);return error?null:data.signedUrl}async function renderDesigns(){let out=[];for(const d of designs){let u=d.image_url||null;if(d.storage_path)u=await signedUrl(d.storage_path);out.push(`<div class="design clickable" onclick="openDesign(${d.id})"><div class="designimg">${u?`<img src="${u}">`:'Kein Bild'}</div><div class="designbody"><span class="badge">${esc(d.status)}</span> <span class="badge ${d.priority==='Hoch'?'warn':''}">${esc(d.priority||'Normal')}</span><h3>${esc(d.name)}</h3><div class="muted">${esc(d.product_type||'')} · ${esc(d.colorway||'')}</div><p>${esc(d.notes||'')}</p></div></div>`)}$('designGrid').innerHTML=out.join('')||'<div class="empty">Noch keine Designs.</div>'}function openDesign(id=null){editingDesign=id;let d=id?designs.find(x=>x.id===id):{};$('dName').value=d.name||'';$('dProduct').value=d.product_type||'';$('dColor').value=d.colorway||'';$('dStatus').value=d.status||'Idee';$('dSupplier').value=d.supplier||'';$('dPriority').value=d.priority||'Normal';$('dNotes').value=d.notes||'';$('dFile').value='';$('deleteDesignBtn').style.visibility=id?'visible':'hidden';$('designModal').classList.add('open')}async function saveDesign(){let sp=editingDesign?designs.find(x=>x.id===editingDesign)?.storage_path:null,f=$('dFile').files[0];if(f){let ext=f.name.split('.').pop();sp=`${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;let{error}=await db.storage.from('designs').upload(sp,f);if(error)return alert(error.message)}let p={name:$('dName').value.trim(),product_type:$('dProduct').value.trim(),colorway:$('dColor').value.trim(),status:$('dStatus').value,supplier:$('dSupplier').value.trim(),priority:$('dPriority').value,storage_path:sp,notes:$('dNotes').value.trim()},q=editingDesign?db.from('designs').update(p).eq('id',editingDesign):db.from('designs').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('designModal');await logActivity(editingDesign?'updated':'created','Design',p.name,editingDesign?'Design bearbeitet':'Neues Design erstellt');toast('Design gespeichert');refreshAll()}}async function deleteDesign(){if(!editingDesign||!confirm('Design löschen?'))return;let d=designs.find(x=>x.id===editingDesign);if(d?.storage_path)await db.storage.from('designs').remove([d.storage_path]);let{error}=await db.from('designs').delete().eq('id',editingDesign);if(error)alert(error.message);else{closeModal('designModal');await logActivity('deleted','Design',d?.name||'Design','Design gelöscht');toast('Design gelöscht');refreshAll()}}
 
+
+const ROADMAP_PHASE_ORDER=['Produktentwicklung','Unternehmen & Finanzen','Marke & Compliance','Shop & Verkauf','Logistik & Verpackung','Marketing & Launch','Produktion & Qualität','Nach dem Launch'];
+const ROADMAP_PHASE_META={
+ 'Produktentwicklung':['01','Produkt & Fit vom Sample bis zur finalen Produktionsfreigabe.'],
+ 'Unternehmen & Finanzen':['02','Rechtsform, Gewerbe, Steuern und finanzielle Grundlage.'],
+ 'Marke & Compliance':['03','Marke, Kennzeichnung und Pflichten vor dem Verkauf.'],
+ 'Shop & Verkauf':['04','Verkaufskanal, Checkout, Rechtstexte und Produktseiten.'],
+ 'Logistik & Verpackung':['05','Verpacken, versenden, retournieren und Kosten kontrollieren.'],
+ 'Marketing & Launch':['06','Community aufbauen und den ersten Drop vorbereiten.'],
+ 'Produktion & Qualität':['07','Serienauftrag, Qualitätskontrolle und Warenannahme.'],
+ 'Nach dem Launch':['08','Feedback, Zahlen, Nachbestellung und nächste Produkte.']
+};
+function roadmapStatusClass(s){return s==='Erledigt'?'done':s==='Läuft'?'doing':s==='Blockiert'?'blocked':s==='Bereit'?'ready':'later'}
+function renderRoadmap(){
+ const root=$('roadmapPhases');if(!root)return;
+ const relevant=roadmapTasks.filter(t=>!t.parent_id);
+ const total=roadmapTasks.length,done=roadmapTasks.filter(t=>t.status==='Erledigt').length,pct=total?Math.round(done/total*100):0;
+ $('roadmapPct').textContent=pct+'%';$('roadmapBar').style.width=pct+'%';$('roadmapDoneCount').textContent=done+' / '+total+' erledigt';
+ $('roadmapReadyCount').textContent=roadmapTasks.filter(t=>t.status==='Bereit').length;
+ $('roadmapDoingCount').textContent=roadmapTasks.filter(t=>t.status==='Läuft').length;
+ $('roadmapBlockedCount').textContent=roadmapTasks.filter(t=>t.status==='Blockiert').length;
+ const active=ROADMAP_PHASE_ORDER.find(p=>roadmapTasks.some(t=>t.phase===p&&['Bereit','Läuft','Blockiert'].includes(t.status)))||'Launch vorbereiten';
+ $('roadmapStageText').innerHTML='<b>Aktuelle Phase:</b> '+esc(active)+' <span>· Fortschritt zählt alle Haupt- und Unteraufgaben.</span>';
+
+ const ownerSel=$('roadmapOwnerFilter');if(ownerSel){const cur=ownerSel.value,owners=uniq(roadmapTasks.map(t=>t.owner));ownerSel.innerHTML='<option value="">Alle Verantwortlichen</option>'+owners.map(o=>`<option>${esc(o)}</option>`).join('');ownerSel.value=[...ownerSel.options].some(o=>o.value===cur)?cur:''}
+ const q=($('roadmapSearch')?.value||'').trim().toLowerCase(),status=$('roadmapStatusFilter')?.value||'',owner=ownerSel?.value||'';
+ const matches=t=>(!status||t.status===status)&&(!owner||t.owner===owner)&&(!q||[t.title,t.description,t.notes,t.dependency,t.phase,t.owner].join(' ').toLowerCase().includes(q));
+
+ const ready=roadmapTasks.filter(t=>t.status==='Bereit'&&t.priority==='Jetzt').slice(0,6);
+ $('roadmapReadyList').innerHTML=ready.map(t=>`<button class="roadmapReadyItem" onclick="openRoadmapTask(${t.id})"><span class="roadmapDot ready"></span><span><b>${esc(t.title)}</b><small>${esc(t.phase)}${t.description?' · '+esc(t.description):''}</small></span><span class="assignmentArrow">›</span></button>`).join('')||'<div class="empty">Aktuell keine Aufgabe mit Priorität „Jetzt“ frei. Prüft laufende oder blockierte Punkte.</div>';
+
+ root.innerHTML=ROADMAP_PHASE_ORDER.map(phase=>{
+   const all=roadmapTasks.filter(t=>t.phase===phase),filtered=all.filter(matches);
+   if((q||status||owner)&&!filtered.length)return '';
+   const d=all.filter(t=>t.status==='Erledigt').length,pp=all.length?Math.round(d/all.length*100):0,isOpen=roadmapExpanded.has(phase)||(q||status||owner);
+   const parents=filtered.filter(t=>!t.parent_id);
+   return `<section class="roadmapPhase ${isOpen?'open':''}">
+     <button class="roadmapPhaseHead" onclick="toggleRoadmapPhase('${esc(phase)}')">
+       <div class="roadmapPhaseNo">${ROADMAP_PHASE_META[phase]?.[0]||''}</div>
+       <div class="roadmapPhaseInfo"><h4>${esc(phase)}</h4><span>${esc(ROADMAP_PHASE_META[phase]?.[1]||'')}</span></div>
+       <div class="roadmapPhaseProgress"><b>${pp}%</b><span>${d}/${all.length}</span></div>
+       <span class="roadmapChevron">⌄</span>
+     </button>
+     <div class="roadmapPhaseBody">
+       ${parents.map(t=>roadmapTaskHtml(t,filtered)).join('')||'<div class="empty">Keine passenden Aufgaben.</div>'}
+     </div>
+   </section>`;
+ }).join('');
+}
+function roadmapTaskHtml(t,filtered){
+ const children=roadmapTasks.filter(x=>x.parent_id===t.id&&(!filtered||filtered.includes(x)));
+ const due=t.due_date?new Date(t.due_date+'T12:00:00').toLocaleDateString('de-DE'):'';
+ return `<div class="roadmapTask ${roadmapStatusClass(t.status)}">
+   <div class="roadmapTaskMain" onclick="openRoadmapTask(${t.id})">
+     <button class="roadmapCheck" onclick="event.stopPropagation();quickToggleRoadmap(${t.id})" title="Erledigt umschalten">${t.status==='Erledigt'?'✓':''}</button>
+     <div class="roadmapTaskText"><div class="roadmapTaskTitle"><b>${esc(t.title)}</b><span class="roadmapStatus ${roadmapStatusClass(t.status)}">${esc(t.status)}</span><span class="roadmapPriority">${esc(t.priority||'')}</span></div>
+       ${t.description?`<p>${esc(t.description)}</p>`:''}
+       <div class="roadmapTaskMeta">${t.owner?`<span>👤 ${esc(t.owner)}</span>`:''}${due?`<span>◷ ${due}</span>`:''}${t.dependency?`<span class="dependency">↳ ${esc(t.dependency)}</span>`:''}</div>
+     </div><span class="assignmentArrow">›</span>
+   </div>
+   ${children.length?`<div class="roadmapChildren">${children.map(ch=>`<div class="roadmapChild" onclick="openRoadmapTask(${ch.id})"><button class="roadmapCheck miniCheck" onclick="event.stopPropagation();quickToggleRoadmap(${ch.id})">${ch.status==='Erledigt'?'✓':''}</button><span><b>${esc(ch.title)}</b><small>${esc(ch.status)}${ch.dependency?' · '+esc(ch.dependency):''}</small></span></div>`).join('')}</div>`:''}
+ </div>`;
+}
+function toggleRoadmapPhase(phase){roadmapExpanded.has(phase)?roadmapExpanded.delete(phase):roadmapExpanded.add(phase);renderRoadmap()}
+function toggleRoadmapAll(){const allOpen=ROADMAP_PHASE_ORDER.every(p=>roadmapExpanded.has(p));roadmapExpanded=allOpen?new Set():new Set(ROADMAP_PHASE_ORDER);renderRoadmap()}
+async function quickToggleRoadmap(id){const t=roadmapTasks.find(x=>x.id===id);if(!t)return;const status=t.status==='Erledigt'?'Bereit':'Erledigt';const{error}=await db.from('roadmap_tasks').update({status,updated_at:new Date().toISOString()}).eq('id',id);if(error)alert(error.message);else{await logActivity('updated','Roadmap',t.title,status==='Erledigt'?'Aufgabe erledigt':'Aufgabe wieder geöffnet');refreshAll()}}
+function openRoadmapTask(id=null){
+ editingRoadmap=id;const t=id?roadmapTasks.find(x=>x.id===id):{};
+ $('rmTitle').value=t.title||'';$('rmPhase').value=t.phase||'Produktentwicklung';$('rmStatus').value=t.status||'Bereit';$('rmPriority').value=t.priority||'Jetzt';$('rmOwner').value=t.owner||'Gemeinsam';$('rmDue').value=t.due_date||'';$('rmDependency').value=t.dependency||'';$('rmDescription').value=t.description||'';$('rmNotes').value=t.notes||'';
+ $('rmParent').innerHTML='<option value="">– keine –</option>'+roadmapTasks.filter(x=>!x.parent_id&&x.id!==id).map(x=>`<option value="${x.id}">${esc(x.phase)} · ${esc(x.title)}</option>`).join('');$('rmParent').value=t.parent_id||'';
+ $('deleteRoadmapBtn').style.visibility=id?'visible':'hidden';$('roadmapModal').classList.add('open');
+}
+async function saveRoadmapTask(){
+ const p={title:$('rmTitle').value.trim(),phase:$('rmPhase').value,status:$('rmStatus').value,priority:$('rmPriority').value,owner:$('rmOwner').value.trim(),due_date:$('rmDue').value||null,parent_id:$('rmParent').value?+$('rmParent').value:null,dependency:$('rmDependency').value.trim(),description:$('rmDescription').value.trim(),notes:$('rmNotes').value.trim(),updated_at:new Date().toISOString()};
+ if(!p.title)return alert('Bitte eine Aufgabe eintragen.');
+ if(!editingRoadmap)p.sort_order=(Math.max(0,...roadmapTasks.map(x=>+x.sort_order||0))+10);
+ const wasEdit=!!editingRoadmap,q=wasEdit?db.from('roadmap_tasks').update(p).eq('id',editingRoadmap):db.from('roadmap_tasks').insert(p),{error}=await q;
+ if(error)alert(error.message);else{closeModal('roadmapModal');await logActivity(wasEdit?'updated':'created','Roadmap',p.title,wasEdit?'Roadmap-Aufgabe bearbeitet':'Roadmap-Aufgabe angelegt');toast('Roadmap gespeichert');refreshAll()}
+}
+async function deleteRoadmapTask(){if(!editingRoadmap||!confirm('Roadmap-Aufgabe wirklich löschen?'))return;const t=roadmapTasks.find(x=>x.id===editingRoadmap),{error}=await db.from('roadmap_tasks').delete().eq('id',editingRoadmap);if(error)alert(error.message);else{closeModal('roadmapModal');await logActivity('deleted','Roadmap',t?.title||'Aufgabe','Roadmap-Aufgabe gelöscht');toast('Aufgabe gelöscht');refreshAll()}}
 function renderFitEntries(){
  const el=$('fitGrid');if(!el)return;
  const pf=$('fitPersonFilter'),sf=$('fitSampleFilter');
@@ -1458,7 +1594,7 @@ function showInfo(key){
  $('infoModal').classList.add('open');
 }
 
-const MODULE_AREA={dashboard:'overview',activity:'overview',samples:'testing',reviews:'testing',testers:'testing',designs:'product',fit:'product',techpacks:'product',decisions:'product',suppliers:'business',costs:'business',scorecards:'business',drops:'business',videoideas:'marketing'};
+const MODULE_AREA={dashboard:'overview',activity:'overview',samples:'testing',reviews:'testing',testers:'testing',designs:'product',fit:'product',techpacks:'product',decisions:'product',suppliers:'business',roadmap:'business',costs:'business',scorecards:'business',drops:'business',videoideas:'marketing'};
 const DEFAULT_MODULE={overview:'dashboard',testing:'samples',product:'designs',business:'suppliers',marketing:'videoideas'};
 let activeModuleByArea={...DEFAULT_MODULE};
 function toggleMobileMenu(){ $('mobileNav')?.classList.toggle('open'); }
@@ -1477,7 +1613,7 @@ function switchModule(module){
  document.querySelectorAll('.moduleNav[data-module-area="'+area+'"] .moduleBtn').forEach(b=>b.classList.toggle('active',b.dataset.module===module));
  syncMobileNavigation(area,module);
 }
-const AREA_MAP={dashboard:'overview',samples:'testing',reviews:'testing',testers:'testing',designs:'product',fit:'product',techpacks:'product',decisions:'product',suppliers:'business',scorecards:'business',costs:'business',drops:'business',videoideas:'marketing'};
+const AREA_MAP={dashboard:'overview',samples:'testing',reviews:'testing',testers:'testing',designs:'product',fit:'product',techpacks:'product',decisions:'product',suppliers:'business',roadmap:'business',scorecards:'business',costs:'business',drops:'business',videoideas:'marketing'};
 function switchArea(area){
  document.querySelectorAll('.areaNav .tab').forEach(x=>x.classList.toggle('active',x.dataset.area===area));
  document.querySelectorAll('.moduleNav').forEach(x=>x.style.display=x.dataset.moduleArea===area?'':'none');
