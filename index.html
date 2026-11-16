@@ -420,6 +420,59 @@ input,select,textarea{max-width:100%}
   .supplierCards{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 
+
+/* Fix mobile sample-card overflow and progress layout */
+.sampleOverviewList,.sampleOverviewRow,.sampleOverviewRow>*{min-width:0}
+.sampleOverviewRow{max-width:100%;overflow:hidden}
+.sampleOverviewRow .assignmentProgress{min-width:0;max-width:100%;width:100%}
+.sampleOverviewRow .assignmentProgress .bar{min-width:0;width:100%;max-width:100%;overflow:hidden}
+.sampleOverviewRow .assignmentProgress .bar span{max-width:100%}
+@media(max-width:680px){
+  .sampleOverviewList{width:100%;max-width:100%;overflow:visible}
+  .sampleOverviewRow{
+    width:100%;
+    max-width:100%;
+    grid-template-columns:minmax(0,1fr) auto;
+    overflow:hidden;
+  }
+  .sampleOverviewRow .assignmentMain,
+  .sampleOverviewRow .sampleMaterial,
+  .sampleOverviewRow .assignmentProgress{
+    grid-column:1/-1;
+    width:100%;
+    max-width:100%;
+  }
+  .sampleOverviewRow .assignmentTester{
+    grid-column:1;
+    align-self:center;
+    overflow-wrap:anywhere;
+  }
+  .sampleOverviewRow>.badge{
+    grid-column:2;
+    justify-self:end;
+    white-space:nowrap;
+  }
+  .sampleOverviewRow .assignmentProgress{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:8px;
+    align-items:center;
+  }
+  .sampleOverviewRow .assignmentProgress .bar{
+    width:100%;
+    margin:0;
+  }
+  .sampleOverviewRow .assignmentReview{
+    grid-column:1;
+    align-self:center;
+  }
+  .sampleOverviewRow .assignmentArrow{
+    grid-column:2;
+    justify-self:end;
+    align-self:center;
+  }
+}
+
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
 <div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
