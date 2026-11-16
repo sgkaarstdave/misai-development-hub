@@ -36,3 +36,10 @@ create policy "Authenticated users can delete marketing video ideas"
 on public.marketing_video_ideas for delete
 to authenticated
 using (true);
+
+
+-- Explicit API privileges for signed-in app users.
+grant select, insert, update, delete on table public.marketing_video_ideas to authenticated;
+
+-- Identity-backed inserts may require sequence access depending on project defaults.
+grant usage, select on all sequences in schema public to authenticated;
