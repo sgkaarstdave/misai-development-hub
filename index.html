@@ -247,6 +247,7 @@ tr:hover td{background:#16202a}
  .testerCompactGrid{grid-template-columns:1fr}.assignmentDetailSection{margin-top:14px}
 }
 
+.mobileAreaHidden{display:none!important}
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
 <div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
@@ -959,7 +960,7 @@ function syncMobileNavigation(area,module){
  const labels={overview:'Übersicht',testing:'Testen',product:'Produkt',business:'Business'};
  if($('mobileAreaLabel'))$('mobileAreaLabel').textContent=labels[area]||area;
  document.querySelectorAll('[data-mobile-area]').forEach(b=>b.classList.toggle('active',b.dataset.mobileArea===area));
- document.querySelectorAll('.mobileModuleTabs').forEach(x=>x.style.display=x.dataset.moduleArea===area?'flex':'none');
+ document.querySelectorAll('.mobileModuleTabs').forEach(x=>x.classList.toggle('mobileAreaHidden',x.dataset.moduleArea!==area));
  document.querySelectorAll('.mobileModuleTab').forEach(b=>b.classList.toggle('active',b.dataset.module===module));
 }
 function switchModule(module){
@@ -972,7 +973,8 @@ function switchModule(module){
 const AREA_MAP={dashboard:'overview',samples:'testing',testplan:'testing',reviews:'testing',testers:'testing',designs:'product',techpacks:'product',decisions:'product',suppliers:'business',scorecards:'business',costs:'business',drops:'business'};
 function switchArea(area){
  document.querySelectorAll('.areaNav .tab').forEach(x=>x.classList.toggle('active',x.dataset.area===area));
- document.querySelectorAll('.moduleNav,.mobileModuleTabs').forEach(x=>x.style.display=x.dataset.moduleArea===area?'':'none');
+ document.querySelectorAll('.moduleNav').forEach(x=>x.style.display=x.dataset.moduleArea===area?'':'none');
+ document.querySelectorAll('.mobileModuleTabs').forEach(x=>x.classList.toggle('mobileAreaHidden',x.dataset.moduleArea!==area));
  document.querySelectorAll('.panel').forEach(x=>{x.classList.remove('active','area-visible');x.style.display='none'});
  const module=activeModuleByArea[area]||DEFAULT_MODULE[area];
  switchModule(module);
