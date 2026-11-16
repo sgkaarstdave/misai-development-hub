@@ -849,11 +849,11 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
     ['supplierTiers',db.from('supplier_price_tiers').select('*').order('quantity')],['activities',db.from('activity_log').select('*').order('created_at',{ascending:false}).limit(100)],['marketingIdeas',db.from('marketing_video_ideas').select('*').order('created_at',{ascending:false})]
   ];
   const results=await Promise.all(optionalQueries.map(x=>x[1]));
-  const missingModules=[];
+  const missingModules=[]; const optionalErrors={};
   results.forEach((res,i)=>{
     const key=optionalQueries[i][0];
     const data=res.error?[]:(res.data||[]);
-    if(res.error){console.warn('Optional module unavailable:',key,res.error.message);missingModules.push(key)}
+    if(res.error){console.warn('Optional module unavailable:',key,res.error.message);missingModules.push(key);optionalErrors[key]=res.error.message}
     if(key==='supplierScores') supplierScores=data;
     if(key==='costScenarios') costScenarios=data;
     if(key==='testTasks') testTasks=data;
@@ -864,13 +864,13 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
     if(key==='supplierTiers') supplierTiers=data;if(key==='activities') activities=data;if(key==='marketingIdeas') marketingIdeas=data;
   });
   renderAll();
-  showSetupNotice(missingModules);
+  showSetupNotice(missingModules,optionalErrors);
 }
-function showSetupNotice(modules){
+function showSetupNotice(modules,errors={}){
  const el=$('setupNotice');if(!el)return;
  if(!modules.length){el.classList.add('hidden');el.innerHTML='';return}
  const labels={supplierScores:'Scorecards',costScenarios:'Kosten',testTasks:'Testplan',drops:'Drops',dropItems:'Drop-Produkte',techPacks:'Tech Packs',decisions:'Entscheidungen',supplierTiers:'Preisstaffeln',activities:'Aktivitätslog',marketingIdeas:'Marketing / Videoideen'};
- el.innerHTML='<b>Ein Teil der Erweiterungen ist noch nicht eingerichtet.</b><div class="tiny" style="margin-top:5px">Fehlt: '+modules.map(x=>labels[x]||x).join(', ')+'. Samples, Tester, Reviews und Designs funktionieren trotzdem.</div>';
+ el.innerHTML='<b>Ein Teil der Erweiterungen konnte nicht geladen werden.</b><div class="tiny" style="margin-top:5px">'+modules.map(x=>'<div><b>'+esc(labels[x]||x)+':</b> '+esc(errors[x]||'Unbekannter Fehler')+'</div>').join('')+'</div>';
  el.classList.remove('hidden');
 }
 function avg(a){a=a.filter(v=>v!=null).map(Number);return a.length?a.reduce((x,y)=>x+y,0)/a.length:null}function testerName(id){return testers.find(x=>x.id===id)?.name||''}function sampleName(id){return samples.find(x=>x.id===id)?.sample_code||''}function renderAll(){renderDashboard();renderAlerts();populateFilters();renderSamples();renderReviews();renderActivities();renderScorecards();renderCosts();renderDrops();renderTechPacks();renderDecisions();renderTesters();renderDesigns();renderSuppliers();renderVideoIdeas()}function renderDashboard(){$('kSamples').textContent=samples.length;$('kReviews').textContent=reviews.length;$('kWashes').textContent=samples.reduce((a,s)=>a+(+s.wash_count||0),0);$('kDesigns').textContent=designs.length;let g={};samples.forEach(s=>{let k=`${s.fabric_name||'Unbenannt'} · ${s.gsm||'?'} GSM`;g[k]??=[];g[k].push(s.id)});$('fabricRanking').innerHTML=Object.entries(g).map(([k,ids])=>{let rs=reviews.filter(r=>ids.includes(r.sample_id)),o=avg(rs.map(r=>r.overall));return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between"><b>${esc(k)}</b><span>${o?o.toFixed(1)+'/10':'offen'}</span></div><div class="muted tiny">${rs.length} Review(s)</div><div class="statbar"><span style="width:${o?o*10:0}%"></span></div></div>`}).join('')||'<div class="empty">Noch keine Stoffdaten.</div>';let doneTasks=testTasks.filter(t=>(+t.completed_count||0)>=(+t.target_count||1)).length,totalTasks=testTasks.length;let pct=totalTasks?Math.round(doneTasks/totalTasks*100):0;$('statusSummary').innerHTML=`<p><b>${samples.filter(s=>s.status==='Favorit').length}</b> Sample-Favoriten</p><p><b>${samples.filter(s=>s.status==='Final').length}</b> finale Samples</p><p><b>${designs.filter(d=>['Shortlist','Tech Pack','Sample'].includes(d.status)).length}</b> Designs in Arbeit</p><p><b>${suppliers.length}</b> Hersteller</p><div style="margin-top:12px"><div class="progresshead"><span>Gesamter Testfortschritt</span><b>${pct}%</b></div><div class="bar"><span style="width:${pct}%"></span></div></div>`}function uniq(a){return[...new Set(a.filter(Boolean))].sort()}function populateFilters(){
@@ -998,7 +998,7 @@ async function saveVideoIdea(){
  const p={title:$('viTitle').value.trim(),platform:$('viPlatform').value,status:$('viStatus').value,rating:$('viRating').value?+$('viRating').value:null,created_by:$('viBy').value.trim()||currentActor,idea:$('viIdea').value.trim(),updated_at:new Date().toISOString()};
  if(!p.title||!p.idea)return alert('Bitte Titel und Idee eintragen.');
  const wasEdit=!!editingVideoIdea,q=wasEdit?db.from('marketing_video_ideas').update(p).eq('id',editingVideoIdea):db.from('marketing_video_ideas').insert(p),{error}=await q;
- if(error)alert(error.message);else{closeModal('videoIdeaModal');await logActivity(wasEdit?'updated':'created','Videoidee',p.title,wasEdit?'Videoidee bearbeitet':'Neue Videoidee angelegt');toast('Videoidee gespeichert');refreshAll()}
+ if(error){console.error('saveVideoIdea',error);alert('Videoidee konnte nicht gespeichert werden:\n'+error.message+(error.details?'\n'+error.details:'')+(error.hint?'\nHinweis: '+error.hint:''));}else{closeModal('videoIdeaModal');await logActivity(wasEdit?'updated':'created','Videoidee',p.title,wasEdit?'Videoidee bearbeitet':'Neue Videoidee angelegt');toast('Videoidee gespeichert');refreshAll()}
 }
 async function deleteVideoIdea(){
  if(!editingVideoIdea||!confirm('Videoidee löschen?'))return;
