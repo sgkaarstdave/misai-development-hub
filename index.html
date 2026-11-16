@@ -248,6 +248,20 @@ tr:hover td{background:#16202a}
 }
 
 .mobileAreaHidden{display:none!important}
+
+.sampleStats{margin-top:2px}.sampleToolbar{margin-bottom:10px}.sampleOverviewHeader,.sampleOverviewRow{display:grid;grid-template-columns:minmax(230px,1.25fr) minmax(180px,1fr) minmax(120px,.65fr) minmax(100px,.6fr) minmax(145px,.75fr) minmax(90px,.45fr) 28px;gap:10px;align-items:center}
+.sampleOverviewHeader{padding:9px 13px;background:#141c25;color:#8292a1;font-size:9px;text-transform:uppercase;letter-spacing:.09em}
+.sampleOverviewRow{cursor:pointer;padding:11px 13px;border-top:1px solid #222e39;transition:.15s}
+.sampleOverviewRow:hover{background:#151f29}.sampleOverviewRow.selected{background:linear-gradient(90deg,#21171b,#121b24);box-shadow:inset 3px 0 0 var(--accent)}
+.sampleMaterial{font-size:12px}.sampleMaterial small{display:block;color:#8f9dac;margin-top:2px}
+@media(max-width:720px){
+ .sampleOverviewHeader{display:none}.sampleOverviewList{border:0;background:transparent;overflow:visible}
+ .sampleOverviewRow{grid-template-columns:1fr auto;gap:8px;background:#101720;border:1px solid #293642;border-radius:14px;margin-bottom:8px;padding:12px}
+ .sampleOverviewRow.selected{border-color:#714048}.sampleOverviewRow .assignmentMain{grid-column:1/-1}.sampleMaterial{grid-column:1/-1;color:#c9d1d9}
+ .sampleOverviewRow .assignmentTester:before{content:"Tester · ";color:#7f8d9a;font-weight:400}.sampleOverviewRow>.badge{justify-self:end}
+ .sampleOverviewRow .assignmentProgress{grid-column:1/-1}.sampleOverviewRow .assignmentReview{font-weight:600;color:#9eabb8}.sampleOverviewRow .assignmentArrow{justify-self:end}
+}
+
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
 <div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
@@ -276,13 +290,32 @@ tr:hover td{background:#16202a}
   <div id="activityList" class="activityList"></div>
 </div></section>
 <div class="moduleNav" data-module-area="testing"><button class="moduleBtn active" data-module="samples" onclick="switchModule('samples')">Samples</button><button class="moduleBtn" data-module="testplan" onclick="switchModule('testplan')">Testplan</button><button class="moduleBtn" data-module="reviews" onclick="switchModule('reviews')">Reviews</button><button class="moduleBtn" data-module="testers" onclick="switchModule('testers')">Tester</button></div><div class="mobileModuleTabs" data-module-area="testing"><button type="button" class="mobileModuleTab active" data-module="samples" onclick="switchModule('samples')">Samples</button><button type="button" class="mobileModuleTab" data-module="testplan" onclick="switchModule('testplan')">Testplan</button><button type="button" class="mobileModuleTab" data-module="reviews" onclick="switchModule('reviews')">Reviews</button><button type="button" class="mobileModuleTab" data-module="testers" onclick="switchModule('testers')">Tester</button></div><section id="samples" class="panel" data-area="testing"><div class="card">
-    <div class="sectionhead"><div><h3>Samples <button class="infoBtn" onclick="showInfo('samples')">i</button></h3><div class="muted">Sample auswählen, Details ansehen, Aktion ausführen.</div></div><button class="btn primary" onclick="openSample()">+ Sample</button></div>
-    <div class="samplePickerWrap">
-      <div><label>Sample auswählen</label><select id="samplePicker" onchange="selectSample(this.value)"></select></div>
-      <button class="btn" onclick="openSample(selectedSampleId)">Bearbeiten</button>
-    </div>
+  <div class="sectionhead"><div><h3>Samples <button class="infoBtn" onclick="showInfo('samples')">i</button></h3><div class="muted">Alle Samples vergleichen, filtern und anschließend gezielt ins Detail gehen.</div></div><button class="btn primary" onclick="openSample()">+ Sample</button></div>
+
+  <div class="assignmentStats sampleStats">
+    <button class="assignmentStat active" data-sample-filter="all" onclick="setSampleOverviewFilter('all')"><span>Alle</span><b id="sampleTotal">0</b></button>
+    <button class="assignmentStat" data-sample-filter="testing" onclick="setSampleOverviewFilter('testing')"><span>Im Test</span><b id="sampleTesting">0</b></button>
+    <button class="assignmentStat attention" data-sample-filter="unassigned" onclick="setSampleOverviewFilter('unassigned')"><span>Ohne Tester</span><b id="sampleUnassigned">0</b></button>
+    <button class="assignmentStat" data-sample-filter="reviewed" onclick="setSampleOverviewFilter('reviewed')"><span>Mit Review</span><b id="sampleReviewed">0</b></button>
+  </div>
+
+  <div class="assignmentToolbar sampleToolbar">
+    <div class="assignmentSearch"><span>⌕</span><input id="sampleOverviewSearch" placeholder="Sample, Stoff, Material, Hersteller suchen …" oninput="renderSampleOverview()"></div>
+    <select id="sampleSupplierFilter" onchange="renderSampleOverview()"><option value="">Alle Hersteller</option></select>
+    <select id="sampleStatusFilter" onchange="renderSampleOverview()"><option value="">Alle Status</option></select>
+  </div>
+
+  <div class="assignmentList sampleOverviewList">
+    <div class="sampleOverviewHeader"><span>Sample</span><span>Material</span><span>Tester</span><span>Status</span><span>Fortschritt</span><span>Review</span><span></span></div>
+    <div id="sampleOverviewRows"></div>
+  </div>
+
+  <div class="assignmentDetailSection">
+    <div class="sectionhead compactHead"><div><h4>Sample-Details</h4><div class="muted tiny">Aus der Liste auswählen oder hier direkt wechseln.</div></div><button class="btn" onclick="openSample(selectedSampleId)">Bearbeiten</button></div>
+    <div class="assignmentDetailPicker"><select id="samplePicker" onchange="selectSample(this.value)"></select></div>
     <div id="sampleDetail" class="detailPane sampleDetailSolo"></div>
-  </div></section><section id="reviews" class="panel" data-area="testing"><div class="card">
+  </div>
+</div></section><section id="reviews" class="panel" data-area="testing"><div class="card">
     <div class="sectionhead"><div><h3>Reviews <button class="infoBtn" onclick="showInfo('reviews')">i</button></h3><div class="muted">Kompakte Testzusammenfassungen – Details erst beim Öffnen.</div></div><button class="btn primary" onclick="openReview()">+ Review</button></div>
     <div id="reviewRows" class="reviewList"></div>
   </div></section>
@@ -520,7 +553,7 @@ tr:hover td{background:#16202a}
 </div></div>
 <div id="accountModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Account</h3><button class="icon" onclick="closeModal('accountModal')">✕</button></div><label>Neues Passwort</label><input id="newPassword" type="password"><button class="btn primary" style="margin-top:12px" onclick="changePassword()">Passwort ändern</button></div></div>
 <script>
-const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5orQO6yR1_KkQ_tkVHv8Do',db=window.supabase.createClient(U,K),$=id=>document.getElementById(id);let samples=[],suppliers=[],designs=[],testers=[],reviews=[],supplierScores=[],costScenarios=[],testTasks=[],drops=[],dropItems=[],techPacks=[],decisions=[],supplierTiers=[],activities=[],selectedSampleId=null,selectedPlanSampleId=null,selectedTesterSampleId=null,testerAssignmentFilter='all',currentActor='User',editingSample=null,editingSupplier=null,editingDesign=null,editingTester=null,editingReview=null,editingScoreSupplier=null,editingCost=null,editingDrop=null,editingTech=null,editingDecision=null,editingTier=null;function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}async function login(){let{data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error)return $('loginError').textContent=error.message;showApp(data.user)}async function logout(){await db.auth.signOut();location.reload()}async function resetPassword(){let e=$('loginEmail').value.trim();if(!e)return $('loginError').textContent='Bitte E-Mail eintragen.';let{error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin});$('loginError').textContent=error?error.message:'Reset-Mail verschickt.'}async function changePassword(){let p=$('newPassword').value;if(p.length<8)return alert('Mindestens 8 Zeichen.');let{error}=await db.auth.updateUser({password:p});if(error)alert(error.message);else{alert('Passwort geändert.');closeModal('accountModal')}}function openAccount(){$('newPassword').value='';$('accountModal').classList.add('open')}async function showApp(u){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=u?.email||'';currentActor=(u?.user_metadata?.display_name||u?.user_metadata?.full_name||u?.email?.split('@')[0]||'User');currentActor=currentActor.charAt(0).toUpperCase()+currentActor.slice(1);await refreshAll()}async function refreshAll(){
+const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5orQO6yR1_KkQ_tkVHv8Do',db=window.supabase.createClient(U,K),$=id=>document.getElementById(id);let samples=[],suppliers=[],designs=[],testers=[],reviews=[],supplierScores=[],costScenarios=[],testTasks=[],drops=[],dropItems=[],techPacks=[],decisions=[],supplierTiers=[],activities=[],selectedSampleId=null,selectedPlanSampleId=null,selectedTesterSampleId=null,testerAssignmentFilter='all',sampleOverviewFilter='all',currentActor='User',editingSample=null,editingSupplier=null,editingDesign=null,editingTester=null,editingReview=null,editingScoreSupplier=null,editingCost=null,editingDrop=null,editingTech=null,editingDecision=null,editingTier=null;function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}async function login(){let{data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error)return $('loginError').textContent=error.message;showApp(data.user)}async function logout(){await db.auth.signOut();location.reload()}async function resetPassword(){let e=$('loginEmail').value.trim();if(!e)return $('loginError').textContent='Bitte E-Mail eintragen.';let{error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin});$('loginError').textContent=error?error.message:'Reset-Mail verschickt.'}async function changePassword(){let p=$('newPassword').value;if(p.length<8)return alert('Mindestens 8 Zeichen.');let{error}=await db.auth.updateUser({password:p});if(error)alert(error.message);else{alert('Passwort geändert.');closeModal('accountModal')}}function openAccount(){$('newPassword').value='';$('accountModal').classList.add('open')}async function showApp(u){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=u?.email||'';currentActor=(u?.user_metadata?.display_name||u?.user_metadata?.full_name||u?.email?.split('@')[0]||'User');currentActor=currentActor.charAt(0).toUpperCase()+currentActor.slice(1);await refreshAll()}async function refreshAll(){
   const core=await Promise.all([
     db.from('samples').select('*').order('id'),
     db.from('suppliers').select('*').order('id'),
@@ -586,12 +619,59 @@ function avg(a){a=a.filter(v=>v!=null).map(Number);return a.length?a.reduce((x,y
 }
 function renderSamples(){
  if(!selectedSampleId||!samples.some(x=>x.id===selectedSampleId))selectedSampleId=samples[0]?.id||null;
+ renderSampleOverviewFilters();
+ renderSampleOverview();
  const picker=$('samplePicker');
  if(picker){
-   picker.innerHTML=samples.map(s=>`<option value="${s.id}">${esc(s.sample_code)} · ${esc(s.fabric_name||'')} · ${esc(s.size||'')} · ${esc(s.supplier||'')}</option>`).join('');
+   picker.innerHTML=samples.map(s=>`<option value="${s.id}">${esc(s.sample_code)} · ${esc(s.fabric_name||'')} · ${esc(s.size||'')} · ${esc(testerName(s.assigned_tester_id)||'Ohne Tester')}</option>`).join('');
    if(selectedSampleId)picker.value=String(selectedSampleId);
  }
  renderSampleDetail();
+}
+function renderSampleOverviewFilters(){
+ const supplier=$('sampleSupplierFilter'),status=$('sampleStatusFilter');
+ if(supplier){
+   const cur=supplier.value,vals=uniq(samples.map(s=>s.supplier));
+   supplier.innerHTML='<option value="">Alle Hersteller</option>'+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
+   supplier.value=[...supplier.options].some(o=>o.value===cur)?cur:'';
+ }
+ if(status){
+   const cur=status.value,vals=uniq(samples.map(s=>s.status));
+   status.innerHTML='<option value="">Alle Status</option>'+vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
+   status.value=[...status.options].some(o=>o.value===cur)?cur:'';
+ }
+ $('sampleTotal').textContent=samples.length;
+ $('sampleTesting').textContent=samples.filter(s=>(s.status||'Im Test')==='Im Test').length;
+ $('sampleUnassigned').textContent=samples.filter(s=>!s.assigned_tester_id).length;
+ $('sampleReviewed').textContent=samples.filter(s=>reviews.some(r=>r.sample_id===s.id)).length;
+ document.querySelectorAll('.assignmentStat[data-sample-filter]').forEach(b=>b.classList.toggle('active',b.dataset.sampleFilter===sampleOverviewFilter));
+}
+function setSampleOverviewFilter(filter){sampleOverviewFilter=filter;renderSampleOverview();document.querySelectorAll('.assignmentStat[data-sample-filter]').forEach(b=>b.classList.toggle('active',b.dataset.sampleFilter===filter))}
+function renderSampleOverview(){
+ const rows=$('sampleOverviewRows');if(!rows)return;
+ const q=($('sampleOverviewSearch')?.value||'').trim().toLowerCase(),supplier=$('sampleSupplierFilter')?.value||'',status=$('sampleStatusFilter')?.value||'';
+ let list=samples.filter(s=>{
+   const hasReview=reviews.some(r=>r.sample_id===s.id);
+   if(sampleOverviewFilter==='testing'&&(s.status||'Im Test')!=='Im Test')return false;
+   if(sampleOverviewFilter==='unassigned'&&s.assigned_tester_id)return false;
+   if(sampleOverviewFilter==='reviewed'&&!hasReview)return false;
+   if(supplier&&s.supplier!==supplier)return false;
+   if(status&&s.status!==status)return false;
+   const hay=[s.sample_code,s.fabric_name,s.material,s.supplier,s.size,s.color,testerName(s.assigned_tester_id)].join(' ').toLowerCase();
+   return !q||hay.includes(q);
+ });
+ rows.innerHTML=list.map(s=>{
+   const pct=taskProgress(s.id),latest=reviews.find(r=>r.sample_id===s.id),tester=testerName(s.assigned_tester_id);
+   return `<div class="sampleOverviewRow ${selectedSampleId===s.id?'selected':''}" onclick="selectSample(${s.id})">
+     <div class="assignmentMain"><b>${esc(s.sample_code)}</b><small>${esc(s.fabric_name||'Kein Stoff')} · ${esc(s.size||'–')} · ${esc(s.supplier||'–')}</small></div>
+     <div class="sampleMaterial"><b>${esc(s.material||'–')}</b><small>${s.gsm||'–'} GSM · ${esc(s.color||'–')}</small></div>
+     <div class="assignmentTester ${tester?'':'open'}">${esc(tester||'Nicht zugeordnet')}</div>
+     <span class="badge ${['Favorit','Final'].includes(s.status)?'good':''}">${esc(s.status||'Im Test')}</span>
+     <div class="assignmentProgress"><div class="bar"><span style="width:${pct}%"></span></div><b>${pct}%</b></div>
+     <div class="assignmentReview">${latest?.overall!=null?latest.overall+'/10':'Offen'}</div>
+     <div class="assignmentArrow">›</div>
+   </div>`;
+ }).join('')||'<div class="assignmentEmpty">Keine Samples für diesen Filter.</div>';
 }
 function selectSample(id){selectedSampleId=+id;renderSamples()}
 function renderSampleDetail(){
