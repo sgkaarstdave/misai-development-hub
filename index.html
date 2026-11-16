@@ -321,38 +321,10 @@ tr:hover td{background:#16202a}
   </div></section>
 <section id="testers" class="panel" data-area="testing"><div class="card">
   <div class="sectionhead">
-    <div><h3>Test-Zuweisungen <button class="infoBtn" onclick="showInfo('testers')">i</button></h3><div class="muted">Auf einen Blick sehen, welches Sample vergeben ist, wer es testet und wie weit der Test ist.</div></div>
+    <div><h3>Tester verwalten <button class="infoBtn" onclick="showInfo('testers')">i</button></h3><div class="muted">Tester anlegen, bearbeiten oder entfernen.</div></div>
+    <button class="btn primary" onclick="openTester()">+ Tester</button>
   </div>
-
-  <div class="assignmentStats">
-    <button class="assignmentStat active" data-assignment-filter="all" onclick="setTesterAssignmentFilter('all')"><span>Alle Samples</span><b id="assignTotal">0</b></button>
-    <button class="assignmentStat" data-assignment-filter="assigned" onclick="setTesterAssignmentFilter('assigned')"><span>Zugeordnet</span><b id="assignAssigned">0</b></button>
-    <button class="assignmentStat attention" data-assignment-filter="unassigned" onclick="setTesterAssignmentFilter('unassigned')"><span>Nicht zugeordnet</span><b id="assignOpen">0</b></button>
-    <button class="assignmentStat" data-assignment-filter="done" onclick="setTesterAssignmentFilter('done')"><span>Test abgeschlossen</span><b id="assignDone">0</b></button>
-  </div>
-
-  <div class="assignmentToolbar">
-    <div class="assignmentSearch"><span>⌕</span><input id="testerAssignmentSearch" placeholder="Sample, Stoff, Hersteller suchen …" oninput="renderTesterAssignments()"></div>
-    <select id="testerPersonFilter" onchange="renderTesterAssignments()"><option value="">Alle Tester</option></select>
-    <select id="testerStatusFilter" onchange="renderTesterAssignments()"><option value="">Alle Status</option></select>
-  </div>
-
-  <div class="assignmentList">
-    <div class="assignmentHeader"><span>Sample</span><span>Tester</span><span>Status</span><span>Fortschritt</span><span>Review</span><span></span></div>
-    <div id="testerAssignmentRows"></div>
-  </div>
-
-  <div class="assignmentDetailSection">
-    <div class="sectionhead compactHead"><div><h4>Sample-Details</h4><div class="muted tiny">Erst auswählen, wenn du mehr wissen oder etwas ändern willst.</div></div></div>
-    <div class="assignmentDetailPicker"><select id="testerSamplePicker" onchange="selectTesterSample(this.value)"></select></div>
-    <div id="testerSampleDetail" class="detailPane"></div>
-  </div>
-
-  <details class="testerManagement">
-    <summary><span>Tester verwalten</span><span id="testerManageCount" class="muted tiny"></span></summary>
-    <div class="testerManageHead"><div class="muted tiny">Tester anlegen oder Stammdaten bearbeiten.</div><button class="btn" onclick="openTester()">+ Tester</button></div>
-    <div id="testerGrid" class="testerCompactGrid"></div>
-  </details>
+  <div id="testerGrid" class="testerCompactGrid"></div>
 </div></section>
 <div class="moduleNav" data-module-area="product"><button class="moduleBtn active" data-module="designs" onclick="switchModule('designs')">Designs</button><button class="moduleBtn" data-module="techpacks" onclick="switchModule('techpacks')">Tech Packs</button><button class="moduleBtn" data-module="decisions" onclick="switchModule('decisions')">Entscheidungen</button></div><div class="mobileModuleTabs" data-module-area="product"><button type="button" class="mobileModuleTab active" data-module="designs" onclick="switchModule('designs')">Designs</button><button type="button" class="mobileModuleTab" data-module="techpacks" onclick="switchModule('techpacks')">Tech Packs</button><button type="button" class="mobileModuleTab" data-module="decisions" onclick="switchModule('decisions')">Entscheidungen</button></div><section id="designs" class="panel" data-area="product"><div class="card"><div class="sectionhead"><div><h3>Design Board <button class="infoBtn" onclick="showInfo('designs')">i</button></h3><div class="muted">Idee → Shortlist → Sample → Final.</div></div><button class="btn primary" onclick="openDesign()">+ Design</button></div><div id="designGrid" class="designgrid"></div></div></section>
 
@@ -553,7 +525,7 @@ tr:hover td{background:#16202a}
 </div></div>
 <div id="accountModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Account</h3><button class="icon" onclick="closeModal('accountModal')">✕</button></div><label>Neues Passwort</label><input id="newPassword" type="password"><button class="btn primary" style="margin-top:12px" onclick="changePassword()">Passwort ändern</button></div></div>
 <script>
-const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5orQO6yR1_KkQ_tkVHv8Do',db=window.supabase.createClient(U,K),$=id=>document.getElementById(id);let samples=[],suppliers=[],designs=[],testers=[],reviews=[],supplierScores=[],costScenarios=[],testTasks=[],drops=[],dropItems=[],techPacks=[],decisions=[],supplierTiers=[],activities=[],selectedSampleId=null,selectedPlanSampleId=null,selectedTesterSampleId=null,testerAssignmentFilter='all',sampleOverviewFilter='all',currentActor='User',editingSample=null,editingSupplier=null,editingDesign=null,editingTester=null,editingReview=null,editingScoreSupplier=null,editingCost=null,editingDrop=null,editingTech=null,editingDecision=null,editingTier=null;function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}async function login(){let{data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error)return $('loginError').textContent=error.message;showApp(data.user)}async function logout(){await db.auth.signOut();location.reload()}async function resetPassword(){let e=$('loginEmail').value.trim();if(!e)return $('loginError').textContent='Bitte E-Mail eintragen.';let{error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin});$('loginError').textContent=error?error.message:'Reset-Mail verschickt.'}async function changePassword(){let p=$('newPassword').value;if(p.length<8)return alert('Mindestens 8 Zeichen.');let{error}=await db.auth.updateUser({password:p});if(error)alert(error.message);else{alert('Passwort geändert.');closeModal('accountModal')}}function openAccount(){$('newPassword').value='';$('accountModal').classList.add('open')}async function showApp(u){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=u?.email||'';currentActor=(u?.user_metadata?.display_name||u?.user_metadata?.full_name||u?.email?.split('@')[0]||'User');currentActor=currentActor.charAt(0).toUpperCase()+currentActor.slice(1);await refreshAll()}async function refreshAll(){
+const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5orQO6yR1_KkQ_tkVHv8Do',db=window.supabase.createClient(U,K),$=id=>document.getElementById(id);let samples=[],suppliers=[],designs=[],testers=[],reviews=[],supplierScores=[],costScenarios=[],testTasks=[],drops=[],dropItems=[],techPacks=[],decisions=[],supplierTiers=[],activities=[],selectedSampleId=null,selectedPlanSampleId=null,sampleOverviewFilter='all',currentActor='User',editingSample=null,editingSupplier=null,editingDesign=null,editingTester=null,editingReview=null,editingScoreSupplier=null,editingCost=null,editingDrop=null,editingTech=null,editingDecision=null,editingTier=null;function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}async function login(){let{data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error)return $('loginError').textContent=error.message;showApp(data.user)}async function logout(){await db.auth.signOut();location.reload()}async function resetPassword(){let e=$('loginEmail').value.trim();if(!e)return $('loginError').textContent='Bitte E-Mail eintragen.';let{error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin});$('loginError').textContent=error?error.message:'Reset-Mail verschickt.'}async function changePassword(){let p=$('newPassword').value;if(p.length<8)return alert('Mindestens 8 Zeichen.');let{error}=await db.auth.updateUser({password:p});if(error)alert(error.message);else{alert('Passwort geändert.');closeModal('accountModal')}}function openAccount(){$('newPassword').value='';$('accountModal').classList.add('open')}async function showApp(u){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=u?.email||'';currentActor=(u?.user_metadata?.display_name||u?.user_metadata?.full_name||u?.email?.split('@')[0]||'User');currentActor=currentActor.charAt(0).toUpperCase()+currentActor.slice(1);await refreshAll()}async function refreshAll(){
   const core=await Promise.all([
     db.from('samples').select('*').order('id'),
     db.from('suppliers').select('*').order('id'),
@@ -688,73 +660,10 @@ async function bump(id,key){let s=samples.find(x=>x.id===id),{error}=await db.fr
  $('reviewRows').innerHTML=reviews.length?reviews.map(r=>`<div class="reviewCard" onclick="openReview(${r.id})"><div style="display:flex;justify-content:space-between;gap:10px"><div><b>${esc(sampleName(r.sample_id))}</b><div class="masterItemMeta">${esc(testerName(r.tester_id)||'–')} · ${esc(r.tested_on||'')}</div></div><div class="reviewScore">${r.overall??'–'}</div></div><div class="tiny muted" style="margin-top:10px">${esc((r.notes||'Keine Notiz').slice(0,110))}</div><div class="pillrow" style="margin-top:10px"><span class="badge">Komfort ${r.comfort??'–'}</span><span class="badge">Fit ${r.fit??'–'}</span><span class="badge">Atmung ${r.breathability??'–'}</span></div></div>`).join(''):'<div class="empty">Noch keine Reviews.<div class="emptyAction"><button class="btn primary" onclick="openReview()">Erstes Review anlegen</button></div></div>';
 }
 function openReview(id=null,preset=null){editingReview=id;let r=id?reviews.find(x=>x.id===id):{sample_id:preset};$('rSample').innerHTML=samples.map(s=>`<option value="${s.id}">${esc(s.sample_code)} · ${esc(s.fabric_name)} · ${esc(s.size)}</option>`).join('');$('rSample').value=r.sample_id||samples[0]?.id||'';fillTesterSelect($('rTester'),r.tester_id);$('rDate').value=r.tested_on||new Date().toISOString().slice(0,10);$('rMinutes').value=r.wear_minutes||'';[['Comfort','comfort'],['Breath','breathability'],['Stretch','stretch'],['Wet','wet_cling'],['Dry','drying'],['Fit','fit'],['Odor','odor'],['WashDur','wash_durability'],['Overall','overall']].forEach(([a,b])=>$('r'+a).value=r[b]??'');$('rWashed').value=String(r.washed_after??false);$('rNotes').value=r.notes||'';$('deleteReviewBtn').style.visibility=id?'visible':'hidden';$('reviewModal').classList.add('open')}async function saveReview(){let num=id=>$(id).value?+$(id).value:null,p={sample_id:+$('rSample').value,tester_id:$('rTester').value?+$('rTester').value:null,tested_on:$('rDate').value||null,wear_minutes:+$('rMinutes').value||null,comfort:num('rComfort'),breathability:num('rBreath'),stretch:num('rStretch'),wet_cling:num('rWet'),drying:num('rDry'),fit:num('rFit'),odor:num('rOdor'),wash_durability:num('rWashDur'),overall:num('rOverall'),washed_after:$('rWashed').value==='true',notes:$('rNotes').value.trim()},q=editingReview?db.from('sample_reviews').update(p).eq('id',editingReview):db.from('sample_reviews').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('reviewModal');await logActivity(editingReview?'updated':'created','Review',sampleName(p.sample_id),editingReview?'Review bearbeitet':'Neues Review erstellt');toast('Review gespeichert');refreshAll()}}async function deleteReview(){if(!editingReview||!confirm('Review löschen?'))return;const r=reviews.find(x=>x.id===editingReview);let{error}=await db.from('sample_reviews').delete().eq('id',editingReview);if(error)alert(error.message);else{closeModal('reviewModal');await logActivity('deleted','Review',sampleName(r?.sample_id)||'Review','Review gelöscht');toast('Review gelöscht');refreshAll()}}function renderTesters(){
- renderTesterAssignmentFilters();
- renderTesterAssignments();
- renderTesterSampleDetail();
- $('testerManageCount').textContent=testers.length+' Tester';
  $('testerGrid').innerHTML=testers.map(t=>{
    const count=samples.filter(s=>s.assigned_tester_id===t.id).length,reviewCount=reviews.filter(r=>r.tester_id===t.id).length;
-   return `<div class="testerCompact" onclick="openTester(${t.id})"><b>${esc(t.name)}</b><small>${count} Sample(s) · ${reviewCount} Review(s)</small></div>`;
- }).join('')||'<div class="empty">Noch keine Tester.</div>';
-}
-function renderTesterAssignmentFilters(){
- const person=$('testerPersonFilter'),status=$('testerStatusFilter'),picker=$('testerSamplePicker');
- if(person){
-   const cur=person.value;
-   person.innerHTML='<option value="">Alle Tester</option><option value="unassigned">Nicht zugeordnet</option>'+testers.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('');
-   person.value=[...person.options].some(o=>o.value===cur)?cur:'';
- }
- if(status){
-   const cur=status.value,states=uniq(samples.map(s=>s.status));
-   status.innerHTML='<option value="">Alle Status</option>'+states.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
-   status.value=[...status.options].some(o=>o.value===cur)?cur:'';
- }
- if(!selectedTesterSampleId||!samples.some(s=>s.id===selectedTesterSampleId))selectedTesterSampleId=samples[0]?.id||null;
- if(picker){
-   picker.innerHTML=samples.map(s=>`<option value="${s.id}">${esc(s.sample_code)} · ${esc(s.fabric_name||'')} · ${esc(testerName(s.assigned_tester_id)||'Nicht zugeordnet')}</option>`).join('');
-   if(selectedTesterSampleId)picker.value=String(selectedTesterSampleId);
- }
- const assigned=samples.filter(s=>s.assigned_tester_id).length,done=samples.filter(s=>taskProgress(s.id)>=100).length;
- $('assignTotal').textContent=samples.length;$('assignAssigned').textContent=assigned;$('assignOpen').textContent=samples.length-assigned;$('assignDone').textContent=done;
- document.querySelectorAll('.assignmentStat').forEach(b=>b.classList.toggle('active',b.dataset.assignmentFilter===testerAssignmentFilter));
-}
-function setTesterAssignmentFilter(filter){testerAssignmentFilter=filter;renderTesterAssignments();document.querySelectorAll('.assignmentStat').forEach(b=>b.classList.toggle('active',b.dataset.assignmentFilter===filter))}
-function renderTesterAssignments(){
- const rows=$('testerAssignmentRows');if(!rows)return;
- const q=($('testerAssignmentSearch')?.value||'').trim().toLowerCase(),person=$('testerPersonFilter')?.value||'',status=$('testerStatusFilter')?.value||'';
- let list=samples.filter(s=>{
-   const pct=taskProgress(s.id),assigned=!!s.assigned_tester_id;
-   if(testerAssignmentFilter==='assigned'&&!assigned)return false;
-   if(testerAssignmentFilter==='unassigned'&&assigned)return false;
-   if(testerAssignmentFilter==='done'&&pct<100)return false;
-   if(person==='unassigned'&&assigned)return false;
-   if(person&&person!=='unassigned'&&String(s.assigned_tester_id)!==person)return false;
-   if(status&&s.status!==status)return false;
-   const hay=[s.sample_code,s.fabric_name,s.supplier,s.material,s.size,testerName(s.assigned_tester_id)].join(' ').toLowerCase();
-   return !q||hay.includes(q);
- });
- rows.innerHTML=list.map(s=>{
-   const pct=taskProgress(s.id),latest=reviews.find(r=>r.sample_id===s.id),tester=testerName(s.assigned_tester_id);
-   return `<div class="assignmentRow ${selectedTesterSampleId===s.id?'selected':''}" onclick="selectTesterSample(${s.id})">
-     <div class="assignmentMain"><b>${esc(s.sample_code)}</b><small>${esc(s.fabric_name||'Kein Stoff')} · ${esc(s.size||'–')} · ${esc(s.supplier||'–')}</small></div>
-     <div class="assignmentTester ${tester?'':'open'}">${esc(tester||'Nicht zugeordnet')}</div>
-     <span class="badge ${['Favorit','Final'].includes(s.status)?'good':''}">${esc(s.status||'Im Test')}</span>
-     <div class="assignmentProgress"><div class="bar"><span style="width:${pct}%"></span></div><b>${pct}%</b></div>
-     <div class="assignmentReview">${latest?.overall!=null?latest.overall+'/10':'Offen'}</div>
-     <div class="assignmentArrow">›</div>
-   </div>`;
- }).join('')||'<div class="assignmentEmpty">Keine Samples für diesen Filter.</div>';
-}
-function selectTesterSample(id){selectedTesterSampleId=+id;if($('testerSamplePicker'))$('testerSamplePicker').value=String(selectedTesterSampleId);renderTesterAssignments();renderTesterSampleDetail()}
-function renderTesterSampleDetail(){
- const el=$('testerSampleDetail');if(!el)return;
- const s=samples.find(x=>x.id===selectedTesterSampleId);
- if(!s){el.innerHTML='<div class="empty">Kein Sample ausgewählt.</div>';return}
- const latest=reviews.find(r=>r.sample_id===s.id),pct=taskProgress(s.id),tester=testerName(s.assigned_tester_id);
- el.innerHTML=`<div class="detailTitle"><div><h3>${esc(s.sample_code)}</h3><div class="muted">${esc(s.supplier||'')} · ${esc(s.fabric_name||'')} · ${esc(s.color||'')}</div></div><span class="badge ${['Favorit','Final'].includes(s.status)?'good':''}">${esc(s.status||'Im Test')}</span></div>
- <div class="detailGrid"><div class="detailStat"><span>Tester</span><b>${esc(tester||'Nicht zugeordnet')}</b></div><div class="detailStat"><span>Größe</span><b>${esc(s.size||'–')}</b></div><div class="detailStat"><span>Material</span><b>${esc(s.material||'–')}</b></div><div class="detailStat"><span>GSM</span><b>${s.gsm||'–'}</b></div><div class="detailStat"><span>Tragen / Waschen</span><b>${s.wear_count||0} / ${s.wash_count||0}</b></div><div class="detailStat"><span>Letztes Review</span><b>${latest?.overall!=null?latest.overall+'/10':'Offen'}</b></div></div>
- <div class="progresshead"><span>Testfortschritt</span><b>${pct}%</b></div><div class="bar"><span style="width:${pct}%"></span></div>
- <div class="compactActions"><button class="btn" onclick="openReview(null,${s.id})">Review</button><button class="btn" onclick="selectPlanSample(${s.id});switchTab('testplan')">Testplan</button><button class="btn primary" onclick="openSample(${s.id})">Zuweisung / Sample bearbeiten</button></div>`;
+   return `<div class="testerCompact" onclick="openTester(${t.id})"><b>${esc(t.name)}</b><small>${count} Sample(s) · ${reviewCount} Review(s)</small><div class="tiny muted" style="margin-top:4px">${esc(t.email||'')}</div></div>`;
+ }).join('')||'<div class="empty">Noch keine Tester.<div class="emptyAction"><button class="btn primary" onclick="openTester()">Ersten Tester anlegen</button></div></div>';
 }
 function openTester(id=null){editingTester=id;let t=id?testers.find(x=>x.id===id):{};$('tName').value=t.name||'';$('tEmail').value=t.email||'';$('tNotes').value=t.notes||'';$('deleteTesterBtn').style.visibility=id?'visible':'hidden';$('testerModal').classList.add('open')}async function saveTester(){let p={name:$('tName').value.trim(),email:$('tEmail').value.trim()||null,notes:$('tNotes').value.trim()},q=editingTester?db.from('testers').update(p).eq('id',editingTester):db.from('testers').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('testerModal');await logActivity(editingTester?'updated':'created','Tester',p.name,editingTester?'Tester bearbeitet':'Neuen Tester angelegt');toast('Tester gespeichert');refreshAll()}}async function deleteTester(){if(!editingTester||!confirm('Tester löschen?'))return;const t=testers.find(x=>x.id===editingTester);let{error}=await db.from('testers').delete().eq('id',editingTester);if(error)alert(error.message);else{closeModal('testerModal');await logActivity('deleted','Tester',t?.name||'Tester','Tester gelöscht');toast('Tester gelöscht');refreshAll()}}async function signedUrl(p){if(!p)return null;let{data,error}=await db.storage.from('designs').createSignedUrl(p,3600);return error?null:data.signedUrl}async function renderDesigns(){let out=[];for(const d of designs){let u=d.image_url||null;if(d.storage_path)u=await signedUrl(d.storage_path);out.push(`<div class="design clickable" onclick="openDesign(${d.id})"><div class="designimg">${u?`<img src="${u}">`:'Kein Bild'}</div><div class="designbody"><span class="badge">${esc(d.status)}</span> <span class="badge ${d.priority==='Hoch'?'warn':''}">${esc(d.priority||'Normal')}</span><h3>${esc(d.name)}</h3><div class="muted">${esc(d.product_type||'')} · ${esc(d.colorway||'')}</div><p>${esc(d.notes||'')}</p></div></div>`)}$('designGrid').innerHTML=out.join('')||'<div class="empty">Noch keine Designs.</div>'}function openDesign(id=null){editingDesign=id;let d=id?designs.find(x=>x.id===id):{};$('dName').value=d.name||'';$('dProduct').value=d.product_type||'';$('dColor').value=d.colorway||'';$('dStatus').value=d.status||'Idee';$('dSupplier').value=d.supplier||'';$('dPriority').value=d.priority||'Normal';$('dNotes').value=d.notes||'';$('dFile').value='';$('deleteDesignBtn').style.visibility=id?'visible':'hidden';$('designModal').classList.add('open')}async function saveDesign(){let sp=editingDesign?designs.find(x=>x.id===editingDesign)?.storage_path:null,f=$('dFile').files[0];if(f){let ext=f.name.split('.').pop();sp=`${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;let{error}=await db.storage.from('designs').upload(sp,f);if(error)return alert(error.message)}let p={name:$('dName').value.trim(),product_type:$('dProduct').value.trim(),colorway:$('dColor').value.trim(),status:$('dStatus').value,supplier:$('dSupplier').value.trim(),priority:$('dPriority').value,storage_path:sp,notes:$('dNotes').value.trim()},q=editingDesign?db.from('designs').update(p).eq('id',editingDesign):db.from('designs').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('designModal');await logActivity(editingDesign?'updated':'created','Design',p.name,editingDesign?'Design bearbeitet':'Neues Design erstellt');toast('Design gespeichert');refreshAll()}}async function deleteDesign(){if(!editingDesign||!confirm('Design löschen?'))return;let d=designs.find(x=>x.id===editingDesign);if(d?.storage_path)await db.storage.from('designs').remove([d.storage_path]);let{error}=await db.from('designs').delete().eq('id',editingDesign);if(error)alert(error.message);else{closeModal('designModal');await logActivity('deleted','Design',d?.name||'Design','Design gelöscht');toast('Design gelöscht');refreshAll()}}function renderSuppliers(){$('supplierRows').innerHTML=suppliers.map(p=>`<tr><td><b>${esc(p.name)}</b><div class="muted tiny">${esc(p.contact_name||'')}</div></td><td>${esc(p.country)}</td><td>${esc(p.moq)}</td><td>${esc(p.prices)}</td><td><span class="badge good">${esc(p.status)}</span></td><td>${esc(p.notes)}</td><td><button class="icon" onclick="openSupplier(${p.id})">Bearbeiten</button></td></tr>`).join('')||'<tr><td colspan="7" class="empty">Keine Hersteller.</td></tr>'}function openSupplier(id=null){editingSupplier=id;let p=id?suppliers.find(x=>x.id===id):{};$('pName').value=p.name||'';$('pCountry').value=p.country||'';$('pContact').value=p.contact_name||'';$('pEmail').value=p.email||'';$('pMoq').value=p.moq||'';$('pPrices').value=p.prices||'';$('pStatus').value=p.status||'';$('pLastContact').value=p.last_contact_at||'';$('pNextFollow').value=p.next_follow_up||'';$('pNotes').value=p.notes||'';$('deleteSupplierBtn').style.visibility=id?'visible':'hidden';renderSupplierTierList(id);$('supplierModal').classList.add('open')}async function saveSupplier(){let p={name:$('pName').value.trim(),country:$('pCountry').value.trim(),contact_name:$('pContact').value.trim(),email:$('pEmail').value.trim(),moq:$('pMoq').value.trim(),prices:$('pPrices').value.trim(),status:$('pStatus').value.trim(),last_contact_at:$('pLastContact').value||null,next_follow_up:$('pNextFollow').value||null,notes:$('pNotes').value.trim()},q=editingSupplier?db.from('suppliers').update(p).eq('id',editingSupplier):db.from('suppliers').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('supplierModal');await logActivity(editingSupplier?'updated':'created','Hersteller',p.name,editingSupplier?'Hersteller bearbeitet':'Neuen Hersteller angelegt');toast('Hersteller gespeichert');refreshAll()}}async function deleteSupplier(){if(!editingSupplier||!confirm('Hersteller löschen?'))return;const s=suppliers.find(x=>x.id===editingSupplier);let{error}=await db.from('suppliers').delete().eq('id',editingSupplier);if(error)alert(error.message);else{closeModal('supplierModal');await logActivity('deleted','Hersteller',s?.name||'Hersteller','Hersteller gelöscht');toast('Hersteller gelöscht');refreshAll()}}
 
@@ -1014,7 +923,7 @@ async function deleteDecision(){if(!editingDecision||!confirm('Entscheidung lös
 const HELP={
  samples:{title:'Samples',body:'Links wählst du ein Sample, rechts siehst du erst dann die Details. So bleibt die Ansicht ruhig.',steps:['Sample anlegen oder öffnen.','Stoff, Material, GSM, Größe, Farbe und Tester hinterlegen.','+Tragen und +Waschen nutzen.','Später Status auf Favorit, Final oder Abgelehnt setzen.']},
  reviews:{title:'Reviews',body:'Hier landen strukturierte Praxistests, damit Stoffe nach denselben Kriterien vergleichbar werden.',steps:['Sample und Tester wählen.','Komfort, Atmung, Stretch, Trocknung, Fit usw. bewerten.','Overall und Notiz ergänzen.','Mehrere Reviews fließen ins Stoff-Ranking ein.']},
- testers:{title:'Test-Zuweisungen',body:'Hier verwaltet ihr alle Personen, die Samples ausprobieren.',steps:['Tester anlegen.','Optional E-Mail und Notizen ergänzen.','Samples zuweisen.','Reviews mit dem passenden Tester verknüpfen.']},
+ testers:{title:'Tester verwalten',body:'Hier verwaltet ihr alle Personen, die Samples ausprobieren.',steps:['Tester anlegen.','Optional E-Mail und Notizen ergänzen.','Samples zuweisen.','Reviews mit dem passenden Tester verknüpfen.']},
  designs:{title:'Design Board',body:'Hier sammelt ihr Produktideen und verfolgt ihren Weg von Idee bis Freigabe.',steps:['Design und Bild anlegen.','Produktart und Colorway ergänzen.','Status weiterziehen.','Priorität und Hersteller ergänzen.']},
  suppliers:{title:'Hersteller',body:'Hier stehen MOQ, Preise, Kontakt, Status und Notizen je Hersteller.',steps:['MOQ und Preisstaffeln pflegen.','Status aktuell halten.','Besonderheiten notieren.','Mit Scorecards vergleichen.']},
  testplan:{title:'Sample-Testplan',body:'Wähle oben genau ein Sample aus. Danach siehst du nur dessen Testfortschritt und offene Schritte.',steps:['Standardaufgaben pro Sample abarbeiten.','Training und Waschgänge hochzählen.','Fit- und Schweißtest erledigen.','Finales Review abgeben.']},
