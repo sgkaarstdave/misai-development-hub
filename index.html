@@ -286,6 +286,140 @@ tr:hover td{background:#16202a}
 .supplierMetaLine{margin-top:10px;font-size:11px;color:#8f9dac;display:flex;gap:10px;flex-wrap:wrap}
 @media(max-width:900px){.supplierCards{grid-template-columns:1fr}}
 @media(max-width:720px){.supplierOverviewToolbar{grid-template-columns:1fr}.supplierFacts{grid-template-columns:1fr 1fr}.supplierCard{padding:12px}}
+
+/* 2026 responsive UX pass: phone portrait/landscape, iPad, desktop */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{min-width:0;overflow-x:hidden}
+.shell{
+  width:100%;
+  padding-left:max(22px,env(safe-area-inset-left));
+  padding-right:max(22px,env(safe-area-inset-right));
+  padding-bottom:max(34px,env(safe-area-inset-bottom));
+}
+img,video,canvas,svg{max-width:100%}
+.btn,.icon,.tab,.moduleBtn,.mobileModuleTab,.assignmentStat,.tierBtn,.supplierCard,.sampleOverviewRow{touch-action:manipulation}
+.btn,.icon,input,select{min-height:44px}
+.icon{min-width:44px}
+textarea{font-size:16px}
+input,select,textarea{max-width:100%}
+.card,.hero,.detailPane,.modalbox{min-width:0}
+.sectionhead>div{min-width:0}
+.sectionhead h3,.detailTitle h3,.supplierCard h4{overflow-wrap:anywhere}
+.quickActions .btn{min-height:44px}
+.tablewrap{-webkit-overflow-scrolling:touch}
+.modalbox{overscroll-behavior:contain}
+.modalhead{position:sticky;top:-18px;z-index:3;background:inherit;padding:18px 0 10px;margin-top:-18px}
+.mobileModuleTabs{scroll-snap-type:x proximity}
+.mobileModuleTab{scroll-snap-align:start}
+
+/* Tablet / compact desktop */
+@media (max-width:1100px){
+  .shell{max-width:none;padding-left:18px;padding-right:18px}
+  .hero{padding:24px 22px}
+  .designgrid,.techgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dropgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .calcgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .costInsights{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sampleOverviewHeader,.sampleOverviewRow{
+    grid-template-columns:minmax(190px,1.2fr) minmax(150px,.9fr) minmax(110px,.65fr) minmax(95px,.55fr) minmax(120px,.75fr) minmax(70px,.4fr) 24px
+  }
+}
+
+/* Use compact navigation for narrow landscapes too (e.g. iPhone landscape) */
+@media (max-width:900px){
+  .areaNav{display:none!important}
+  .mobileNav{display:block!important}
+  .moduleNav{display:none!important}
+  .mobileModuleTabs:not(.mobileAreaHidden){display:flex!important}
+  .top{gap:12px}
+  .top .actions{flex:1;justify-content:flex-end}
+  .detailGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .supplierCards{grid-template-columns:1fr}
+  .reviewList{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Phone / very narrow iPad multitasking */
+@media (max-width:680px){
+  .shell{
+    padding-top:max(10px,env(safe-area-inset-top));
+    padding-left:max(10px,env(safe-area-inset-left));
+    padding-right:max(10px,env(safe-area-inset-right));
+    padding-bottom:max(24px,env(safe-area-inset-bottom));
+  }
+  .top{align-items:flex-start;flex-direction:column;padding-bottom:10px}
+  .brand{width:100%}.brand h1{font-size:14px;letter-spacing:.12em}.brand small{font-size:11px}
+  .top .actions{display:grid;grid-template-columns:1.2fr 1fr 1fr;width:100%;gap:6px}
+  .top .actions .btn{font-size:12px;padding:8px 7px}
+  .mobileNav{margin:12px 0 8px}
+  .mobileMenuTrigger{padding:10px 12px}.mobileMenuIcon{width:38px;height:38px}
+  .mobileModuleTabs{margin-bottom:11px;padding-bottom:3px}
+  .mobileModuleTab{min-height:40px;padding:8px 12px}
+  .hero{padding:18px 15px;border-radius:17px}.hero h2{font-size:24px;line-height:1.1}
+  .hero p{font-size:13px}
+  .quickActions{grid-template-columns:1fr 1fr;gap:7px}
+  .quickActions .btn{width:100%;padding:9px 8px}
+  .card{padding:14px;border-radius:16px}
+  .sectionhead{gap:9px}.sectionhead h3{font-size:19px}.sectionhead .muted{font-size:12px}
+  .sectionhead>.btn{width:100%}
+  .assignmentStats{grid-template-columns:1fr 1fr}
+  .assignmentToolbar,.supplierOverviewToolbar{grid-template-columns:1fr}
+  .detailGrid,.calcgrid,.scoregrid,.costInsights{grid-template-columns:1fr}
+  .designgrid,.techgrid,.dropgrid,.reviewList,.testerCompactGrid{grid-template-columns:1fr}
+  .supplierFacts{grid-template-columns:1fr 1fr}
+  .task{grid-template-columns:1fr 44px 44px;padding:9px}
+  .task .icon{padding:8px}
+  .compactActions{display:grid;grid-template-columns:1fr 1fr}
+  .compactActions .btn{width:100%}
+  .workspaceTopActions{width:100%;justify-content:space-between}
+  .sampleWorkspaceHead{position:sticky;top:0;z-index:2;background:#0d141b;padding:8px 0}
+  .activityItem{grid-template-columns:auto 1fr}.activityTime{grid-column:2;margin-top:2px}
+  .modal{padding:0;align-items:flex-end;background:rgba(0,0,0,.82)}
+  .modalbox{
+    width:100%!important;max-width:none;max-height:min(94dvh,94vh);
+    border-radius:20px 20px 0 0;border-left:0;border-right:0;border-bottom:0;
+    padding:16px max(14px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))
+  }
+  .modalhead{top:-16px;padding-top:16px;margin-top:-16px}
+  .formgrid{grid-template-columns:1fr}
+  .formgrid>.full[style*="justify-content:space-between"]{flex-direction:column-reverse!important;align-items:stretch!important;gap:8px}
+  .formgrid>.full[style*="justify-content:space-between"]>div{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .formgrid>.full[style*="justify-content:space-between"] .btn{width:100%}
+  label{margin-top:10px}
+  input,select,textarea{font-size:16px}
+  .toast{left:10px;right:10px;bottom:max(10px,env(safe-area-inset-bottom));text-align:center}
+  /* saved cost scenarios become cards instead of a horizontal table */
+  #costRows, #costRows tr, #costRows td{display:block;width:100%}
+  #costRows tr{background:#101720;border:1px solid #293642;border-radius:14px;padding:10px 12px;margin:0 0 9px}
+  #costRows td{display:grid;grid-template-columns:minmax(95px,.75fr) 1.25fr;gap:10px;padding:7px 0;border:0;background:transparent!important;font-size:13px}
+  #costRows td:before{content:attr(data-label);color:#7f8d9a;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+  #costRows td:last-child{display:flex;gap:8px;padding-top:10px}
+  #costRows td:last-child:before{display:none}
+  #costRows td:last-child .icon{flex:1}
+  #costs .tablewrap{border:0;background:transparent;overflow:visible}
+  #costs table{min-width:0}
+  #costs thead{display:none}
+}
+
+/* Short landscape phones: preserve vertical room */
+@media (max-height:500px) and (orientation:landscape){
+  .shell{padding-top:8px;padding-bottom:16px}
+  .top{display:grid;grid-template-columns:1fr auto;align-items:center}
+  .top .actions{display:flex;width:auto}
+  .brand .logo{width:36px;height:36px}.brand h1{font-size:13px}
+  .mobileNav{margin:8px 0 6px}
+  .mobileMenuTrigger{padding:7px 10px}.mobileMenuIcon{width:34px;height:34px}
+  .hero{padding:15px 17px}.hero h2{font-size:22px}.hero p{margin-bottom:8px}
+  .modalbox{max-height:100dvh;border-radius:0}
+  .modal{align-items:stretch}
+}
+
+/* Large desktop: use the room, but keep readable line lengths */
+@media (min-width:1400px){
+  .shell{max-width:1600px}
+  .sampleWorkspacePane,.supplierWorkspace .detailPane{max-width:1320px}
+  .supplierCards{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
 <div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
@@ -303,7 +437,7 @@ tr:hover td{background:#16202a}
   </button>
   <div id="mobileMenuPanel" class="mobileMenuPanel">
     <button data-mobile-area="overview" class="active" onclick="selectMobileArea('overview')"><span>Übersicht</span><small>Dashboard & Aktivität</small></button>
-    <button data-mobile-area="testing" onclick="selectMobileArea('testing')"><span>Testen</span><small>Samples, Testplan, Reviews</small></button>
+    <button data-mobile-area="testing" onclick="selectMobileArea('testing')"><span>Testen</span><small>Samples, Reviews, Tester</small></button>
     <button data-mobile-area="product" onclick="selectMobileArea('product')"><span>Produkt</span><small>Designs, Tech Packs, Entscheidungen</small></button>
     <button data-mobile-area="business" onclick="selectMobileArea('business')"><span>Business</span><small>Hersteller, Kosten, Drops</small></button>
   </div>
@@ -993,7 +1127,7 @@ function renderCosts(){
  populateCostSuppliers();onCostSupplierChange();calculateCost();
  $('costRows').innerHTML=costScenarios.map(c=>{
   const total=c.quantity*c.unit_cost+(+c.shipping||0)+(+c.duties||0)+(+c.tax||0)+(+c.packaging||0)+(+c.payment_fees||0)+(+c.other_costs||0),per=total/c.quantity,margin=c.sell_price?c.sell_price-per:null,pct=c.sell_price?margin/c.sell_price*100:null,s=suppliers.find(x=>x.id===c.supplier_id);
-  return `<tr><td><b>${esc(c.name)}</b></td><td>${esc(s?.name||'–')}</td><td>${esc(c.product||'')} ${esc(c.colorway||'')}</td><td>${c.quantity}</td><td>${per.toFixed(2)} €</td><td>${c.sell_price??'–'}</td><td>${margin==null?'–':margin.toFixed(2)+' €'}</td><td><button class="icon" onclick="loadCostScenario(${c.id})">Bearbeiten</button> <button class="icon danger" onclick="deleteCostScenario(${c.id})">Löschen</button></td></tr>`;
+  return `<tr><td data-label="Name"><b>${esc(c.name)}</b></td><td data-label="Hersteller">${esc(s?.name||'–')}</td><td data-label="Produkt">${esc(c.product||'')} ${esc(c.colorway||'')}</td><td data-label="Menge">${c.quantity}</td><td data-label="Kosten / Stk.">${per.toFixed(2)} €</td><td data-label="VK">${c.sell_price??'–'}</td><td data-label="DB">${margin==null?'–':margin.toFixed(2)+' €'}</td><td data-label="Aktionen"><button class="icon" onclick="loadCostScenario(${c.id})">Bearbeiten</button> <button class="icon danger" onclick="deleteCostScenario(${c.id})">Löschen</button></td></tr>`;
  }).join('')||'<tr><td colspan="8" class="empty">Noch keine Szenarien.</td></tr>';
 }
 function loadCostScenario(id){
