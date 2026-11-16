@@ -473,14 +473,50 @@ input,select,textarea{max-width:100%}
   }
 }
 
+
+/* Section identity + richer information hierarchy */
+.areaNav{grid-template-columns:repeat(5,minmax(0,1fr))}
+:root{--area-accent:var(--accent);--area-soft:rgba(216,91,99,.10)}
+body:has(.panel[data-area="overview"][style*="display: block"]){--area-accent:#6fa8dc;--area-soft:rgba(111,168,220,.10)}
+body:has(.panel[data-area="testing"][style*="display: block"]){--area-accent:#df6670;--area-soft:rgba(223,102,112,.11)}
+body:has(.panel[data-area="product"][style*="display: block"]){--area-accent:#9a82df;--area-soft:rgba(154,130,223,.11)}
+body:has(.panel[data-area="business"][style*="display: block"]){--area-accent:#d1a35d;--area-soft:rgba(209,163,93,.11)}
+body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#5bbeb4;--area-soft:rgba(91,190,180,.11)}
+.areaNav .tab.active,.moduleNav .moduleBtn.active,.mobileModuleTab.active{border-color:color-mix(in srgb,var(--area-accent) 65%,#33404d);box-shadow:inset 0 -2px 0 var(--area-accent)}
+.panel>.card{position:relative;overflow:hidden}
+.panel>.card:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,var(--area-accent),transparent 65%);opacity:.8}
+.sectionhead h3{display:flex;align-items:center;gap:2px}
+.detailStat,.supplierFact,.resultbox,.insight{background:linear-gradient(180deg,#101821,#0c131a)}
+.badge.good{box-shadow:inset 0 0 0 1px rgba(121,213,167,.08)}
+.supplierCards{align-items:start}
+.supplierCard{padding:0;overflow:hidden}
+.supplierCardHead{padding:15px 16px 13px;background:linear-gradient(180deg,rgba(255,255,255,.018),transparent);border-bottom:1px solid #25313d}
+.supplierSection{padding:12px 16px;border-bottom:1px solid #202c37}.supplierSection:last-child{border-bottom:0}
+.supplierSectionMain{background:rgba(209,163,93,.035)}
+.supplierSectionLabel{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:#788896;font-weight:800;margin-bottom:8px}
+.supplierMetrics{display:grid;grid-template-columns:1.4fr .6fr;gap:8px}
+.supplierMetrics>div,.supplierContactGrid>div{min-width:0}.supplierMetrics span,.supplierContactGrid span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:#758594}.supplierMetrics b,.supplierContactGrid b{display:block;margin-top:3px;font-size:12px;overflow-wrap:anywhere}
+.supplierTierPreview{gap:7px}.supplierTierPill{padding:6px 9px;background:#121c26;border-color:#344351}.supplierTierPill b{color:#f0d098}
+.supplierContactGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.videoIdeaToolbar{display:grid;grid-template-columns:minmax(260px,1fr) 200px 200px;gap:8px;margin-bottom:12px}
+.videoIdeaGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.videoIdeaCard{cursor:pointer;background:linear-gradient(180deg,#121c24,#0d151c);border:1px solid #293944;border-radius:17px;padding:15px;transition:.15s;min-width:0}
+.videoIdeaCard:hover{transform:translateY(-1px);border-color:#45625f;background:linear-gradient(180deg,#15242a,#0f181e)}
+.videoIdeaTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.videoIdeaTop h4{margin:5px 0 0;font-size:17px;line-height:1.25}.videoPlatform{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#73c9c0;font-weight:800}
+.videoIdeaCard p{color:#aab5bf;font-size:12px;line-height:1.55;white-space:pre-line;overflow-wrap:anywhere}
+.videoIdeaMeta{display:flex;gap:9px;align-items:center;flex-wrap:wrap;border-top:1px solid #22313a;padding-top:10px;margin-top:12px;font-size:10px;color:#82909b}.videoStars{color:#e2b766;letter-spacing:.04em}
+@media(max-width:1100px){.videoIdeaGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.supplierContactGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:680px){.videoIdeaToolbar{grid-template-columns:1fr}.videoIdeaGrid{grid-template-columns:1fr}.supplierContactGrid,.supplierMetrics{grid-template-columns:1fr 1fr}.supplierSection{padding:11px 13px}.supplierCardHead{padding:13px}}
+
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
-<div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small><small id="buildStamp" class="muted" style="display:block;font-size:9px;margin-top:2px;opacity:.65">Build 2026-11-16 · 742102+</small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
+<div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small><small id="buildStamp" class="muted" style="display:block;font-size:9px;margin-top:2px;opacity:.65">Build 2026-11-16 · Marketing+UX</small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
 <div class="navGroups areaNav">
   <button class="tab active" data-area="overview" onclick="switchArea('overview')">Übersicht</button>
   <button class="tab" data-area="testing" onclick="switchArea('testing')">Testen</button>
   <button class="tab" data-area="product" onclick="switchArea('product')">Produkt</button>
   <button class="tab" data-area="business" onclick="switchArea('business')">Business</button>
+  <button class="tab" data-area="marketing" onclick="switchArea('marketing')">Marketing</button>
 </div>
 <div id="mobileNav" class="mobileNav">
   <button type="button" class="mobileMenuTrigger" onclick="toggleMobileMenu()">
@@ -493,6 +529,7 @@ input,select,textarea{max-width:100%}
     <button data-mobile-area="testing" onclick="selectMobileArea('testing')"><span>Testen</span><small>Samples, Reviews, Tester</small></button>
     <button data-mobile-area="product" onclick="selectMobileArea('product')"><span>Produkt</span><small>Designs, Tech Packs, Entscheidungen</small></button>
     <button data-mobile-area="business" onclick="selectMobileArea('business')"><span>Business</span><small>Hersteller, Kosten, Drops</small></button>
+    <button data-mobile-area="marketing" onclick="selectMobileArea('marketing')"><span>Marketing</span><small>Videoideen & Content</small></button>
   </div>
 </div>
 <div class="moduleNav" data-module-area="overview"><button class="moduleBtn active" data-module="dashboard" onclick="switchModule('dashboard')">Dashboard</button><button class="moduleBtn" data-module="activity" onclick="switchModule('activity')">Aktivität</button></div><div class="mobileModuleTabs" data-module-area="overview"><button type="button" class="mobileModuleTab active" data-module="dashboard" onclick="switchModule('dashboard')">Dashboard</button><button type="button" class="mobileModuleTab" data-module="activity" onclick="switchModule('activity')">Aktivität</button></div><section id="dashboard" class="panel active" data-area="overview"><div class="hero"><h2>Entwickeln. Testen. Entscheiden.</h2><p class="muted">Alle MiSai-Entscheidungen an einem Ort – von Stoff und Fit bis Design und Serienhersteller.</p><div class="quickActions"><button class="btn primary" onclick="openSample()">+ Sample</button><button class="btn" onclick="openReview()">+ Review</button><button class="btn" onclick="openDesign()">+ Design</button><button class="btn" onclick="switchTab('costs')">Kosten berechnen</button><button class="btn" onclick="openActivityNote()">+ Vermerk</button></div><div id="setupNotice" class="notice hidden" style="margin:12px 0"></div></div><div class="grid"><div class="card kpi"><div class="muted tiny">Samples</div><div class="num" id="kSamples">0</div></div><div class="card kpi"><div class="muted tiny">Reviews</div><div class="num" id="kReviews">0</div></div><div class="card kpi"><div class="muted tiny">Waschgänge</div><div class="num" id="kWashes">0</div></div><div class="card kpi"><div class="muted tiny">Designs</div><div class="num" id="kDesigns">0</div></div></div><details class="helpbox"><summary style="cursor:pointer;font-weight:800">Wie nutzt man den Hub?</summary><p><b>Sample → zuweisen → testen → Review → vergleichen → entscheiden → Drop.</b></p><p>Die kleinen <b>i</b>-Buttons erklären jeden Bereich direkt in der App.</p></details><div class="split" style="margin-top:12px"><div class="card"><h3>Stoff-Ranking</h3><div id="fabricRanking"></div></div><div class="card"><h3>Status</h3><div id="statusSummary"></div></div></div><div class="card" style="margin-top:12px"><div class="sectionhead"><div><h3>Hinweise & To-dos</h3><div class="muted">Automatische Hinweise aus euren aktuellen Daten.</div></div></div><div id="alertGrid" class="alertgrid"></div></div></section>
@@ -644,6 +681,20 @@ input,select,textarea{max-width:100%}
     </div>
     <div id="supplierWorkspaceBody" class="detailPane sampleWorkspacePane"></div>
   </div>
+</div></section>
+<div class="moduleNav" data-module-area="marketing"><button class="moduleBtn active" data-module="videoideas" onclick="switchModule('videoideas')">Videoideen</button></div>
+<div class="mobileModuleTabs" data-module-area="marketing"><button type="button" class="mobileModuleTab active" data-module="videoideas" onclick="switchModule('videoideas')">Videoideen</button></div>
+<section id="videoideas" class="panel" data-area="marketing"><div class="card">
+  <div class="sectionhead">
+    <div><h3>Videoideen</h3><div class="muted">Content-Ideen sammeln, gemeinsam bewerten und von Idee bis Veröffentlichung verfolgen.</div></div>
+    <button class="btn primary" onclick="openVideoIdea()">+ Videoidee</button>
+  </div>
+  <div class="videoIdeaToolbar">
+    <div class="assignmentSearch"><span>⌕</span><input id="videoIdeaSearch" placeholder="Ideen durchsuchen …" oninput="renderVideoIdeas()"></div>
+    <select id="videoIdeaPlatformFilter" onchange="renderVideoIdeas()"><option value="">Alle Plattformen</option><option>Instagram</option><option>TikTok</option><option>Instagram + TikTok</option><option>Andere</option></select>
+    <select id="videoIdeaStatusFilter" onchange="renderVideoIdeas()"><option value="">Alle Status</option><option>Idee</option><option>Shortlist</option><option>Geplant</option><option>Produziert</option><option>Veröffentlicht</option><option>Verworfen</option></select>
+  </div>
+  <div id="videoIdeaGrid" class="videoIdeaGrid"></div>
 </div></section></div></div>
 
 <div id="sampleModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Sample</h3><button class="icon" onclick="closeModal('sampleModal')">✕</button></div><div class="formgrid"><div><label>Code</label><input id="sCode"></div><div><label>Hersteller</label><input id="sSupplier"></div><div><label>Stoff</label><input id="sFabric"></div><div><label>Material</label><input id="sMaterial"></div><div><label>GSM</label><input id="sGsm" type="number"></div><div><label>Größe</label><input id="sSize"></div><div><label>Farbe</label><input id="sColor"></div><div><label>Status</label><select id="sStatus"><option>Im Test</option><option>Favorit</option><option>Abgelehnt</option><option>Final</option></select></div><div><label>Tester</label><select id="sTester"></select></div><div><label>Erhalten am</label><input id="sReceived" type="date"></div><div><label>Tragen</label><input id="sWears" type="number"></div><div><label>Waschen</label><input id="sWashes" type="number"></div><div class="full"><label>Notizen</label><textarea id="sNotes"></textarea></div><div class="full" style="display:flex;justify-content:space-between"><button id="deleteSampleBtn" class="btn danger" onclick="deleteSample()">Löschen</button><div><button class="btn" onclick="closeModal('sampleModal')">Abbrechen</button> <button class="btn primary" onclick="saveSample()">Speichern</button></div></div></div></div></div>
@@ -751,9 +802,21 @@ input,select,textarea{max-width:100%}
   <label>Vermerk</label><textarea id="activityNote" placeholder="z. B. SAMPRO wegen neuer Stoffoption angeschrieben"></textarea>
   <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px"><button class="btn" onclick="closeModal('activityModal')">Abbrechen</button><button class="btn primary" onclick="saveActivityNote()">Speichern</button></div>
 </div></div>
+<div id="videoIdeaModal" class="modal"><div class="modalbox" style="width:min(700px,100%)">
+  <div class="modalhead"><h3>Videoidee</h3><button class="icon" onclick="closeModal('videoIdeaModal')">✕</button></div>
+  <div class="formgrid">
+    <div class="full"><label>Titel</label><input id="viTitle" placeholder="z. B. Warum unser Shirt beim Padel nicht klebt"></div>
+    <div><label>Plattform</label><select id="viPlatform"><option>Instagram + TikTok</option><option>Instagram</option><option>TikTok</option><option>Andere</option></select></div>
+    <div><label>Status</label><select id="viStatus"><option>Idee</option><option>Shortlist</option><option>Geplant</option><option>Produziert</option><option>Veröffentlicht</option><option>Verworfen</option></select></div>
+    <div><label>Bewertung</label><select id="viRating"><option value="">Noch nicht bewertet</option><option value="1">★ 1 / 5</option><option value="2">★★ 2 / 5</option><option value="3">★★★ 3 / 5</option><option value="4">★★★★ 4 / 5</option><option value="5">★★★★★ 5 / 5</option></select></div>
+    <div><label>Von</label><input id="viBy" placeholder="David / Dima"></div>
+    <div class="full"><label>Idee / Ablauf</label><textarea id="viIdea" style="min-height:180px" placeholder="Hook, Szenen, Voiceover, CTA, Notizen …"></textarea></div>
+    <div class="full" style="display:flex;justify-content:space-between"><button id="deleteVideoIdeaBtn" class="btn danger" onclick="deleteVideoIdea()">Löschen</button><div><button class="btn" onclick="closeModal('videoIdeaModal')">Abbrechen</button> <button class="btn primary" onclick="saveVideoIdea()">Speichern</button></div></div>
+  </div>
+</div></div>
 <div id="accountModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Account</h3><button class="icon" onclick="closeModal('accountModal')">✕</button></div><label>Neues Passwort</label><input id="newPassword" type="password"><button class="btn primary" style="margin-top:12px" onclick="changePassword()">Passwort ändern</button></div></div>
 <script>
-const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5orQO6yR1_KkQ_tkVHv8Do',db=window.supabase.createClient(U,K),$=id=>document.getElementById(id);let samples=[],suppliers=[],designs=[],testers=[],reviews=[],supplierScores=[],costScenarios=[],testTasks=[],drops=[],dropItems=[],techPacks=[],decisions=[],supplierTiers=[],activities=[],selectedSampleId=null,sampleOverviewFilter='all',currentActor='User',editingSample=null,editingSupplier=null,editingDesign=null,editingTester=null,editingReview=null,editingScoreSupplier=null,editingCost=null,editingDrop=null,editingTech=null,editingDecision=null,editingTier=null,selectedSupplierId=null;function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}async function login(){let{data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error)return $('loginError').textContent=error.message;showApp(data.user)}async function logout(){await db.auth.signOut();location.reload()}async function resetPassword(){let e=$('loginEmail').value.trim();if(!e)return $('loginError').textContent='Bitte E-Mail eintragen.';let{error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin});$('loginError').textContent=error?error.message:'Reset-Mail verschickt.'}async function changePassword(){let p=$('newPassword').value;if(p.length<8)return alert('Mindestens 8 Zeichen.');let{error}=await db.auth.updateUser({password:p});if(error)alert(error.message);else{alert('Passwort geändert.');closeModal('accountModal')}}function openAccount(){$('newPassword').value='';$('accountModal').classList.add('open')}async function showApp(u){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=u?.email||'';currentActor=(u?.user_metadata?.display_name||u?.user_metadata?.full_name||u?.email?.split('@')[0]||'User');currentActor=currentActor.charAt(0).toUpperCase()+currentActor.slice(1);await refreshAll()}async function refreshAll(){
+const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5orQO6yR1_KkQ_tkVHv8Do',db=window.supabase.createClient(U,K),$=id=>document.getElementById(id);let samples=[],suppliers=[],designs=[],testers=[],reviews=[],supplierScores=[],costScenarios=[],testTasks=[],drops=[],dropItems=[],techPacks=[],decisions=[],supplierTiers=[],activities=[],marketingIdeas=[],selectedSampleId=null,sampleOverviewFilter='all',currentActor='User',editingSample=null,editingSupplier=null,editingDesign=null,editingTester=null,editingReview=null,editingScoreSupplier=null,editingCost=null,editingDrop=null,editingTech=null,editingDecision=null,editingTier=null,selectedSupplierId=null,editingVideoIdea=null;function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}async function login(){let{data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error)return $('loginError').textContent=error.message;showApp(data.user)}async function logout(){await db.auth.signOut();location.reload()}async function resetPassword(){let e=$('loginEmail').value.trim();if(!e)return $('loginError').textContent='Bitte E-Mail eintragen.';let{error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin});$('loginError').textContent=error?error.message:'Reset-Mail verschickt.'}async function changePassword(){let p=$('newPassword').value;if(p.length<8)return alert('Mindestens 8 Zeichen.');let{error}=await db.auth.updateUser({password:p});if(error)alert(error.message);else{alert('Passwort geändert.');closeModal('accountModal')}}function openAccount(){$('newPassword').value='';$('accountModal').classList.add('open')}async function showApp(u){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=u?.email||'';currentActor=(u?.user_metadata?.display_name||u?.user_metadata?.full_name||u?.email?.split('@')[0]||'User');currentActor=currentActor.charAt(0).toUpperCase()+currentActor.slice(1);await refreshAll()}async function refreshAll(){
   const core=await Promise.all([
     db.from('samples').select('*').order('id'),
     db.from('suppliers').select('*').order('id'),
@@ -783,7 +846,7 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
     ['dropItems',db.from('drop_items').select('*').order('id')],
     ['techPacks',db.from('tech_packs').select('*').order('updated_at',{ascending:false})],
     ['decisions',db.from('decision_log').select('*').order('decided_at',{ascending:false})],
-    ['supplierTiers',db.from('supplier_price_tiers').select('*').order('quantity')],['activities',db.from('activity_log').select('*').order('created_at',{ascending:false}).limit(100)]
+    ['supplierTiers',db.from('supplier_price_tiers').select('*').order('quantity')],['activities',db.from('activity_log').select('*').order('created_at',{ascending:false}).limit(100)],['marketingIdeas',db.from('marketing_video_ideas').select('*').order('created_at',{ascending:false})]
   ];
   const results=await Promise.all(optionalQueries.map(x=>x[1]));
   const missingModules=[];
@@ -798,7 +861,7 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
     if(key==='dropItems') dropItems=data;
     if(key==='techPacks') techPacks=data;
     if(key==='decisions') decisions=data;
-    if(key==='supplierTiers') supplierTiers=data;if(key==='activities') activities=data;
+    if(key==='supplierTiers') supplierTiers=data;if(key==='activities') activities=data;if(key==='marketingIdeas') marketingIdeas=data;
   });
   renderAll();
   showSetupNotice(missingModules);
@@ -806,11 +869,11 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
 function showSetupNotice(modules){
  const el=$('setupNotice');if(!el)return;
  if(!modules.length){el.classList.add('hidden');el.innerHTML='';return}
- const labels={supplierScores:'Scorecards',costScenarios:'Kosten',testTasks:'Testplan',drops:'Drops',dropItems:'Drop-Produkte',techPacks:'Tech Packs',decisions:'Entscheidungen',supplierTiers:'Preisstaffeln',activities:'Aktivitätslog'};
+ const labels={supplierScores:'Scorecards',costScenarios:'Kosten',testTasks:'Testplan',drops:'Drops',dropItems:'Drop-Produkte',techPacks:'Tech Packs',decisions:'Entscheidungen',supplierTiers:'Preisstaffeln',activities:'Aktivitätslog',marketingIdeas:'Marketing / Videoideen'};
  el.innerHTML='<b>Ein Teil der Erweiterungen ist noch nicht eingerichtet.</b><div class="tiny" style="margin-top:5px">Fehlt: '+modules.map(x=>labels[x]||x).join(', ')+'. Samples, Tester, Reviews und Designs funktionieren trotzdem.</div>';
  el.classList.remove('hidden');
 }
-function avg(a){a=a.filter(v=>v!=null).map(Number);return a.length?a.reduce((x,y)=>x+y,0)/a.length:null}function testerName(id){return testers.find(x=>x.id===id)?.name||''}function sampleName(id){return samples.find(x=>x.id===id)?.sample_code||''}function renderAll(){renderDashboard();renderAlerts();populateFilters();renderSamples();renderReviews();renderActivities();renderScorecards();renderCosts();renderDrops();renderTechPacks();renderDecisions();renderTesters();renderDesigns();renderSuppliers()}function renderDashboard(){$('kSamples').textContent=samples.length;$('kReviews').textContent=reviews.length;$('kWashes').textContent=samples.reduce((a,s)=>a+(+s.wash_count||0),0);$('kDesigns').textContent=designs.length;let g={};samples.forEach(s=>{let k=`${s.fabric_name||'Unbenannt'} · ${s.gsm||'?'} GSM`;g[k]??=[];g[k].push(s.id)});$('fabricRanking').innerHTML=Object.entries(g).map(([k,ids])=>{let rs=reviews.filter(r=>ids.includes(r.sample_id)),o=avg(rs.map(r=>r.overall));return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between"><b>${esc(k)}</b><span>${o?o.toFixed(1)+'/10':'offen'}</span></div><div class="muted tiny">${rs.length} Review(s)</div><div class="statbar"><span style="width:${o?o*10:0}%"></span></div></div>`}).join('')||'<div class="empty">Noch keine Stoffdaten.</div>';let doneTasks=testTasks.filter(t=>(+t.completed_count||0)>=(+t.target_count||1)).length,totalTasks=testTasks.length;let pct=totalTasks?Math.round(doneTasks/totalTasks*100):0;$('statusSummary').innerHTML=`<p><b>${samples.filter(s=>s.status==='Favorit').length}</b> Sample-Favoriten</p><p><b>${samples.filter(s=>s.status==='Final').length}</b> finale Samples</p><p><b>${designs.filter(d=>['Shortlist','Tech Pack','Sample'].includes(d.status)).length}</b> Designs in Arbeit</p><p><b>${suppliers.length}</b> Hersteller</p><div style="margin-top:12px"><div class="progresshead"><span>Gesamter Testfortschritt</span><b>${pct}%</b></div><div class="bar"><span style="width:${pct}%"></span></div></div>`}function uniq(a){return[...new Set(a.filter(Boolean))].sort()}function populateFilters(){
+function avg(a){a=a.filter(v=>v!=null).map(Number);return a.length?a.reduce((x,y)=>x+y,0)/a.length:null}function testerName(id){return testers.find(x=>x.id===id)?.name||''}function sampleName(id){return samples.find(x=>x.id===id)?.sample_code||''}function renderAll(){renderDashboard();renderAlerts();populateFilters();renderSamples();renderReviews();renderActivities();renderScorecards();renderCosts();renderDrops();renderTechPacks();renderDecisions();renderTesters();renderDesigns();renderSuppliers();renderVideoIdeas()}function renderDashboard(){$('kSamples').textContent=samples.length;$('kReviews').textContent=reviews.length;$('kWashes').textContent=samples.reduce((a,s)=>a+(+s.wash_count||0),0);$('kDesigns').textContent=designs.length;let g={};samples.forEach(s=>{let k=`${s.fabric_name||'Unbenannt'} · ${s.gsm||'?'} GSM`;g[k]??=[];g[k].push(s.id)});$('fabricRanking').innerHTML=Object.entries(g).map(([k,ids])=>{let rs=reviews.filter(r=>ids.includes(r.sample_id)),o=avg(rs.map(r=>r.overall));return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between"><b>${esc(k)}</b><span>${o?o.toFixed(1)+'/10':'offen'}</span></div><div class="muted tiny">${rs.length} Review(s)</div><div class="statbar"><span style="width:${o?o*10:0}%"></span></div></div>`}).join('')||'<div class="empty">Noch keine Stoffdaten.</div>';let doneTasks=testTasks.filter(t=>(+t.completed_count||0)>=(+t.target_count||1)).length,totalTasks=testTasks.length;let pct=totalTasks?Math.round(doneTasks/totalTasks*100):0;$('statusSummary').innerHTML=`<p><b>${samples.filter(s=>s.status==='Favorit').length}</b> Sample-Favoriten</p><p><b>${samples.filter(s=>s.status==='Final').length}</b> finale Samples</p><p><b>${designs.filter(d=>['Shortlist','Tech Pack','Sample'].includes(d.status)).length}</b> Designs in Arbeit</p><p><b>${suppliers.length}</b> Hersteller</p><div style="margin-top:12px"><div class="progresshead"><span>Gesamter Testfortschritt</span><b>${pct}%</b></div><div class="bar"><span style="width:${pct}%"></span></div></div>`}function uniq(a){return[...new Set(a.filter(Boolean))].sort()}function populateFilters(){
 
 }
 function renderSamples(){
@@ -906,7 +969,43 @@ function openReview(id=null,preset=null){editingReview=id;let r=id?reviews.find(
    return `<div class="testerCompact" onclick="openTester(${t.id})"><b>${esc(t.name)}</b><small>${count} Sample(s) · ${reviewCount} Review(s)</small><div class="tiny muted" style="margin-top:4px">${esc(t.email||'')}</div></div>`;
  }).join('')||'<div class="empty">Noch keine Tester.<div class="emptyAction"><button class="btn primary" onclick="openTester()">Ersten Tester anlegen</button></div></div>';
 }
-function openTester(id=null){editingTester=id;let t=id?testers.find(x=>x.id===id):{};$('tName').value=t.name||'';$('tEmail').value=t.email||'';$('tNotes').value=t.notes||'';$('deleteTesterBtn').style.visibility=id?'visible':'hidden';$('testerModal').classList.add('open')}async function saveTester(){let p={name:$('tName').value.trim(),email:$('tEmail').value.trim()||null,notes:$('tNotes').value.trim()},q=editingTester?db.from('testers').update(p).eq('id',editingTester):db.from('testers').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('testerModal');await logActivity(editingTester?'updated':'created','Tester',p.name,editingTester?'Tester bearbeitet':'Neuen Tester angelegt');toast('Tester gespeichert');refreshAll()}}async function deleteTester(){if(!editingTester||!confirm('Tester löschen?'))return;const t=testers.find(x=>x.id===editingTester);let{error}=await db.from('testers').delete().eq('id',editingTester);if(error)alert(error.message);else{closeModal('testerModal');await logActivity('deleted','Tester',t?.name||'Tester','Tester gelöscht');toast('Tester gelöscht');refreshAll()}}async function signedUrl(p){if(!p)return null;let{data,error}=await db.storage.from('designs').createSignedUrl(p,3600);return error?null:data.signedUrl}async function renderDesigns(){let out=[];for(const d of designs){let u=d.image_url||null;if(d.storage_path)u=await signedUrl(d.storage_path);out.push(`<div class="design clickable" onclick="openDesign(${d.id})"><div class="designimg">${u?`<img src="${u}">`:'Kein Bild'}</div><div class="designbody"><span class="badge">${esc(d.status)}</span> <span class="badge ${d.priority==='Hoch'?'warn':''}">${esc(d.priority||'Normal')}</span><h3>${esc(d.name)}</h3><div class="muted">${esc(d.product_type||'')} · ${esc(d.colorway||'')}</div><p>${esc(d.notes||'')}</p></div></div>`)}$('designGrid').innerHTML=out.join('')||'<div class="empty">Noch keine Designs.</div>'}function openDesign(id=null){editingDesign=id;let d=id?designs.find(x=>x.id===id):{};$('dName').value=d.name||'';$('dProduct').value=d.product_type||'';$('dColor').value=d.colorway||'';$('dStatus').value=d.status||'Idee';$('dSupplier').value=d.supplier||'';$('dPriority').value=d.priority||'Normal';$('dNotes').value=d.notes||'';$('dFile').value='';$('deleteDesignBtn').style.visibility=id?'visible':'hidden';$('designModal').classList.add('open')}async function saveDesign(){let sp=editingDesign?designs.find(x=>x.id===editingDesign)?.storage_path:null,f=$('dFile').files[0];if(f){let ext=f.name.split('.').pop();sp=`${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;let{error}=await db.storage.from('designs').upload(sp,f);if(error)return alert(error.message)}let p={name:$('dName').value.trim(),product_type:$('dProduct').value.trim(),colorway:$('dColor').value.trim(),status:$('dStatus').value,supplier:$('dSupplier').value.trim(),priority:$('dPriority').value,storage_path:sp,notes:$('dNotes').value.trim()},q=editingDesign?db.from('designs').update(p).eq('id',editingDesign):db.from('designs').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('designModal');await logActivity(editingDesign?'updated':'created','Design',p.name,editingDesign?'Design bearbeitet':'Neues Design erstellt');toast('Design gespeichert');refreshAll()}}async function deleteDesign(){if(!editingDesign||!confirm('Design löschen?'))return;let d=designs.find(x=>x.id===editingDesign);if(d?.storage_path)await db.storage.from('designs').remove([d.storage_path]);let{error}=await db.from('designs').delete().eq('id',editingDesign);if(error)alert(error.message);else{closeModal('designModal');await logActivity('deleted','Design',d?.name||'Design','Design gelöscht');toast('Design gelöscht');refreshAll()}}function renderSuppliers(){
+function openTester(id=null){editingTester=id;let t=id?testers.find(x=>x.id===id):{};$('tName').value=t.name||'';$('tEmail').value=t.email||'';$('tNotes').value=t.notes||'';$('deleteTesterBtn').style.visibility=id?'visible':'hidden';$('testerModal').classList.add('open')}async function saveTester(){let p={name:$('tName').value.trim(),email:$('tEmail').value.trim()||null,notes:$('tNotes').value.trim()},q=editingTester?db.from('testers').update(p).eq('id',editingTester):db.from('testers').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('testerModal');await logActivity(editingTester?'updated':'created','Tester',p.name,editingTester?'Tester bearbeitet':'Neuen Tester angelegt');toast('Tester gespeichert');refreshAll()}}async function deleteTester(){if(!editingTester||!confirm('Tester löschen?'))return;const t=testers.find(x=>x.id===editingTester);let{error}=await db.from('testers').delete().eq('id',editingTester);if(error)alert(error.message);else{closeModal('testerModal');await logActivity('deleted','Tester',t?.name||'Tester','Tester gelöscht');toast('Tester gelöscht');refreshAll()}}async function signedUrl(p){if(!p)return null;let{data,error}=await db.storage.from('designs').createSignedUrl(p,3600);return error?null:data.signedUrl}async function renderDesigns(){let out=[];for(const d of designs){let u=d.image_url||null;if(d.storage_path)u=await signedUrl(d.storage_path);out.push(`<div class="design clickable" onclick="openDesign(${d.id})"><div class="designimg">${u?`<img src="${u}">`:'Kein Bild'}</div><div class="designbody"><span class="badge">${esc(d.status)}</span> <span class="badge ${d.priority==='Hoch'?'warn':''}">${esc(d.priority||'Normal')}</span><h3>${esc(d.name)}</h3><div class="muted">${esc(d.product_type||'')} · ${esc(d.colorway||'')}</div><p>${esc(d.notes||'')}</p></div></div>`)}$('designGrid').innerHTML=out.join('')||'<div class="empty">Noch keine Designs.</div>'}function openDesign(id=null){editingDesign=id;let d=id?designs.find(x=>x.id===id):{};$('dName').value=d.name||'';$('dProduct').value=d.product_type||'';$('dColor').value=d.colorway||'';$('dStatus').value=d.status||'Idee';$('dSupplier').value=d.supplier||'';$('dPriority').value=d.priority||'Normal';$('dNotes').value=d.notes||'';$('dFile').value='';$('deleteDesignBtn').style.visibility=id?'visible':'hidden';$('designModal').classList.add('open')}async function saveDesign(){let sp=editingDesign?designs.find(x=>x.id===editingDesign)?.storage_path:null,f=$('dFile').files[0];if(f){let ext=f.name.split('.').pop();sp=`${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;let{error}=await db.storage.from('designs').upload(sp,f);if(error)return alert(error.message)}let p={name:$('dName').value.trim(),product_type:$('dProduct').value.trim(),colorway:$('dColor').value.trim(),status:$('dStatus').value,supplier:$('dSupplier').value.trim(),priority:$('dPriority').value,storage_path:sp,notes:$('dNotes').value.trim()},q=editingDesign?db.from('designs').update(p).eq('id',editingDesign):db.from('designs').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('designModal');await logActivity(editingDesign?'updated':'created','Design',p.name,editingDesign?'Design bearbeitet':'Neues Design erstellt');toast('Design gespeichert');refreshAll()}}async function deleteDesign(){if(!editingDesign||!confirm('Design löschen?'))return;let d=designs.find(x=>x.id===editingDesign);if(d?.storage_path)await db.storage.from('designs').remove([d.storage_path]);let{error}=await db.from('designs').delete().eq('id',editingDesign);if(error)alert(error.message);else{closeModal('designModal');await logActivity('deleted','Design',d?.name||'Design','Design gelöscht');toast('Design gelöscht');refreshAll()}}
+function renderVideoIdeas(){
+ const el=$('videoIdeaGrid');if(!el)return;
+ const q=($('videoIdeaSearch')?.value||'').trim().toLowerCase(),platform=$('videoIdeaPlatformFilter')?.value||'',status=$('videoIdeaStatusFilter')?.value||'';
+ const list=marketingIdeas.filter(v=>{
+   if(platform&&v.platform!==platform)return false;
+   if(status&&v.status!==status)return false;
+   return !q||[v.title,v.idea,v.created_by,v.platform,v.status].join(' ').toLowerCase().includes(q);
+ });
+ el.innerHTML=list.map(v=>{
+   const rating=+v.rating||0,stars=rating?'★'.repeat(rating)+'☆'.repeat(5-rating):'Noch offen';
+   const statusClass=v.status==='Veröffentlicht'?'good':v.status==='Verworfen'?'bad':v.status==='Shortlist'?'warn':'';
+   return `<article class="videoIdeaCard" onclick="openVideoIdea(${v.id})">
+     <div class="videoIdeaTop"><div><span class="videoPlatform">${esc(v.platform||'Offen')}</span><h4>${esc(v.title)}</h4></div><span class="badge ${statusClass}">${esc(v.status||'Idee')}</span></div>
+     <p>${esc((v.idea||'').slice(0,260))}${(v.idea||'').length>260?'…':''}</p>
+     <div class="videoIdeaMeta"><span class="videoStars">${stars}</span><span>${esc(v.created_by||'')}</span><span>${v.created_at?new Date(v.created_at).toLocaleDateString('de-DE'):''}</span></div>
+   </article>`;
+ }).join('')||'<div class="empty">Noch keine Videoideen.<div class="emptyAction"><button class="btn primary" onclick="openVideoIdea()">Erste Idee anlegen</button></div></div>';
+}
+function openVideoIdea(id=null){
+ editingVideoIdea=id;
+ const v=id?marketingIdeas.find(x=>x.id===id):{};
+ $('viTitle').value=v.title||'';$('viPlatform').value=v.platform||'Instagram + TikTok';$('viStatus').value=v.status||'Idee';$('viRating').value=v.rating??'';$('viBy').value=v.created_by||currentActor||'';$('viIdea').value=v.idea||'';
+ $('deleteVideoIdeaBtn').style.visibility=id?'visible':'hidden';$('videoIdeaModal').classList.add('open');
+}
+async function saveVideoIdea(){
+ const p={title:$('viTitle').value.trim(),platform:$('viPlatform').value,status:$('viStatus').value,rating:$('viRating').value?+$('viRating').value:null,created_by:$('viBy').value.trim()||currentActor,idea:$('viIdea').value.trim(),updated_at:new Date().toISOString()};
+ if(!p.title||!p.idea)return alert('Bitte Titel und Idee eintragen.');
+ const wasEdit=!!editingVideoIdea,q=wasEdit?db.from('marketing_video_ideas').update(p).eq('id',editingVideoIdea):db.from('marketing_video_ideas').insert(p),{error}=await q;
+ if(error)alert(error.message);else{closeModal('videoIdeaModal');await logActivity(wasEdit?'updated':'created','Videoidee',p.title,wasEdit?'Videoidee bearbeitet':'Neue Videoidee angelegt');toast('Videoidee gespeichert');refreshAll()}
+}
+async function deleteVideoIdea(){
+ if(!editingVideoIdea||!confirm('Videoidee löschen?'))return;
+ const v=marketingIdeas.find(x=>x.id===editingVideoIdea),{error}=await db.from('marketing_video_ideas').delete().eq('id',editingVideoIdea);
+ if(error)alert(error.message);else{closeModal('videoIdeaModal');await logActivity('deleted','Videoidee',v?.title||'Videoidee','Videoidee gelöscht');toast('Videoidee gelöscht');refreshAll()}
+}
+function renderSuppliers(){
  const search=($('supplierOverviewSearch')?.value||'').trim().toLowerCase();
  const statusSel=$('supplierOverviewStatus');
  if(statusSel){
@@ -923,17 +1022,29 @@ function openTester(id=null){editingTester=id;let t=id?testers.find(x=>x.id===id
  const el=$('supplierCards');if(!el)return;
  el.innerHTML=list.map(p=>{
    const tiers=supplierTiers.filter(t=>t.supplier_id===p.id).sort((a,b)=>(a.quantity||0)-(b.quantity||0));
-   const tierHtml=tiers.length?tiers.slice(0,4).map(t=>`<span class="supplierTierPill">${t.quantity} · ${Number(t.unit_price).toFixed(2)} ${esc(t.currency||'')}</span>`).join(''):'<span class="muted tiny">Keine Preisstaffeln</span>';
-   const samplesCount=samples.filter(s=>String(s.supplier||'').toLowerCase().includes(String(p.name||'').toLowerCase())).length;
+   const tierHtml=tiers.length?tiers.slice(0,5).map(t=>`<span class="supplierTierPill"><b>${t.quantity}</b> · ${Number(t.unit_price).toFixed(2)} ${esc(t.currency||'')}</span>`).join(''):'<span class="muted tiny">Noch keine strukturierten Preisstaffeln</span>';
+   const sampleCount=samples.filter(s=>String(s.supplier||'').toLowerCase().includes(String(p.name||'').toLowerCase())).length;
    return `<div class="supplierCard ${selectedSupplierId===p.id?'selected':''}" onclick="selectSupplier(${p.id})">
      <div class="supplierCardHead"><div><h4>${esc(p.name)}</h4><div class="supplierCountry">${esc(p.country||'Land offen')}</div></div><span class="badge good">${esc(p.status||'Offen')}</span></div>
-     <div class="supplierFacts">
-       <div class="supplierFact"><span>MOQ</span><b>${esc(p.moq||'–')}</b></div>
-       <div class="supplierFact"><span>Kontakt</span><b>${esc(p.contact_name||'–')}</b></div>
-       <div class="supplierFact"><span>Samples</span><b>${samplesCount}</b></div>
+     <div class="supplierSection supplierSectionMain">
+       <div class="supplierSectionLabel">Konditionen</div>
+       <div class="supplierMetrics">
+         <div><span>MOQ</span><b>${esc(p.moq||'–')}</b></div>
+         <div><span>Samples</span><b>${sampleCount}</b></div>
+       </div>
      </div>
-     <div class="supplierTierPreview">${tierHtml}</div>
-     <div class="supplierMetaLine">${p.next_follow_up?'<span>Follow-up '+esc(p.next_follow_up)+'</span>':''}${p.last_contact_at?'<span>Letzter Kontakt '+esc(p.last_contact_at)+'</span>':''}</div>
+     <div class="supplierSection">
+       <div class="supplierSectionLabel">Preisstaffeln</div>
+       <div class="supplierTierPreview">${tierHtml}</div>
+     </div>
+     <div class="supplierSection supplierContactSection">
+       <div class="supplierSectionLabel">Kontakt & Follow-up</div>
+       <div class="supplierContactGrid">
+         <div><span>Ansprechpartner</span><b>${esc(p.contact_name||'–')}</b></div>
+         <div><span>Letzter Kontakt</span><b>${esc(p.last_contact_at||'–')}</b></div>
+         <div><span>Nächster Schritt</span><b>${esc(p.next_follow_up||'–')}</b></div>
+       </div>
+     </div>
    </div>`;
  }).join('')||'<div class="empty">Keine Hersteller für diesen Filter.</div>';
  renderSupplierWorkspace();
@@ -1226,13 +1337,13 @@ function showInfo(key){
  $('infoModal').classList.add('open');
 }
 
-const MODULE_AREA={dashboard:'overview',activity:'overview',samples:'testing',reviews:'testing',testers:'testing',designs:'product',techpacks:'product',decisions:'product',suppliers:'business',costs:'business',scorecards:'business',drops:'business'};
-const DEFAULT_MODULE={overview:'dashboard',testing:'samples',product:'designs',business:'suppliers'};
+const MODULE_AREA={dashboard:'overview',activity:'overview',samples:'testing',reviews:'testing',testers:'testing',designs:'product',techpacks:'product',decisions:'product',suppliers:'business',costs:'business',scorecards:'business',drops:'business',videoideas:'marketing'};
+const DEFAULT_MODULE={overview:'dashboard',testing:'samples',product:'designs',business:'suppliers',marketing:'videoideas'};
 let activeModuleByArea={...DEFAULT_MODULE};
 function toggleMobileMenu(){ $('mobileNav')?.classList.toggle('open'); }
 function selectMobileArea(area){ switchArea(area); $('mobileNav')?.classList.remove('open'); }
 function syncMobileNavigation(area,module){
- const labels={overview:'Übersicht',testing:'Testen',product:'Produkt',business:'Business'};
+ const labels={overview:'Übersicht',testing:'Testen',product:'Produkt',business:'Business',marketing:'Marketing'};
  if($('mobileAreaLabel'))$('mobileAreaLabel').textContent=labels[area]||area;
  document.querySelectorAll('[data-mobile-area]').forEach(b=>b.classList.toggle('active',b.dataset.mobileArea===area));
  document.querySelectorAll('.mobileModuleTabs').forEach(x=>x.classList.toggle('mobileAreaHidden',x.dataset.moduleArea!==area));
@@ -1245,7 +1356,7 @@ function switchModule(module){
  document.querySelectorAll('.moduleNav[data-module-area="'+area+'"] .moduleBtn').forEach(b=>b.classList.toggle('active',b.dataset.module===module));
  syncMobileNavigation(area,module);
 }
-const AREA_MAP={dashboard:'overview',samples:'testing',testplan:'testing',reviews:'testing',testers:'testing',designs:'product',techpacks:'product',decisions:'product',suppliers:'business',scorecards:'business',costs:'business',drops:'business'};
+const AREA_MAP={dashboard:'overview',samples:'testing',reviews:'testing',testers:'testing',designs:'product',techpacks:'product',decisions:'product',suppliers:'business',scorecards:'business',costs:'business',drops:'business',videoideas:'marketing'};
 function switchArea(area){
  document.querySelectorAll('.areaNav .tab').forEach(x=>x.classList.toggle('active',x.dataset.area===area));
  document.querySelectorAll('.moduleNav').forEach(x=>x.style.display=x.dataset.moduleArea===area?'':'none');
