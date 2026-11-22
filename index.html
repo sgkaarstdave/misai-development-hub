@@ -804,6 +804,7 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
     <div class="full"><label>Zoll / Ursprung / Import</label><textarea id="spCustoms"></textarea></div>
     <div><label>Sample Lead Time</label><input id="spSampleLead"></div>
     <div><label>Bulk Lead Time</label><input id="spBulkLead"></div>
+    <div class="full"><label>Sampling / Swatches / Setup</label><textarea id="spSampling"></textarea></div>
     <div class="full"><label>Original-Angebot / Dokument</label><input id="spDocument" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx"><div id="spDocumentCurrent" class="muted tiny" style="margin-top:5px"></div></div>
     <div class="full"><label>Noch benötigt / nächste Klärung</label><textarea id="spRequirements"></textarea></div>
     <div class="full" style="display:flex;justify-content:flex-end;gap:8px"><button class="btn" onclick="closeModal('supplierProfileModal')">Abbrechen</button><button class="btn primary" onclick="saveSupplierProfile()">Speichern</button></div>
@@ -1402,6 +1403,7 @@ function renderSupplierWorkspace(){
    ${prof.artwork_requirements?`<div class="supplierProfileLine"><b>Artwork:</b> ${esc(prof.artwork_requirements)}</div>`:''}
    ${prof.construction_notes?`<div class="supplierProfileLine"><b>Technik:</b> ${esc(prof.construction_notes)}</div>`:''}
    ${prof.shipping_notes?`<div class="supplierProfileLine"><b>Versand:</b> ${esc(prof.shipping_notes)}</div>`:''}
+   ${prof.sampling_notes?`<div class="supplierProfileLine"><b>Sampling:</b> ${esc(prof.sampling_notes)}</div>`:''}
    ${prof.next_requirements?`<div class="supplierProfileNext"><b>Noch offen</b><span>${esc(prof.next_requirements)}</span></div>`:''}
  </div>`:''}
  ${p.notes?`<div class="soft" style="margin-top:12px"><b>Notizen</b><div class="muted tiny" style="margin-top:5px">${esc(p.notes)}</div></div>`:''}`;
@@ -1412,7 +1414,7 @@ function openSupplierProfile(id){
  const p=suppliers.find(x=>x.id===id);if(!p)return;
  selectedSupplierId=id;const x=supplierProfile(id)||{};
  $('spSupplierName').textContent=p.name||'Hersteller';$('spDocument').value='';$('spDocumentCurrent').textContent=x.document_name?'Aktuell: '+x.document_name:'Noch kein Dokument hinterlegt.';
- $('spFabric').value=x.preferred_fabric||'';$('spComposition').value=x.composition||'';$('spGsm').value=x.gsm||'';$('spPrint').value=x.print_method||'';$('spFit').value=x.fit_target||'';$('spIncluded').value=x.included_items||'';$('spPackaging').value=x.packaging_notes||'';$('spArtwork').value=x.artwork_requirements||'';$('spConstruction').value=x.construction_notes||'';$('spIncoterm').value=x.incoterm||'';$('spQuoteDate').value=x.quote_date||'';$('spShipping').value=x.shipping_notes||'';$('spCustoms').value=x.customs_notes||'';$('spSampleLead').value=x.sample_lead_time||'';$('spBulkLead').value=x.bulk_lead_time||'';$('spRequirements').value=x.next_requirements||'';
+ $('spFabric').value=x.preferred_fabric||'';$('spComposition').value=x.composition||'';$('spGsm').value=x.gsm||'';$('spPrint').value=x.print_method||'';$('spFit').value=x.fit_target||'';$('spIncluded').value=x.included_items||'';$('spPackaging').value=x.packaging_notes||'';$('spArtwork').value=x.artwork_requirements||'';$('spConstruction').value=x.construction_notes||'';$('spIncoterm').value=x.incoterm||'';$('spQuoteDate').value=x.quote_date||'';$('spShipping').value=x.shipping_notes||'';$('spCustoms').value=x.customs_notes||'';$('spSampleLead').value=x.sample_lead_time||'';$('spBulkLead').value=x.bulk_lead_time||'';$('spSampling').value=x.sampling_notes||'';$('spRequirements').value=x.next_requirements||'';
  $('supplierProfileModal').classList.add('open');
 }
 async function saveSupplierProfile(){
@@ -1427,7 +1429,7 @@ async function saveSupplierProfile(){
    const {error:upErr}=await db.storage.from('supplier-documents').upload(documentPath,file,{upsert:false});
    if(upErr)return alert('Dokument konnte nicht hochgeladen werden: '+upErr.message);
  }
- const p={supplier_id:selectedSupplierId,preferred_fabric:$('spFabric').value.trim(),composition:$('spComposition').value.trim(),gsm:$('spGsm').value.trim(),print_method:$('spPrint').value.trim(),fit_target:$('spFit').value.trim(),included_items:$('spIncluded').value.trim(),packaging_notes:$('spPackaging').value.trim(),artwork_requirements:$('spArtwork').value.trim(),construction_notes:$('spConstruction').value.trim(),incoterm:$('spIncoterm').value.trim(),quote_date:$('spQuoteDate').value||null,shipping_notes:$('spShipping').value.trim(),customs_notes:$('spCustoms').value.trim(),sample_lead_time:$('spSampleLead').value.trim(),bulk_lead_time:$('spBulkLead').value.trim(),next_requirements:$('spRequirements').value.trim(),document_path:documentPath,document_name:documentName,updated_at:new Date().toISOString()};
+ const p={supplier_id:selectedSupplierId,preferred_fabric:$('spFabric').value.trim(),composition:$('spComposition').value.trim(),gsm:$('spGsm').value.trim(),print_method:$('spPrint').value.trim(),fit_target:$('spFit').value.trim(),included_items:$('spIncluded').value.trim(),packaging_notes:$('spPackaging').value.trim(),artwork_requirements:$('spArtwork').value.trim(),construction_notes:$('spConstruction').value.trim(),incoterm:$('spIncoterm').value.trim(),quote_date:$('spQuoteDate').value||null,shipping_notes:$('spShipping').value.trim(),customs_notes:$('spCustoms').value.trim(),sample_lead_time:$('spSampleLead').value.trim(),bulk_lead_time:$('spBulkLead').value.trim(),sampling_notes:$('spSampling').value.trim(),next_requirements:$('spRequirements').value.trim(),document_path:documentPath,document_name:documentName,updated_at:new Date().toISOString()};
  const q=existing?db.from('supplier_profiles').update(p).eq('supplier_id',selectedSupplierId):db.from('supplier_profiles').insert(p);
  const {error}=await q;if(error)alert(error.message);else{closeModal('supplierProfileModal');await logActivity(existing?'updated':'created','Herstellerdaten',suppliers.find(x=>x.id===selectedSupplierId)?.name||'Hersteller',file?'Produktionsdaten + Dokument aktualisiert':'Produktions-/Angebotsdaten aktualisiert');toast('Herstellerdaten gespeichert');refreshAll()}
 }
