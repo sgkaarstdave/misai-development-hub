@@ -540,9 +540,72 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
 @media(max-width:900px){.supplierProfileGrid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.supplierProfileGrid{grid-template-columns:1fr}}
 
 .supplierProfileHead .workspaceTopActions .btn{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-width:560px){.supplierProfileHead{align-items:stretch;flex-direction:column}.supplierProfileHead .workspaceTopActions{justify-content:flex-start}.supplierProfileHead .workspaceTopActions .btn{max-width:100%}}
+
+/* Supplier dossier – readable desktop + mobile */
+.supplierDetailHero{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:22px;
+  padding:22px 24px;margin-bottom:16px;border:1px solid #2d3945;border-radius:20px;
+  background:linear-gradient(135deg,#18212a 0%,#121920 62%,#1a1611 100%);
+}
+.supplierDetailHeroMain{min-width:0}.supplierHeroEyebrow{font-size:12px;color:#95a4b2;margin-bottom:5px}
+.supplierDetailHero h3{font-size:30px;line-height:1.08;margin:0 0 12px;letter-spacing:-.025em}
+.supplierHeroMeta{display:flex;gap:8px;flex-wrap:wrap}.supplierHeroMeta span,.supplierQuoteBadge{
+  display:inline-flex;align-items:center;min-height:30px;padding:6px 10px;border:1px solid #3b4855;border-radius:999px;
+  background:#10171e;color:#c2ccd5;font-size:12px;font-weight:700
+}
+.supplierHeroActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.supplierDocBtn{max-width:330px}.supplierDocBtn span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.supplierDetailSection{
+  margin-top:14px;padding:20px;border:1px solid #2a3642;border-radius:18px;background:linear-gradient(180deg,#131b23,#0f161d)
+}
+.supplierSectionHead{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:16px}
+.supplierSectionHead.compact{margin-bottom:13px}.supplierSectionHead h4{font-size:21px;line-height:1.15;margin:3px 0 0}
+.supplierSectionHead p{margin:5px 0 0;color:#95a3b0;font-size:13px;line-height:1.5}.workspaceEyebrow{font-size:11px}
+.supplierPriceSection{border-color:#493d29;background:linear-gradient(180deg,#181711,#11161b)}
+.supplierPriceGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.supplierPriceCard{padding:16px;border:1px solid #3c4650;border-radius:14px;background:#0e151b}
+.supplierPriceCard span{display:block;color:#96a4b1;font-size:12px}.supplierPriceCard strong{display:block;font-size:22px;margin:4px 0 2px;color:#f2d18a;letter-spacing:-.02em}.supplierPriceCard small{display:block;color:#7f8d99;font-size:11px}
+.supplierInfoGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.supplierInfoCard{padding:16px;border:1px solid #2d3a46;border-radius:14px;background:#0d151c;min-width:0}
+.supplierInfoCardTitle{display:flex;align-items:center;gap:9px;margin-bottom:10px}.supplierInfoIcon{display:grid;place-items:center;width:32px;height:32px;border-radius:10px;background:#192631;border:1px solid #304150;color:#e2b76b;font-size:16px}
+.supplierInfoCardTitle h5{font-size:14px;margin:0;color:#dfe5eb}.supplierInfoMain{font-size:15px;line-height:1.5;color:#f0f3f6;font-weight:700;overflow-wrap:anywhere}
+.supplierInfoDetail{font-size:13px;line-height:1.55;color:#9aa8b5;margin-top:8px;overflow-wrap:anywhere}
+.supplierDetailTwoCol{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.supplierReadableText{font-size:14px;line-height:1.65;color:#d5dde4;white-space:pre-line;overflow-wrap:anywhere}.supplierReadableText.subdued{margin-top:14px;color:#97a5b2}
+.supplierIncludedBox{margin-top:14px;padding:14px;border-radius:13px;background:#0c141a;border:1px solid #2a3945}.supplierIncludedBox b{display:block;font-size:12px;color:#e3b965;margin-bottom:5px}.supplierIncludedBox span{display:block;font-size:13px;line-height:1.55;color:#b8c3cc}
+.supplierTimingGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.supplierTimingGrid>div{padding:13px;border-radius:12px;background:#0d151c;border:1px solid #2b3945}.supplierTimingGrid span{display:block;font-size:11px;color:#8493a0;text-transform:uppercase;letter-spacing:.07em}.supplierTimingGrid strong{display:block;font-size:15px;line-height:1.4;margin-top:4px}
+.supplierImportGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.supplierImportGrid>div{padding:15px;border:1px solid #2b3945;border-radius:13px;background:#0d151c}.supplierImportGrid span{display:block;font-size:12px;font-weight:800;color:#e0b66b;margin-bottom:6px}.supplierImportGrid p{margin:0;font-size:14px;line-height:1.65;color:#c0cbd4}
+.supplierNextBlock{display:grid;grid-template-columns:42px 1fr;gap:14px;margin-top:14px;padding:18px 20px;border:1px solid #6a542d;border-radius:18px;background:linear-gradient(135deg,#211b10,#151712)}
+.supplierNextIcon{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#2d2515;border:1px solid #66522e;color:#e5bb6d;font-size:22px}.supplierNextBlock h4{font-size:20px;margin:3px 0 6px}.supplierNextBlock p{font-size:14px;line-height:1.65;color:#d2c3a4;margin:0;white-space:pre-line}
+.supplierContactFooter{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}.supplierContactFooter>div{padding:13px 15px;border:1px solid #293642;border-radius:13px;background:#0d141b}.supplierContactFooter span{display:block;font-size:11px;color:#7f8d99;text-transform:uppercase;letter-spacing:.07em}.supplierContactFooter b{display:block;font-size:14px;margin-top:4px;overflow-wrap:anywhere}
+.supplierNotes{margin-top:14px;padding:16px}.supplierNotes>b{font-size:14px}.supplierNotes>div{font-size:13px;line-height:1.6;color:#a6b2bd;margin-top:6px}
+.supplierEmpty{color:#8e9ba7;font-size:13px;padding:12px}
+
+@media(max-width:1050px){
+ .supplierPriceGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .supplierDetailTwoCol{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+ .supplierDetailHero{flex-direction:column;padding:18px 16px;border-radius:17px;gap:16px}
+ .supplierDetailHero h3{font-size:26px}.supplierHeroEyebrow{font-size:13px}
+ .supplierHeroMeta{gap:6px}.supplierHeroMeta span,.supplierQuoteBadge{font-size:12px;min-height:32px}
+ .supplierHeroActions{display:grid;grid-template-columns:1fr;width:100%}.supplierHeroActions .btn{width:100%;justify-content:center}
+ .supplierDocBtn{max-width:none}
+ .supplierDetailSection{padding:16px 14px;border-radius:16px;margin-top:12px}
+ .supplierSectionHead{flex-direction:column;gap:10px;margin-bottom:14px}.supplierSectionHead h4{font-size:20px}.supplierSectionHead p{font-size:14px}
+ .workspaceEyebrow{font-size:11px}
+ .supplierPriceGrid{grid-template-columns:1fr 1fr;gap:8px}
+ .supplierPriceCard{padding:14px 12px}.supplierPriceCard strong{font-size:20px}.supplierPriceCard span{font-size:12px}.supplierPriceCard small{font-size:11px}
+ .supplierInfoGrid{grid-template-columns:1fr}.supplierInfoCard{padding:15px 14px}.supplierInfoCardTitle h5{font-size:15px}.supplierInfoMain{font-size:15px}.supplierInfoDetail{font-size:14px}
+ .supplierReadableText,.supplierImportGrid p,.supplierNextBlock p{font-size:14px;line-height:1.65}
+ .supplierTimingGrid{grid-template-columns:1fr}.supplierImportGrid{grid-template-columns:1fr}
+ .supplierNextBlock{grid-template-columns:1fr;padding:16px 14px}.supplierNextIcon{display:none}
+ .supplierContactFooter{grid-template-columns:1fr}.supplierContactFooter span{font-size:11px}.supplierContactFooter b{font-size:15px}
+}
+@media(max-width:390px){.supplierPriceGrid{grid-template-columns:1fr}}
+
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
-<div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small><small id="buildStamp" class="muted" style="display:block;font-size:9px;margin-top:2px;opacity:.65">Build 2026-11-22 · SupplierDocs</small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
+<div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small><small id="buildStamp" class="muted" style="display:block;font-size:9px;margin-top:2px;opacity:.65">Build 2026-11-22 · SupplierUX</small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
 <div class="navGroups areaNav">
   <button class="tab active" data-area="overview" onclick="switchArea('overview')">Übersicht</button>
   <button class="tab" data-area="testing" onclick="switchArea('testing')">Testen</button>
@@ -1379,35 +1442,91 @@ function renderSupplierWorkspace(){
  if(ws)ws.classList.remove('hidden');$('supplierWorkspaceTitle').textContent=p.name||'Hersteller';
  const tiers=supplierTiers.filter(t=>t.supplier_id===p.id).sort((a,b)=>(a.quantity||0)-(b.quantity||0));
  const prof=supplierProfile(p.id);
- body.innerHTML=`<div class="detailTitle"><div><h3>${esc(p.name)}</h3><div class="muted">${esc(p.country||'')} · ${esc(p.contact_name||'')}</div></div><div class="workspaceTopActions"><button class="btn" onclick="openSupplierProfile(${p.id})">Produktion & Angebot</button><button class="btn primary" onclick="openSupplier(${p.id})">Bearbeiten</button></div></div>
- <div class="detailGrid">
-   <div class="detailStat"><span>MOQ</span><b>${esc(p.moq||'–')}</b></div>
-   <div class="detailStat"><span>Status</span><b>${esc(p.status||'–')}</b></div>
-   <div class="detailStat"><span>E-Mail</span><b>${esc(p.email||'–')}</b></div>
-   <div class="detailStat"><span>Letzter Kontakt</span><b>${esc(p.last_contact_at||'–')}</b></div>
-   <div class="detailStat"><span>Nächstes Follow-up</span><b>${esc(p.next_follow_up||'–')}</b></div>
-   <div class="detailStat"><span>Samples</span><b>${samples.filter(s=>supplierMatchesSample(p,s)).length}</b></div>
- </div>
- <div class="sampleTestBlock"><div class="sampleTestHead"><div><b>Preisstaffeln</b><div class="tiny muted">Strukturiert für den Kostenrechner.</div></div><button class="btn" onclick="openSupplier(${p.id})">Verwalten</button></div>
- <div class="tierGrid">${tiers.length?tiers.map(t=>`<div class="tierBtn"><b>${t.quantity} Stk. · ${Number(t.unit_price).toFixed(2)} ${esc(t.currency||'')}</b><span>${esc(t.product_type||'Alle Produkte')}${t.incoterm?' · '+esc(t.incoterm):''}</span></div>`).join(''):'<span class="muted tiny">Noch keine Preisstaffeln.</span>'}</div></div>
- ${prof?`<div class="supplierProfileBlock">
-   <div class="supplierProfileHead"><div><span class="workspaceEyebrow">Produktion & Angebot</span><h4>${prof.quote_date?'Stand '+new Date(prof.quote_date+'T12:00:00').toLocaleDateString('de-DE'):'Herstellerdaten'}</h4></div><div class="workspaceTopActions">${prof.document_path?`<button class="btn" onclick="openSupplierDocument(${p.id})">📄 ${esc(prof.document_name||'Dokument')}</button>`:''}<span class="badge">${esc(prof.incoterm||'')}</span></div></div>
-   <div class="supplierProfileGrid">
-     <div><span>Stoff</span><b>${esc(prof.preferred_fabric||'–')}</b><small>${esc([prof.composition,prof.gsm].filter(Boolean).join(' · '))}</small></div>
-     <div><span>Druck</span><b>${esc(prof.print_method||'–')}</b><small>${esc(prof.fit_target||'')}</small></div>
-     <div><span>Sample / Bulk</span><b>${esc(prof.sample_lead_time||'–')} / ${esc(prof.bulk_lead_time||'–')}</b><small>Lead Time</small></div>
-     <div><span>Import</span><b>${esc(prof.incoterm||'–')}</b><small>${esc(prof.customs_notes||'')}</small></div>
+ const sampleCount=samples.filter(s=>supplierMatchesSample(p,s)).length;
+ const quoteDate=prof?.quote_date?new Date(prof.quote_date+'T12:00:00').toLocaleDateString('de-DE'):null;
+ const priceCards=tiers.length?tiers.map(t=>`<div class="supplierPriceCard"><span>${t.quantity} Stück</span><strong>${Number(t.unit_price).toFixed(2)} ${esc(t.currency||'')}</strong><small>pro Shirt · ${esc(t.incoterm||'')}</small></div>`).join(''):'<div class="supplierEmpty">Noch keine Preisstaffeln hinterlegt.</div>';
+ const infoCard=(icon,title,main,detail='')=>`<section class="supplierInfoCard"><div class="supplierInfoCardTitle"><span class="supplierInfoIcon">${icon}</span><h5>${title}</h5></div><div class="supplierInfoMain">${esc(main||'–')}</div>${detail?`<div class="supplierInfoDetail">${esc(detail)}</div>`:''}</section>`;
+ body.innerHTML=`
+ <div class="supplierDetailHero">
+   <div class="supplierDetailHeroMain">
+     <div class="supplierHeroEyebrow">${esc(p.country||'Hersteller')} ${p.contact_name?'· '+esc(p.contact_name):''}</div>
+     <h3>${esc(p.name)}</h3>
+     <div class="supplierHeroMeta">
+       <span>${esc(p.status||'Offen')}</span>
+       <span>MOQ ${esc(p.moq||'–')}</span>
+       <span>${sampleCount} Sample${sampleCount===1?'':'s'}</span>
+       ${quoteDate?`<span>Angebot ${quoteDate}</span>`:''}
+     </div>
    </div>
-   ${prof.included_items?`<div class="supplierProfileLine"><b>Im Preis:</b> ${esc(prof.included_items)}</div>`:''}
-   ${prof.packaging_notes?`<div class="supplierProfileLine"><b>Labels & Packaging:</b> ${esc(prof.packaging_notes)}</div>`:''}
-   ${prof.artwork_requirements?`<div class="supplierProfileLine"><b>Artwork:</b> ${esc(prof.artwork_requirements)}</div>`:''}
-   ${prof.construction_notes?`<div class="supplierProfileLine"><b>Technik:</b> ${esc(prof.construction_notes)}</div>`:''}
-   ${prof.shipping_notes?`<div class="supplierProfileLine"><b>Versand:</b> ${esc(prof.shipping_notes)}</div>`:''}
-   ${prof.sampling_notes?`<div class="supplierProfileLine"><b>Sampling:</b> ${esc(prof.sampling_notes)}</div>`:''}
-   ${prof.next_requirements?`<div class="supplierProfileNext"><b>Noch offen</b><span>${esc(prof.next_requirements)}</span></div>`:''}
- </div>`:''}
- ${p.notes?`<div class="soft" style="margin-top:12px"><b>Notizen</b><div class="muted tiny" style="margin-top:5px">${esc(p.notes)}</div></div>`:''}`;
+   <div class="supplierHeroActions">
+     ${prof?.document_path?`<button class="btn supplierDocBtn" onclick="openSupplierDocument(${p.id})">📄 <span>${esc(prof.document_name||'Quotation öffnen')}</span></button>`:''}
+     <button class="btn" onclick="openSupplierProfile(${p.id})">Produktion & Angebot</button>
+     <button class="btn primary" onclick="openSupplier(${p.id})">Bearbeiten</button>
+   </div>
+ </div>
+
+ <section class="supplierDetailSection supplierPriceSection">
+   <div class="supplierSectionHead">
+     <div><span class="workspaceEyebrow">Konditionen</span><h4>Preisstaffeln</h4><p>Aktuelle Herstellerpreise für den Kostenrechner.</p></div>
+     <button class="btn" onclick="openSupplier(${p.id})">Preisstaffeln verwalten</button>
+   </div>
+   <div class="supplierPriceGrid">${priceCards}</div>
+ </section>
+
+ ${prof?`
+ <section class="supplierDetailSection">
+   <div class="supplierSectionHead">
+     <div><span class="workspaceEyebrow">Produkt</span><h4>Produkt & Produktion</h4><p>Was SAMPRO für das MiSai Performance Shirt aktuell bestätigt hat.</p></div>
+     <span class="supplierQuoteBadge">${quoteDate?'Stand '+quoteDate:'Herstellerdaten'}</span>
+   </div>
+   <div class="supplierInfoGrid">
+     ${infoCard('◫','Hauptstoff',prof.preferred_fabric,[prof.composition,prof.gsm].filter(Boolean).join(' · '))}
+     ${infoCard('↗','Sublimation / Branding',prof.print_method,prof.artwork_requirements)}
+     ${infoCard('⌁','Ziel-Fit',prof.fit_target,'S–XXL geplant · finale Maßtabelle folgt')}
+     ${infoCard('✦','Konstruktion',prof.construction_notes,'Weiße Punkte bleiben Design; echte Ventilation an Achsel/Seite wird geklärt.')}
+   </div>
+ </section>
+
+ <div class="supplierDetailTwoCol">
+   <section class="supplierDetailSection">
+     <div class="supplierSectionHead compact"><div><span class="workspaceEyebrow">Branding</span><h4>Labels & Packaging</h4></div></div>
+     <div class="supplierReadableText">${esc(prof.packaging_notes||'–')}</div>
+     ${prof.included_items?`<div class="supplierIncludedBox"><b>Im Stückpreis vorgesehen</b><span>${esc(prof.included_items)}</span></div>`:''}
+   </section>
+
+   <section class="supplierDetailSection">
+     <div class="supplierSectionHead compact"><div><span class="workspaceEyebrow">Zeitplan</span><h4>Sampling & Produktion</h4></div></div>
+     <div class="supplierTimingGrid">
+       <div><span>Sample</span><strong>${esc(prof.sample_lead_time||'–')}</strong></div>
+       <div><span>Bulk</span><strong>${esc(prof.bulk_lead_time||'–')}</strong></div>
+     </div>
+     ${prof.sampling_notes?`<div class="supplierReadableText subdued">${esc(prof.sampling_notes)}</div>`:''}
+   </section>
+ </div>
+
+ <section class="supplierDetailSection">
+   <div class="supplierSectionHead compact"><div><span class="workspaceEyebrow">Lieferung nach Deutschland</span><h4>Import & Versand</h4></div><span class="supplierQuoteBadge">${esc(prof.incoterm||'')}</span></div>
+   <div class="supplierImportGrid">
+     <div><span>Versand</span><p>${esc(prof.shipping_notes||'–')}</p></div>
+     <div><span>Zoll & Ursprung</span><p>${esc(prof.customs_notes||'–')}</p></div>
+   </div>
+ </section>
+
+ ${prof.next_requirements?`
+ <section class="supplierNextBlock">
+   <div class="supplierNextIcon">→</div>
+   <div><span class="workspaceEyebrow">Nächste Schritte</span><h4>Noch offen</h4><p>${esc(prof.next_requirements)}</p></div>
+ </section>`:''}
+ `:''}
+
+ <div class="supplierContactFooter">
+   <div><span>E-Mail</span><b>${esc(p.email||'–')}</b></div>
+   <div><span>Letzter Kontakt</span><b>${esc(p.last_contact_at||'–')}</b></div>
+   <div><span>Nächstes Follow-up</span><b>${esc(p.next_follow_up||'–')}</b></div>
+ </div>
+ ${p.notes?`<div class="soft supplierNotes"><b>Interne Notizen</b><div>${esc(p.notes)}</div></div>`:''}`;
 }
+
 function openSupplier(id=null){editingSupplier=id;let p=id?suppliers.find(x=>x.id===id):{};$('pName').value=p.name||'';$('pCountry').value=p.country||'';$('pContact').value=p.contact_name||'';$('pEmail').value=p.email||'';$('pMoq').value=p.moq||'';$('pPrices').value=p.prices||'';$('pStatus').value=p.status||'';$('pLastContact').value=p.last_contact_at||'';$('pNextFollow').value=p.next_follow_up||'';$('pNotes').value=p.notes||'';$('deleteSupplierBtn').style.visibility=id?'visible':'hidden';renderSupplierTierList(id);$('supplierModal').classList.add('open')}async function saveSupplier(){let p={name:$('pName').value.trim(),country:$('pCountry').value.trim(),contact_name:$('pContact').value.trim(),email:$('pEmail').value.trim(),moq:$('pMoq').value.trim(),prices:$('pPrices').value.trim(),status:$('pStatus').value.trim(),last_contact_at:$('pLastContact').value||null,next_follow_up:$('pNextFollow').value||null,notes:$('pNotes').value.trim()},q=editingSupplier?db.from('suppliers').update(p).eq('id',editingSupplier):db.from('suppliers').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('supplierModal');await logActivity(editingSupplier?'updated':'created','Hersteller',p.name,editingSupplier?'Hersteller bearbeitet':'Neuen Hersteller angelegt');toast('Hersteller gespeichert');refreshAll()}}async function deleteSupplier(){if(!editingSupplier||!confirm('Hersteller löschen?'))return;const s=suppliers.find(x=>x.id===editingSupplier);let{error}=await db.from('suppliers').delete().eq('id',editingSupplier);if(error)alert(error.message);else{closeModal('supplierModal');await logActivity('deleted','Hersteller',s?.name||'Hersteller','Hersteller gelöscht');toast('Hersteller gelöscht');refreshAll()}}
 
 function openSupplierProfile(id){
