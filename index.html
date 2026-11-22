@@ -530,9 +530,18 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
 @media(max-width:900px){.roadmapHero{grid-template-columns:1fr}.roadmapReadyList{grid-template-columns:1fr}.roadmapToolbar{grid-template-columns:1fr 1fr}.roadmapToolbar .assignmentSearch{grid-column:1/-1}}
 @media(max-width:680px){.roadmapStats{grid-template-columns:repeat(3,1fr)}.roadmapStats>div{padding:12px 5px}.roadmapStats b{font-size:20px}.roadmapToolbar{grid-template-columns:1fr}.roadmapToolbar .assignmentSearch{grid-column:auto}.roadmapPhaseHead{grid-template-columns:28px minmax(0,1fr) auto 14px}.roadmapPhaseInfo span{display:none}.roadmapChildren{padding-left:28px}.roadmapTaskTitle{align-items:flex-start}}
 
+
+.supplierProfileBlock{margin-top:12px;padding:14px;border:1px solid #33414e;border-radius:15px;background:linear-gradient(180deg,#121b24,#0f161e)}
+.supplierProfileHead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:10px}.supplierProfileHead h4{margin:3px 0 0}
+.supplierProfileGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.supplierProfileGrid>div{background:#0c1319;border:1px solid #26333e;border-radius:10px;padding:9px}.supplierProfileGrid span{display:block;color:#7e8d99;font-size:8px;text-transform:uppercase;letter-spacing:.08em}.supplierProfileGrid b{display:block;font-size:11px;margin-top:3px}.supplierProfileGrid small{display:block;color:#7f8c98;font-size:8px;margin-top:3px;line-height:1.35}
+.supplierProfileLine{font-size:10px;line-height:1.5;color:#9aa8b4;border-top:1px solid #26323d;padding-top:8px;margin-top:8px}.supplierProfileLine b{color:#d7dfe7}
+.supplierProfileNext{margin-top:10px;border:1px solid #5f4e2c;background:#211b10;border-radius:10px;padding:9px}.supplierProfileNext b{display:block;font-size:9px;color:#e1b75c;text-transform:uppercase;letter-spacing:.08em}.supplierProfileNext span{display:block;font-size:10px;color:#c8b58d;margin-top:3px;line-height:1.4}
+.costSupplierProfile{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.costSupplierProfile span{font-size:9px;border:1px solid #354350;border-radius:999px;padding:4px 7px;color:#aab5bf}
+@media(max-width:900px){.supplierProfileGrid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.supplierProfileGrid{grid-template-columns:1fr}}
+
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
-<div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small><small id="buildStamp" class="muted" style="display:block;font-size:9px;margin-top:2px;opacity:.65">Build 2026-11-16 · Roadmap</small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
+<div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small><small id="buildStamp" class="muted" style="display:block;font-size:9px;margin-top:2px;opacity:.65">Build 2026-11-22 · SAMPRO+Roadmap</small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
 <div class="navGroups areaNav">
   <button class="tab active" data-area="overview" onclick="switchArea('overview')">Übersicht</button>
   <button class="tab" data-area="testing" onclick="switchArea('testing')">Testen</button>
@@ -626,7 +635,7 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
   </div>
   <div id="fxStatus" class="fxStatus">Referenzkurs. Für die finale Kalkulation zählt euer tatsächlicher Zahlungs-/Bankkurs.</div>
 </div></div>
-<div><label>Menge <button class="fieldHelp" onclick="showCostHelp('qty')">i</button></label><input id="cQty" type="number" min="1" value="100" oninput="calculateCost()"></div>
+<div><label>Menge <button class="fieldHelp" onclick="showCostHelp('qty')">i</button></label><input id="cQty" type="number" min="1" value="100" oninput="onCostQuantityChange()"></div>
 <div><label>Stückpreis in EUR <button class="fieldHelp" onclick="showCostHelp('unit')">i</button></label><input id="cUnit" type="number" min="0" step=".01" value="0" oninput="calculateCost()"></div>
 </div></div>
 
@@ -775,6 +784,30 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
 <div id="supplierModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Hersteller</h3><button class="icon" onclick="closeModal('supplierModal')">✕</button></div><div class="formgrid"><div><label>Name</label><input id="pName"></div><div><label>Land</label><input id="pCountry"></div><div><label>Ansprechpartner</label><input id="pContact"></div><div><label>E-Mail</label><input id="pEmail"></div><div><label>MOQ</label><input id="pMoq"></div><div><label>Status</label><input id="pStatus"></div><div><label>Letzter Kontakt</label><input id="pLastContact" type="date"></div><div><label>Nächstes Follow-up</label><input id="pNextFollow" type="date"></div><div class="full"><label>Preise</label><input id="pPrices"></div><div class="full"><label>Notizen</label><textarea id="pNotes"></textarea></div>
 <div class="full"><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div><b>Preisstaffeln</b><div class="muted tiny">Strukturierte Mengenpreise für den Kostenrechner.</div></div><button type="button" class="btn" onclick="openTier()">+ Preisstaffel</button></div><div id="supplierTierList" class="tierGrid"></div></div><div class="full" style="display:flex;justify-content:space-between"><button id="deleteSupplierBtn" class="btn danger" onclick="deleteSupplier()">Löschen</button><div><button class="btn" onclick="closeModal('supplierModal')">Abbrechen</button> <button class="btn primary" onclick="saveSupplier()">Speichern</button></div></div></div></div></div>
 
+<div id="supplierProfileModal" class="modal"><div class="modalbox" style="width:min(860px,100%)">
+  <div class="modalhead"><h3>Produktion & Angebot</h3><button class="icon" onclick="closeModal('supplierProfileModal')">✕</button></div>
+  <div id="spSupplierName" class="muted" style="margin-bottom:12px"></div>
+  <div class="formgrid">
+    <div><label>Bevorzugter Stoff</label><input id="spFabric"></div>
+    <div><label>Material</label><input id="spComposition"></div>
+    <div><label>GSM</label><input id="spGsm"></div>
+    <div><label>Druck / Branding</label><input id="spPrint"></div>
+    <div class="full"><label>Ziel-Fit / Schnitt</label><input id="spFit"></div>
+    <div class="full"><label>Im Stückpreis enthalten</label><textarea id="spIncluded"></textarea></div>
+    <div class="full"><label>Packaging / Labels</label><textarea id="spPackaging"></textarea></div>
+    <div class="full"><label>Artwork-Anforderungen</label><textarea id="spArtwork"></textarea></div>
+    <div class="full"><label>Konstruktion / technische Möglichkeiten</label><textarea id="spConstruction"></textarea></div>
+    <div><label>Incoterm</label><input id="spIncoterm"></div>
+    <div><label>Angebotsdatum</label><input id="spQuoteDate" type="date"></div>
+    <div class="full"><label>Versand</label><textarea id="spShipping"></textarea></div>
+    <div class="full"><label>Zoll / Ursprung / Import</label><textarea id="spCustoms"></textarea></div>
+    <div><label>Sample Lead Time</label><input id="spSampleLead"></div>
+    <div><label>Bulk Lead Time</label><input id="spBulkLead"></div>
+    <div class="full"><label>Noch benötigt / nächste Klärung</label><textarea id="spRequirements"></textarea></div>
+    <div class="full" style="display:flex;justify-content:flex-end;gap:8px"><button class="btn" onclick="closeModal('supplierProfileModal')">Abbrechen</button><button class="btn primary" onclick="saveSupplierProfile()">Speichern</button></div>
+  </div>
+</div></div>
+
 <div id="scoreModal" class="modal"><div class="modalbox">
   <div class="modalhead"><h3>Hersteller bewerten</h3><button class="icon" onclick="closeModal('scoreModal')">✕</button></div>
   <div id="scoreSupplierName" style="font-size:20px;font-weight:800;margin-bottom:8px"></div>
@@ -906,6 +939,7 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
   <div class="fitFormSection"><h4>1 · Person & Körpermaße</h4>
     <div class="formgrid">
       <div><label>Person</label><input id="fmPerson" placeholder="David / Dima"></div>
+      <div><label>Hersteller</label><select id="fmSupplier" onchange="refreshFitSampleOptions()"></select></div>
       <div><label>Sample</label><select id="fmSample"></select></div>
       <div><label>Körpergröße cm</label><input id="fmHeight" type="number" step=".1"></div>
       <div><label>Gewicht kg</label><input id="fmWeight" type="number" step=".1"></div>
@@ -940,7 +974,7 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
 </div></div>
 <div id="accountModal" class="modal"><div class="modalbox"><div class="modalhead"><h3>Account</h3><button class="icon" onclick="closeModal('accountModal')">✕</button></div><label>Neues Passwort</label><input id="newPassword" type="password"><button class="btn primary" style="margin-top:12px" onclick="changePassword()">Passwort ändern</button></div></div>
 <script>
-const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5orQO6yR1_KkQ_tkVHv8Do',db=window.supabase.createClient(U,K),$=id=>document.getElementById(id);let samples=[],suppliers=[],designs=[],testers=[],reviews=[],supplierScores=[],costScenarios=[],testTasks=[],drops=[],dropItems=[],techPacks=[],decisions=[],supplierTiers=[],activities=[],marketingIdeas=[],fitMeasurements=[],roadmapTasks=[],selectedSampleId=null,sampleOverviewFilter='all',currentActor='User',editingSample=null,editingSupplier=null,editingDesign=null,editingTester=null,editingReview=null,editingScoreSupplier=null,editingCost=null,editingDrop=null,editingTech=null,editingDecision=null,editingTier=null,selectedSupplierId=null,editingVideoIdea=null,editingFit=null,editingRoadmap=null,roadmapExpanded=new Set(['Produktentwicklung']);function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}async function login(){let{data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error)return $('loginError').textContent=error.message;showApp(data.user)}async function logout(){await db.auth.signOut();location.reload()}async function resetPassword(){let e=$('loginEmail').value.trim();if(!e)return $('loginError').textContent='Bitte E-Mail eintragen.';let{error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin});$('loginError').textContent=error?error.message:'Reset-Mail verschickt.'}async function changePassword(){let p=$('newPassword').value;if(p.length<8)return alert('Mindestens 8 Zeichen.');let{error}=await db.auth.updateUser({password:p});if(error)alert(error.message);else{alert('Passwort geändert.');closeModal('accountModal')}}function openAccount(){$('newPassword').value='';$('accountModal').classList.add('open')}async function showApp(u){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=u?.email||'';currentActor=(u?.user_metadata?.display_name||u?.user_metadata?.full_name||u?.email?.split('@')[0]||'User');currentActor=currentActor.charAt(0).toUpperCase()+currentActor.slice(1);await refreshAll()}async function refreshAll(){
+const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5orQO6yR1_KkQ_tkVHv8Do',db=window.supabase.createClient(U,K),$=id=>document.getElementById(id);let samples=[],suppliers=[],designs=[],testers=[],reviews=[],supplierScores=[],costScenarios=[],testTasks=[],drops=[],dropItems=[],techPacks=[],decisions=[],supplierTiers=[],activities=[],marketingIdeas=[],fitMeasurements=[],roadmapTasks=[],supplierProfiles=[],selectedSampleId=null,sampleOverviewFilter='all',currentActor='User',editingSample=null,editingSupplier=null,editingDesign=null,editingTester=null,editingReview=null,editingScoreSupplier=null,editingCost=null,editingDrop=null,editingTech=null,editingDecision=null,editingTier=null,selectedSupplierId=null,editingVideoIdea=null,editingFit=null,editingRoadmap=null,roadmapExpanded=new Set(['Produktentwicklung']);function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}async function login(){let{data,error}=await db.auth.signInWithPassword({email:$('loginEmail').value.trim(),password:$('loginPassword').value});if(error)return $('loginError').textContent=error.message;showApp(data.user)}async function logout(){await db.auth.signOut();location.reload()}async function resetPassword(){let e=$('loginEmail').value.trim();if(!e)return $('loginError').textContent='Bitte E-Mail eintragen.';let{error}=await db.auth.resetPasswordForEmail(e,{redirectTo:location.origin});$('loginError').textContent=error?error.message:'Reset-Mail verschickt.'}async function changePassword(){let p=$('newPassword').value;if(p.length<8)return alert('Mindestens 8 Zeichen.');let{error}=await db.auth.updateUser({password:p});if(error)alert(error.message);else{alert('Passwort geändert.');closeModal('accountModal')}}function openAccount(){$('newPassword').value='';$('accountModal').classList.add('open')}async function showApp(u){$('loginView').classList.add('hidden');$('appView').classList.remove('hidden');$('userLabel').textContent=u?.email||'';currentActor=(u?.user_metadata?.display_name||u?.user_metadata?.full_name||u?.email?.split('@')[0]||'User');currentActor=currentActor.charAt(0).toUpperCase()+currentActor.slice(1);await refreshAll()}async function refreshAll(){
   const core=await Promise.all([
     db.from('samples').select('*').order('id'),
     db.from('suppliers').select('*').order('id'),
@@ -970,7 +1004,7 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
     ['dropItems',db.from('drop_items').select('*').order('id')],
     ['techPacks',db.from('tech_packs').select('*').order('updated_at',{ascending:false})],
     ['decisions',db.from('decision_log').select('*').order('decided_at',{ascending:false})],
-    ['supplierTiers',db.from('supplier_price_tiers').select('*').order('quantity')],['activities',db.from('activity_log').select('*').order('created_at',{ascending:false}).limit(100)],['marketingIdeas',db.from('marketing_video_ideas').select('*').order('created_at',{ascending:false})],['fitMeasurements',db.from('fit_measurements').select('*').order('created_at',{ascending:false})],['roadmapTasks',db.from('roadmap_tasks').select('*').order('sort_order').order('id')]
+    ['supplierTiers',db.from('supplier_price_tiers').select('*').order('quantity')],['activities',db.from('activity_log').select('*').order('created_at',{ascending:false}).limit(100)],['marketingIdeas',db.from('marketing_video_ideas').select('*').order('created_at',{ascending:false})],['fitMeasurements',db.from('fit_measurements').select('*').order('created_at',{ascending:false})],['roadmapTasks',db.from('roadmap_tasks').select('*').order('sort_order').order('id')],['supplierProfiles',db.from('supplier_profiles').select('*')]
   ];
   const results=await Promise.all(optionalQueries.map(x=>x[1]));
   const missingModules=[]; const optionalErrors={};
@@ -985,7 +1019,7 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
     if(key==='dropItems') dropItems=data;
     if(key==='techPacks') techPacks=data;
     if(key==='decisions') decisions=data;
-    if(key==='supplierTiers') supplierTiers=data;if(key==='activities') activities=data;if(key==='marketingIdeas') marketingIdeas=data;if(key==='fitMeasurements') fitMeasurements=data;if(key==='roadmapTasks') roadmapTasks=data;
+    if(key==='supplierTiers') supplierTiers=data;if(key==='activities') activities=data;if(key==='marketingIdeas') marketingIdeas=data;if(key==='fitMeasurements') fitMeasurements=data;if(key==='roadmapTasks') roadmapTasks=data;if(key==='supplierProfiles') supplierProfiles=data;
   });
   renderAll();
   showSetupNotice(missingModules,optionalErrors);
@@ -993,7 +1027,7 @@ const U='https://spapmlpxqxezymxczzai.supabase.co',K='sb_publishable_0kk3mCe1l5o
 function showSetupNotice(modules,errors={}){
  const el=$('setupNotice');if(!el)return;
  if(!modules.length){el.classList.add('hidden');el.innerHTML='';return}
- const labels={supplierScores:'Scorecards',costScenarios:'Kosten',testTasks:'Testplan',drops:'Drops',dropItems:'Drop-Produkte',techPacks:'Tech Packs',decisions:'Entscheidungen',supplierTiers:'Preisstaffeln',activities:'Aktivitätslog',marketingIdeas:'Marketing / Videoideen',fitMeasurements:'Fit & Größen',roadmapTasks:'Business / Roadmap'};
+ const labels={supplierScores:'Scorecards',costScenarios:'Kosten',testTasks:'Testplan',drops:'Drops',dropItems:'Drop-Produkte',techPacks:'Tech Packs',decisions:'Entscheidungen',supplierTiers:'Preisstaffeln',activities:'Aktivitätslog',marketingIdeas:'Marketing / Videoideen',fitMeasurements:'Fit & Größen',roadmapTasks:'Business / Roadmap',supplierProfiles:'Hersteller / Produktionsdaten'};
  el.innerHTML='<b>Ein Teil der Erweiterungen konnte nicht geladen werden.</b><div class="tiny" style="margin-top:5px">'+modules.map(x=>'<div><b>'+esc(labels[x]||x)+':</b> '+esc(errors[x]||'Unbekannter Fehler')+'</div>').join('')+'</div>';
  el.classList.remove('hidden');
 }
@@ -1192,11 +1226,11 @@ function renderFitEntries(){
  const list=fitMeasurements.filter(m=>{
    if(person&&m.person_name!==person)return false;
    if(sample&&String(m.sample_id)!==sample)return false;
-   const s=samples.find(x=>x.id===m.sample_id);
+   const s=samples.find(x=>String(x.id)===String(m.sample_id));
    return !q||[m.person_name,s?.sample_code,s?.supplier,s?.fabric_name,m.notes].join(' ').toLowerCase().includes(q);
  });
  el.innerHTML=list.map(m=>{
-   const s=samples.find(x=>x.id===m.sample_id);
+   const s=samples.find(x=>String(x.id)===String(m.sample_id));
    return `<article class="fitCard" onclick="openFitEntry(${m.id})">
      <div class="fitCardHead"><div><span class="fitPerson">${esc(m.person_name)}</span><h4>${esc(s?.sample_code||'Sample')}</h4><div class="muted tiny">${esc(s?.supplier||'')} · ${esc(s?.fabric_name||'')} · ${esc(s?.size||'')}</div></div><span class="badge">${esc(m.fit_chest||'')}</span></div>
      <div class="fitBodyStats"><div><span>Körper</span><b>${m.body_height||'–'} cm · ${m.body_weight||'–'} kg</b></div><div><span>Brust / Bauch</span><b>${m.body_chest||'–'} / ${m.body_belly||'–'} cm</b></div></div>
@@ -1206,10 +1240,21 @@ function renderFitEntries(){
    </article>`;
  }).join('')||'<div class="empty">Noch keine Fit-Messungen.<div class="emptyAction"><button class="btn primary" onclick="openFitEntry()">Erste Messung anlegen</button></div></div>';
 }
+function fitSupplierNames(){return uniq(samples.map(s=>s.supplier))}
+function refreshFitSampleOptions(preferredId=null){
+ const supplier=$('fmSupplier')?.value||'',el=$('fmSample');if(!el)return;
+ const list=samples.filter(s=>!supplier||s.supplier===supplier);
+ const current=preferredId??el.value;
+ el.innerHTML='<option value="">Bitte Sample wählen</option>'+list.map(s=>`<option value="${s.id}">${esc(s.sample_code)} · ${esc(s.size||'–')} · ${esc(s.fabric_name||'')}</option>`).join('');
+ el.value=list.some(s=>String(s.id)===String(current))?String(current):'';
+}
 function openFitEntry(id=null){
  editingFit=id;const m=id?fitMeasurements.find(x=>x.id===id):{};
- $('fmSample').innerHTML=samples.map(s=>`<option value="${s.id}">${esc(s.sample_code)} · ${esc(s.supplier||'')} · ${esc(s.size||'')}</option>`).join('');
- $('fmPerson').value=m.person_name||currentActor||'';$('fmSample').value=m.sample_id||samples[0]?.id||'';
+ const selectedSample=id?samples.find(s=>String(s.id)===String(m.sample_id)):null;
+ $('fmSupplier').innerHTML='<option value="">Bitte Hersteller wählen</option>'+fitSupplierNames().map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join('');
+ $('fmSupplier').value=selectedSample?.supplier||'';
+ refreshFitSampleOptions(m.sample_id||null);
+ $('fmPerson').value=m.person_name||currentActor||'';
  const vals={fmHeight:m.body_height,fmWeight:m.body_weight,fmBodyChest:m.body_chest,fmBodyBelly:m.body_belly,fmBodyShoulder:m.body_shoulder,fmChest:m.shirt_chest,fmBelly:m.shirt_belly,fmHem:m.shirt_hem,fmLength:m.shirt_length,fmShoulder:m.shirt_shoulder,fmSleeve:m.shirt_sleeve,fmSleeveOpening:m.shirt_sleeve_opening};
  Object.entries(vals).forEach(([k,v])=>$(k).value=v??'');
  $('fmFitChest').value=m.fit_chest||'perfekt';$('fmFitBelly').value=m.fit_belly||'perfekt';$('fmFitShoulders').value=m.fit_shoulders||'perfekt';$('fmFitSleeve').value=m.fit_sleeve||'perfekt';$('fmFitSleeveLength').value=m.fit_sleeve_length||'gut';$('fmFitLength').value=m.fit_length||'perfekt';$('fmNotes').value=m.notes||'';
@@ -1217,10 +1262,14 @@ function openFitEntry(id=null){
 }
 async function saveFitEntry(){
  const n=id=>$(id).value?+$(id).value:null;
- const p={person_name:$('fmPerson').value.trim(),sample_id:+$('fmSample').value,body_height:n('fmHeight'),body_weight:n('fmWeight'),body_chest:n('fmBodyChest'),body_belly:n('fmBodyBelly'),body_shoulder:n('fmBodyShoulder'),shirt_chest:n('fmChest'),shirt_belly:n('fmBelly'),shirt_hem:n('fmHem'),shirt_length:n('fmLength'),shirt_shoulder:n('fmShoulder'),shirt_sleeve:n('fmSleeve'),shirt_sleeve_opening:n('fmSleeveOpening'),fit_chest:$('fmFitChest').value,fit_belly:$('fmFitBelly').value,fit_shoulders:$('fmFitShoulders').value,fit_sleeve:$('fmFitSleeve').value,fit_sleeve_length:$('fmFitSleeveLength').value,fit_length:$('fmFitLength').value,notes:$('fmNotes').value.trim(),updated_at:new Date().toISOString()};
- if(!p.person_name||!p.sample_id)return alert('Bitte Person und Sample auswählen.');
+ const supplier=$('fmSupplier').value,sampleId=$('fmSample').value;
+ const selected=samples.find(s=>String(s.id)===String(sampleId));
+ if(!supplier||!sampleId||!selected)return alert('Bitte Hersteller und Sample auswählen.');
+ if(selected.supplier!==supplier)return alert('Sample-Zuordnung stimmt nicht mit dem gewählten Hersteller überein. Bitte Sample neu auswählen.');
+ const p={person_name:$('fmPerson').value.trim(),sample_id:selected.id,body_height:n('fmHeight'),body_weight:n('fmWeight'),body_chest:n('fmBodyChest'),body_belly:n('fmBodyBelly'),body_shoulder:n('fmBodyShoulder'),shirt_chest:n('fmChest'),shirt_belly:n('fmBelly'),shirt_hem:n('fmHem'),shirt_length:n('fmLength'),shirt_shoulder:n('fmShoulder'),shirt_sleeve:n('fmSleeve'),shirt_sleeve_opening:n('fmSleeveOpening'),fit_chest:$('fmFitChest').value,fit_belly:$('fmFitBelly').value,fit_shoulders:$('fmFitShoulders').value,fit_sleeve:$('fmFitSleeve').value,fit_sleeve_length:$('fmFitSleeveLength').value,fit_length:$('fmFitLength').value,notes:$('fmNotes').value.trim(),updated_at:new Date().toISOString()};
+ if(!p.person_name)return alert('Bitte Person eintragen.');
  const wasEdit=!!editingFit,q=wasEdit?db.from('fit_measurements').update(p).eq('id',editingFit):db.from('fit_measurements').insert(p),{error}=await q;
- if(error)alert(error.message);else{closeModal('fitModal');await logActivity(wasEdit?'updated':'created','Fit-Messung',p.person_name+' · '+sampleName(p.sample_id),wasEdit?'Fit-Messung bearbeitet':'Fit-Messung angelegt');toast('Fit-Messung gespeichert');refreshAll()}
+ if(error)alert(error.message);else{closeModal('fitModal');await logActivity(wasEdit?'updated':'created','Fit-Messung',p.person_name+' · '+selected.supplier+' · '+selected.sample_code,wasEdit?'Fit-Messung bearbeitet':'Fit-Messung angelegt');toast('Fit-Messung gespeichert');refreshAll()}
 }
 async function deleteFitEntry(){
  if(!editingFit||!confirm('Fit-Messung löschen?'))return;
@@ -1262,6 +1311,13 @@ async function deleteVideoIdea(){
  const v=marketingIdeas.find(x=>x.id===editingVideoIdea),{error}=await db.from('marketing_video_ideas').delete().eq('id',editingVideoIdea);
  if(error)alert(error.message);else{closeModal('videoIdeaModal');await logActivity('deleted','Videoidee',v?.title||'Videoidee','Videoidee gelöscht');toast('Videoidee gelöscht');refreshAll()}
 }
+function supplierMatchesSample(supplier,sample){
+ const a=String(supplier?.name||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+ const b=String(sample?.supplier||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+ if(!a||!b)return false;
+ return a.includes(b)||b.includes(a)||a.split('sports')[0]===b.split('sports')[0];
+}
+function supplierProfile(id){return supplierProfiles.find(x=>x.supplier_id===id)||null}
 function renderSuppliers(){
  const search=($('supplierOverviewSearch')?.value||'').trim().toLowerCase();
  const statusSel=$('supplierOverviewStatus');
@@ -1280,7 +1336,7 @@ function renderSuppliers(){
  el.innerHTML=list.map(p=>{
    const tiers=supplierTiers.filter(t=>t.supplier_id===p.id).sort((a,b)=>(a.quantity||0)-(b.quantity||0));
    const tierHtml=tiers.length?tiers.slice(0,5).map(t=>`<span class="supplierTierPill"><b>${t.quantity}</b> · ${Number(t.unit_price).toFixed(2)} ${esc(t.currency||'')}</span>`).join(''):'<span class="muted tiny">Noch keine strukturierten Preisstaffeln</span>';
-   const sampleCount=samples.filter(s=>String(s.supplier||'').toLowerCase().includes(String(p.name||'').toLowerCase())).length;
+   const sampleCount=samples.filter(s=>supplierMatchesSample(p,s)).length;
    return `<div class="supplierCard ${selectedSupplierId===p.id?'selected':''}" onclick="selectSupplier(${p.id})">
      <div class="supplierCardHead"><div><h4>${esc(p.name)}</h4><div class="supplierCountry">${esc(p.country||'Land offen')}</div></div><span class="badge good">${esc(p.status||'Offen')}</span></div>
      <div class="supplierSection supplierSectionMain">
@@ -1319,20 +1375,50 @@ function renderSupplierWorkspace(){
  if(!p){if(ws)ws.classList.add('hidden');if(body)body.innerHTML='';return}
  if(ws)ws.classList.remove('hidden');$('supplierWorkspaceTitle').textContent=p.name||'Hersteller';
  const tiers=supplierTiers.filter(t=>t.supplier_id===p.id).sort((a,b)=>(a.quantity||0)-(b.quantity||0));
- body.innerHTML=`<div class="detailTitle"><div><h3>${esc(p.name)}</h3><div class="muted">${esc(p.country||'')} · ${esc(p.contact_name||'')}</div></div><button class="btn primary" onclick="openSupplier(${p.id})">Bearbeiten</button></div>
+ const prof=supplierProfile(p.id);
+ body.innerHTML=`<div class="detailTitle"><div><h3>${esc(p.name)}</h3><div class="muted">${esc(p.country||'')} · ${esc(p.contact_name||'')}</div></div><div class="workspaceTopActions"><button class="btn" onclick="openSupplierProfile(${p.id})">Produktion & Angebot</button><button class="btn primary" onclick="openSupplier(${p.id})">Bearbeiten</button></div></div>
  <div class="detailGrid">
    <div class="detailStat"><span>MOQ</span><b>${esc(p.moq||'–')}</b></div>
    <div class="detailStat"><span>Status</span><b>${esc(p.status||'–')}</b></div>
    <div class="detailStat"><span>E-Mail</span><b>${esc(p.email||'–')}</b></div>
    <div class="detailStat"><span>Letzter Kontakt</span><b>${esc(p.last_contact_at||'–')}</b></div>
    <div class="detailStat"><span>Nächstes Follow-up</span><b>${esc(p.next_follow_up||'–')}</b></div>
-   <div class="detailStat"><span>Samples</span><b>${samples.filter(s=>String(s.supplier||'').toLowerCase().includes(String(p.name||'').toLowerCase())).length}</b></div>
+   <div class="detailStat"><span>Samples</span><b>${samples.filter(s=>supplierMatchesSample(p,s)).length}</b></div>
  </div>
  <div class="sampleTestBlock"><div class="sampleTestHead"><div><b>Preisstaffeln</b><div class="tiny muted">Strukturiert für den Kostenrechner.</div></div><button class="btn" onclick="openSupplier(${p.id})">Verwalten</button></div>
  <div class="tierGrid">${tiers.length?tiers.map(t=>`<div class="tierBtn"><b>${t.quantity} Stk. · ${Number(t.unit_price).toFixed(2)} ${esc(t.currency||'')}</b><span>${esc(t.product_type||'Alle Produkte')}${t.incoterm?' · '+esc(t.incoterm):''}</span></div>`).join(''):'<span class="muted tiny">Noch keine Preisstaffeln.</span>'}</div></div>
+ ${prof?`<div class="supplierProfileBlock">
+   <div class="supplierProfileHead"><div><span class="workspaceEyebrow">Produktion & Angebot</span><h4>${prof.quote_date?'Stand '+new Date(prof.quote_date+'T12:00:00').toLocaleDateString('de-DE'):'Herstellerdaten'}</h4></div><span class="badge">${esc(prof.incoterm||'')}</span></div>
+   <div class="supplierProfileGrid">
+     <div><span>Stoff</span><b>${esc(prof.preferred_fabric||'–')}</b><small>${esc([prof.composition,prof.gsm].filter(Boolean).join(' · '))}</small></div>
+     <div><span>Druck</span><b>${esc(prof.print_method||'–')}</b><small>${esc(prof.fit_target||'')}</small></div>
+     <div><span>Sample / Bulk</span><b>${esc(prof.sample_lead_time||'–')} / ${esc(prof.bulk_lead_time||'–')}</b><small>Lead Time</small></div>
+     <div><span>Import</span><b>${esc(prof.incoterm||'–')}</b><small>${esc(prof.customs_notes||'')}</small></div>
+   </div>
+   ${prof.included_items?`<div class="supplierProfileLine"><b>Im Preis:</b> ${esc(prof.included_items)}</div>`:''}
+   ${prof.packaging_notes?`<div class="supplierProfileLine"><b>Labels & Packaging:</b> ${esc(prof.packaging_notes)}</div>`:''}
+   ${prof.artwork_requirements?`<div class="supplierProfileLine"><b>Artwork:</b> ${esc(prof.artwork_requirements)}</div>`:''}
+   ${prof.construction_notes?`<div class="supplierProfileLine"><b>Technik:</b> ${esc(prof.construction_notes)}</div>`:''}
+   ${prof.shipping_notes?`<div class="supplierProfileLine"><b>Versand:</b> ${esc(prof.shipping_notes)}</div>`:''}
+   ${prof.next_requirements?`<div class="supplierProfileNext"><b>Noch offen</b><span>${esc(prof.next_requirements)}</span></div>`:''}
+ </div>`:''}
  ${p.notes?`<div class="soft" style="margin-top:12px"><b>Notizen</b><div class="muted tiny" style="margin-top:5px">${esc(p.notes)}</div></div>`:''}`;
 }
 function openSupplier(id=null){editingSupplier=id;let p=id?suppliers.find(x=>x.id===id):{};$('pName').value=p.name||'';$('pCountry').value=p.country||'';$('pContact').value=p.contact_name||'';$('pEmail').value=p.email||'';$('pMoq').value=p.moq||'';$('pPrices').value=p.prices||'';$('pStatus').value=p.status||'';$('pLastContact').value=p.last_contact_at||'';$('pNextFollow').value=p.next_follow_up||'';$('pNotes').value=p.notes||'';$('deleteSupplierBtn').style.visibility=id?'visible':'hidden';renderSupplierTierList(id);$('supplierModal').classList.add('open')}async function saveSupplier(){let p={name:$('pName').value.trim(),country:$('pCountry').value.trim(),contact_name:$('pContact').value.trim(),email:$('pEmail').value.trim(),moq:$('pMoq').value.trim(),prices:$('pPrices').value.trim(),status:$('pStatus').value.trim(),last_contact_at:$('pLastContact').value||null,next_follow_up:$('pNextFollow').value||null,notes:$('pNotes').value.trim()},q=editingSupplier?db.from('suppliers').update(p).eq('id',editingSupplier):db.from('suppliers').insert(p),{error}=await q;if(error)alert(error.message);else{closeModal('supplierModal');await logActivity(editingSupplier?'updated':'created','Hersteller',p.name,editingSupplier?'Hersteller bearbeitet':'Neuen Hersteller angelegt');toast('Hersteller gespeichert');refreshAll()}}async function deleteSupplier(){if(!editingSupplier||!confirm('Hersteller löschen?'))return;const s=suppliers.find(x=>x.id===editingSupplier);let{error}=await db.from('suppliers').delete().eq('id',editingSupplier);if(error)alert(error.message);else{closeModal('supplierModal');await logActivity('deleted','Hersteller',s?.name||'Hersteller','Hersteller gelöscht');toast('Hersteller gelöscht');refreshAll()}}
+
+function openSupplierProfile(id){
+ const p=suppliers.find(x=>x.id===id);if(!p)return;
+ selectedSupplierId=id;const x=supplierProfile(id)||{};
+ $('spSupplierName').textContent=p.name||'Hersteller';
+ $('spFabric').value=x.preferred_fabric||'';$('spComposition').value=x.composition||'';$('spGsm').value=x.gsm||'';$('spPrint').value=x.print_method||'';$('spFit').value=x.fit_target||'';$('spIncluded').value=x.included_items||'';$('spPackaging').value=x.packaging_notes||'';$('spArtwork').value=x.artwork_requirements||'';$('spConstruction').value=x.construction_notes||'';$('spIncoterm').value=x.incoterm||'';$('spQuoteDate').value=x.quote_date||'';$('spShipping').value=x.shipping_notes||'';$('spCustoms').value=x.customs_notes||'';$('spSampleLead').value=x.sample_lead_time||'';$('spBulkLead').value=x.bulk_lead_time||'';$('spRequirements').value=x.next_requirements||'';
+ $('supplierProfileModal').classList.add('open');
+}
+async function saveSupplierProfile(){
+ if(!selectedSupplierId)return;
+ const p={supplier_id:selectedSupplierId,preferred_fabric:$('spFabric').value.trim(),composition:$('spComposition').value.trim(),gsm:$('spGsm').value.trim(),print_method:$('spPrint').value.trim(),fit_target:$('spFit').value.trim(),included_items:$('spIncluded').value.trim(),packaging_notes:$('spPackaging').value.trim(),artwork_requirements:$('spArtwork').value.trim(),construction_notes:$('spConstruction').value.trim(),incoterm:$('spIncoterm').value.trim(),quote_date:$('spQuoteDate').value||null,shipping_notes:$('spShipping').value.trim(),customs_notes:$('spCustoms').value.trim(),sample_lead_time:$('spSampleLead').value.trim(),bulk_lead_time:$('spBulkLead').value.trim(),next_requirements:$('spRequirements').value.trim(),updated_at:new Date().toISOString()};
+ const existing=supplierProfile(selectedSupplierId);const q=existing?db.from('supplier_profiles').update(p).eq('supplier_id',selectedSupplierId):db.from('supplier_profiles').insert(p);
+ const {error}=await q;if(error)alert(error.message);else{closeModal('supplierProfileModal');await logActivity(existing?'updated':'created','Herstellerdaten',suppliers.find(x=>x.id===selectedSupplierId)?.name||'Hersteller','Produktions-/Angebotsdaten aktualisiert');toast('Herstellerdaten gespeichert');refreshAll()}
+}
 
 function renderSupplierTierList(supplierId=editingSupplier){
  const el=$('supplierTierList'); if(!el)return;
@@ -1436,10 +1522,16 @@ function onCostSupplierChange(){
  const s=suppliers.find(x=>x.id===sid);
  const meta=$('costSupplierMeta'),grid=$('costTierGrid');
  if(!sid||!s){meta.innerHTML='';grid.innerHTML='';$('fxBox')?.classList.add('hidden');calculateCost();return}
- meta.innerHTML=`<div class="supplierMeta"><strong>${esc(s.name)}</strong><div class="muted tiny">${esc(s.country||'')} · MOQ: ${esc(s.moq||'–')}</div>${s.prices?`<div class="tiny" style="margin-top:5px">Preisinfo: ${esc(s.prices)}</div>`:''}</div>`;
+ const prof=supplierProfile(sid);
+ meta.innerHTML=`<div class="supplierMeta"><strong>${esc(s.name)}</strong><div class="muted tiny">${esc(s.country||'')} · MOQ: ${esc(s.moq||'–')}</div>${prof?`<div class="costSupplierProfile"><span>${esc(prof.incoterm||'')}</span><span>${prof.quote_date?'Angebot '+new Date(prof.quote_date+'T12:00:00').toLocaleDateString('de-DE'):''}</span><span>${esc(prof.preferred_fabric||'')}</span></div>${prof.included_items?`<div class="tiny" style="margin-top:6px"><b>Enthalten:</b> ${esc(prof.included_items)}</div>`:''}${prof.shipping_notes?`<div class="tiny muted" style="margin-top:4px"><b>Versand:</b> ${esc(prof.shipping_notes)}</div>`:''}${prof.customs_notes?`<div class="tiny muted" style="margin-top:4px"><b>Import:</b> ${esc(prof.customs_notes)}</div>`:''}`:s.prices?`<div class="tiny" style="margin-top:5px">Preisinfo: ${esc(s.prices)}</div>`:''}</div>`;
  const tiers=supplierTiers.filter(t=>t.supplier_id===sid);
  grid.innerHTML=tiers.length?tiers.map(t=>`<button type="button" class="tierBtn ${t.id===activeTierId?'active':''}" onclick="applyCostTier(${t.id})"><b>${t.quantity} Stk. · ${Number(t.unit_price).toFixed(2)} ${esc(t.currency||'')}</b><span>${esc(t.product_type||'')}${t.incoterm?' · '+esc(t.incoterm):''}</span></button>`).join(''):'<span class="muted tiny">Noch keine strukturierten Preisstaffeln hinterlegt.</span>';
  calculateCost();
+}
+function onCostQuantityChange(){
+ const sid=+$('cSupplier').value||null,qty=+$('cQty').value||0;
+ const exact=supplierTiers.find(t=>t.supplier_id===sid&&+t.quantity===qty);
+ if(exact)applyCostTier(exact.id);else calculateCost();
 }
 function applyCostTier(id){
  const t=supplierTiers.find(x=>x.id===id);if(!t)return;
