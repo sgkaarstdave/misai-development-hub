@@ -539,9 +539,10 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
 .costSupplierProfile{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.costSupplierProfile span{font-size:9px;border:1px solid #354350;border-radius:999px;padding:4px 7px;color:#aab5bf}
 @media(max-width:900px){.supplierProfileGrid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.supplierProfileGrid{grid-template-columns:1fr}}
 
+.supplierProfileHead .workspaceTopActions .btn{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-width:560px){.supplierProfileHead{align-items:stretch;flex-direction:column}.supplierProfileHead .workspaceTopActions{justify-content:flex-start}.supplierProfileHead .workspaceTopActions .btn{max-width:100%}}
 </style></head><body>
 <div id="loginView" class="login"><div class="loginbox"><div class="logo">M</div><h2>MiSai Development Hub</h2><p class="muted">Interner Workspace für Produktentwicklung, Samples, Designs und Hersteller.</p><label>E-Mail</label><input id="loginEmail" type="email"><label>Passwort</label><input id="loginPassword" type="password"><button class="btn primary full" onclick="login()">Einloggen</button><button class="btn full" onclick="resetPassword()">Passwort vergessen</button><div id="loginError" style="color:#ff9c9c;margin-top:10px;font-size:13px"></div></div></div>
-<div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small><small id="buildStamp" class="muted" style="display:block;font-size:9px;margin-top:2px;opacity:.65">Build 2026-11-22 · SAMPRO+Roadmap</small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
+<div id="appView" class="hidden"><div class="shell"><div class="top"><div class="brand"><div class="logo">M</div><div><h1>MISAI DEVELOPMENT HUB</h1><small id="userLabel" class="muted"></small><small id="buildStamp" class="muted" style="display:block;font-size:9px;margin-top:2px;opacity:.65">Build 2026-11-22 · SupplierDocs</small></div></div><div class="actions"><button class="btn" onclick="refreshAll()">↻ Aktualisieren</button><button class="btn" onclick="openAccount()">Account</button><button class="btn" onclick="logout()">Logout</button></div></div>
 <div class="navGroups areaNav">
   <button class="tab active" data-area="overview" onclick="switchArea('overview')">Übersicht</button>
   <button class="tab" data-area="testing" onclick="switchArea('testing')">Testen</button>
@@ -803,6 +804,7 @@ body:has(.panel[data-area="marketing"][style*="display: block"]){--area-accent:#
     <div class="full"><label>Zoll / Ursprung / Import</label><textarea id="spCustoms"></textarea></div>
     <div><label>Sample Lead Time</label><input id="spSampleLead"></div>
     <div><label>Bulk Lead Time</label><input id="spBulkLead"></div>
+    <div class="full"><label>Original-Angebot / Dokument</label><input id="spDocument" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx"><div id="spDocumentCurrent" class="muted tiny" style="margin-top:5px"></div></div>
     <div class="full"><label>Noch benötigt / nächste Klärung</label><textarea id="spRequirements"></textarea></div>
     <div class="full" style="display:flex;justify-content:flex-end;gap:8px"><button class="btn" onclick="closeModal('supplierProfileModal')">Abbrechen</button><button class="btn primary" onclick="saveSupplierProfile()">Speichern</button></div>
   </div>
@@ -1388,7 +1390,7 @@ function renderSupplierWorkspace(){
  <div class="sampleTestBlock"><div class="sampleTestHead"><div><b>Preisstaffeln</b><div class="tiny muted">Strukturiert für den Kostenrechner.</div></div><button class="btn" onclick="openSupplier(${p.id})">Verwalten</button></div>
  <div class="tierGrid">${tiers.length?tiers.map(t=>`<div class="tierBtn"><b>${t.quantity} Stk. · ${Number(t.unit_price).toFixed(2)} ${esc(t.currency||'')}</b><span>${esc(t.product_type||'Alle Produkte')}${t.incoterm?' · '+esc(t.incoterm):''}</span></div>`).join(''):'<span class="muted tiny">Noch keine Preisstaffeln.</span>'}</div></div>
  ${prof?`<div class="supplierProfileBlock">
-   <div class="supplierProfileHead"><div><span class="workspaceEyebrow">Produktion & Angebot</span><h4>${prof.quote_date?'Stand '+new Date(prof.quote_date+'T12:00:00').toLocaleDateString('de-DE'):'Herstellerdaten'}</h4></div><span class="badge">${esc(prof.incoterm||'')}</span></div>
+   <div class="supplierProfileHead"><div><span class="workspaceEyebrow">Produktion & Angebot</span><h4>${prof.quote_date?'Stand '+new Date(prof.quote_date+'T12:00:00').toLocaleDateString('de-DE'):'Herstellerdaten'}</h4></div><div class="workspaceTopActions">${prof.document_path?`<button class="btn" onclick="openSupplierDocument(${p.id})">📄 ${esc(prof.document_name||'Dokument')}</button>`:''}<span class="badge">${esc(prof.incoterm||'')}</span></div></div>
    <div class="supplierProfileGrid">
      <div><span>Stoff</span><b>${esc(prof.preferred_fabric||'–')}</b><small>${esc([prof.composition,prof.gsm].filter(Boolean).join(' · '))}</small></div>
      <div><span>Druck</span><b>${esc(prof.print_method||'–')}</b><small>${esc(prof.fit_target||'')}</small></div>
@@ -1409,15 +1411,31 @@ function openSupplier(id=null){editingSupplier=id;let p=id?suppliers.find(x=>x.i
 function openSupplierProfile(id){
  const p=suppliers.find(x=>x.id===id);if(!p)return;
  selectedSupplierId=id;const x=supplierProfile(id)||{};
- $('spSupplierName').textContent=p.name||'Hersteller';
+ $('spSupplierName').textContent=p.name||'Hersteller';$('spDocument').value='';$('spDocumentCurrent').textContent=x.document_name?'Aktuell: '+x.document_name:'Noch kein Dokument hinterlegt.';
  $('spFabric').value=x.preferred_fabric||'';$('spComposition').value=x.composition||'';$('spGsm').value=x.gsm||'';$('spPrint').value=x.print_method||'';$('spFit').value=x.fit_target||'';$('spIncluded').value=x.included_items||'';$('spPackaging').value=x.packaging_notes||'';$('spArtwork').value=x.artwork_requirements||'';$('spConstruction').value=x.construction_notes||'';$('spIncoterm').value=x.incoterm||'';$('spQuoteDate').value=x.quote_date||'';$('spShipping').value=x.shipping_notes||'';$('spCustoms').value=x.customs_notes||'';$('spSampleLead').value=x.sample_lead_time||'';$('spBulkLead').value=x.bulk_lead_time||'';$('spRequirements').value=x.next_requirements||'';
  $('supplierProfileModal').classList.add('open');
 }
 async function saveSupplierProfile(){
  if(!selectedSupplierId)return;
- const p={supplier_id:selectedSupplierId,preferred_fabric:$('spFabric').value.trim(),composition:$('spComposition').value.trim(),gsm:$('spGsm').value.trim(),print_method:$('spPrint').value.trim(),fit_target:$('spFit').value.trim(),included_items:$('spIncluded').value.trim(),packaging_notes:$('spPackaging').value.trim(),artwork_requirements:$('spArtwork').value.trim(),construction_notes:$('spConstruction').value.trim(),incoterm:$('spIncoterm').value.trim(),quote_date:$('spQuoteDate').value||null,shipping_notes:$('spShipping').value.trim(),customs_notes:$('spCustoms').value.trim(),sample_lead_time:$('spSampleLead').value.trim(),bulk_lead_time:$('spBulkLead').value.trim(),next_requirements:$('spRequirements').value.trim(),updated_at:new Date().toISOString()};
- const existing=supplierProfile(selectedSupplierId);const q=existing?db.from('supplier_profiles').update(p).eq('supplier_id',selectedSupplierId):db.from('supplier_profiles').insert(p);
- const {error}=await q;if(error)alert(error.message);else{closeModal('supplierProfileModal');await logActivity(existing?'updated':'created','Herstellerdaten',suppliers.find(x=>x.id===selectedSupplierId)?.name||'Hersteller','Produktions-/Angebotsdaten aktualisiert');toast('Herstellerdaten gespeichert');refreshAll()}
+ const existing=supplierProfile(selectedSupplierId);
+ let documentPath=existing?.document_path||null,documentName=existing?.document_name||null;
+ const file=$('spDocument')?.files?.[0];
+ if(file){
+   if(file.size>12*1024*1024)return alert('Dokument ist größer als 12 MB.');
+   const safe=file.name.replace(/[^a-zA-Z0-9._-]+/g,'-');
+   documentPath=`${selectedSupplierId}/${Date.now()}-${safe}`;documentName=file.name;
+   const {error:upErr}=await db.storage.from('supplier-documents').upload(documentPath,file,{upsert:false});
+   if(upErr)return alert('Dokument konnte nicht hochgeladen werden: '+upErr.message);
+ }
+ const p={supplier_id:selectedSupplierId,preferred_fabric:$('spFabric').value.trim(),composition:$('spComposition').value.trim(),gsm:$('spGsm').value.trim(),print_method:$('spPrint').value.trim(),fit_target:$('spFit').value.trim(),included_items:$('spIncluded').value.trim(),packaging_notes:$('spPackaging').value.trim(),artwork_requirements:$('spArtwork').value.trim(),construction_notes:$('spConstruction').value.trim(),incoterm:$('spIncoterm').value.trim(),quote_date:$('spQuoteDate').value||null,shipping_notes:$('spShipping').value.trim(),customs_notes:$('spCustoms').value.trim(),sample_lead_time:$('spSampleLead').value.trim(),bulk_lead_time:$('spBulkLead').value.trim(),next_requirements:$('spRequirements').value.trim(),document_path:documentPath,document_name:documentName,updated_at:new Date().toISOString()};
+ const q=existing?db.from('supplier_profiles').update(p).eq('supplier_id',selectedSupplierId):db.from('supplier_profiles').insert(p);
+ const {error}=await q;if(error)alert(error.message);else{closeModal('supplierProfileModal');await logActivity(existing?'updated':'created','Herstellerdaten',suppliers.find(x=>x.id===selectedSupplierId)?.name||'Hersteller',file?'Produktionsdaten + Dokument aktualisiert':'Produktions-/Angebotsdaten aktualisiert');toast('Herstellerdaten gespeichert');refreshAll()}
+}
+async function openSupplierDocument(id){
+ const p=supplierProfile(id);if(!p?.document_path)return;
+ const {data,error}=await db.storage.from('supplier-documents').createSignedUrl(p.document_path,900);
+ if(error)return alert('Dokument konnte nicht geöffnet werden: '+error.message);
+ window.open(data.signedUrl,'_blank','noopener');
 }
 
 function renderSupplierTierList(supplierId=editingSupplier){
